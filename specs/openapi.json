@@ -238,7 +238,7 @@
           "public"
         ],
         "summary": "Get Organization",
-        "description": "Get an organization by ID.",
+        "description": "Get an organization by ID.\n\n**Scopes**: `organizations:read` `organizations:write`",
         "operationId": "organizations:get",
         "security": [
           {
@@ -313,6 +313,10 @@
             }
           }
         },
+        "x-polar-allowed-subjects": [
+          "Organization",
+          "User"
+        ],
         "x-speakeasy-mcp": {
           "disabled": true
         },
@@ -325,7 +329,7 @@
           "public"
         ],
         "summary": "Update Organization",
-        "description": "Update an organization.",
+        "description": "Update an organization.\n\n**Scopes**: `organizations:write`",
         "operationId": "organizations:update",
         "security": [
           {
@@ -417,6 +421,10 @@
             }
           }
         },
+        "x-polar-allowed-subjects": [
+          "Organization",
+          "User"
+        ],
         "x-speakeasy-mcp": {
           "disabled": true
         },
@@ -1411,6 +1419,10 @@
             "pat": []
           }
         ],
+        "x-polar-allowed-subjects": [
+          "Anonymous",
+          "User"
+        ],
         "x-speakeasy-mcp": {
           "disabled": true
         },
@@ -1467,6 +1479,10 @@
             }
           }
         },
+        "x-polar-allowed-subjects": [
+          "Anonymous",
+          "User"
+        ],
         "x-speakeasy-mcp": {
           "disabled": true
         },
@@ -1531,6 +1547,10 @@
             }
           }
         },
+        "x-polar-allowed-subjects": [
+          "Anonymous",
+          "User"
+        ],
         "x-speakeasy-mcp": {
           "disabled": true
         },
@@ -1585,6 +1605,10 @@
             }
           }
         },
+        "x-polar-allowed-subjects": [
+          "Anonymous",
+          "User"
+        ],
         "x-speakeasy-mcp": {
           "disabled": true
         },
@@ -1634,6 +1658,10 @@
           {
             "pat": []
           }
+        ],
+        "x-polar-allowed-subjects": [
+          "Anonymous",
+          "User"
         ],
         "x-speakeasy-mcp": {
           "disabled": true
@@ -25840,6 +25868,10 @@
           "fee": {
             "type": "integer",
             "title": "Fee"
+          },
+          "exchange_rate": {
+            "type": "number",
+            "title": "Exchange Rate"
           }
         },
         "type": "object",
@@ -43735,6 +43767,18 @@
               }
             ],
             "title": "Tax Id"
+          },
+          "default_payment_method_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid4"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Default Payment Method Id"
           }
         },
         "type": "object",
