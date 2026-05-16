@@ -15768,7 +15768,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/SeatAssign"
+                "$ref": "#/components/schemas/CustomerSeatAssign"
               }
             }
           }
@@ -18598,13 +18598,13 @@
             "description": "No available seats or customer already has a seat"
           },
           "401": {
-            "description": "Authentication required for direct subscription or order assignment"
+            "description": "Authentication required"
           },
           "403": {
             "description": "Not permitted or seat-based pricing not enabled"
           },
           "404": {
-            "description": "Subscription, order, checkout, or customer not found"
+            "description": "Subscription, order, or customer not found"
           },
           "422": {
             "description": "Validation Error",
@@ -18618,7 +18618,6 @@
           }
         },
         "x-polar-allowed-subjects": [
-          "Anonymous",
           "Organization",
           "User"
         ],
@@ -18721,7 +18720,6 @@
           }
         },
         "x-polar-allowed-subjects": [
-          "Anonymous",
           "Organization",
           "User"
         ],
@@ -18802,7 +18800,6 @@
           }
         },
         "x-polar-allowed-subjects": [
-          "Anonymous",
           "Organization",
           "User"
         ],
@@ -18886,7 +18883,6 @@
           }
         },
         "x-polar-allowed-subjects": [
-          "Anonymous",
           "Organization",
           "User"
         ],
@@ -44304,6 +44300,133 @@
         ],
         "title": "CustomerSeat"
       },
+      "CustomerSeatAssign": {
+        "properties": {
+          "subscription_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Subscription Id",
+            "description": "Subscription ID. Required if neither order_id nor checkout_id is provided."
+          },
+          "order_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Order Id",
+            "description": "Order ID for one-time purchases. Required if subscription_id is not provided."
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "email"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email",
+            "description": "Email of the customer to assign the seat to"
+          },
+          "external_customer_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "External Customer Id",
+            "description": "External customer ID for the seat assignment"
+          },
+          "customer_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customer Id",
+            "description": "Customer ID for the seat assignment"
+          },
+          "external_member_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "External Member Id",
+            "description": "External member ID for the seat assignment. Can be used alone (lookup existing member) or with email (create/validate member)."
+          },
+          "member_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Member Id",
+            "description": "Member ID for the seat assignment."
+          },
+          "metadata": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Metadata",
+            "description": "Additional metadata for the seat (max 10 keys, 1KB total)"
+          },
+          "immediate_claim": {
+            "type": "boolean",
+            "title": "Immediate Claim",
+            "description": "If true, the seat will be immediately claimed without sending an invitation email. API-only feature.",
+            "default": false
+          },
+          "checkout_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Checkout Id",
+            "description": "Checkout ID. Resolves to the subscription or order produced by the checkout."
+          }
+        },
+        "type": "object",
+        "title": "CustomerSeatAssign"
+      },
       "CustomerSeatClaimResponse": {
         "properties": {
           "seat": {
@@ -64851,32 +64974,7 @@
               }
             ],
             "title": "Subscription Id",
-            "description": "Subscription ID. Required if checkout_id and order_id are not provided."
-          },
-          "checkout_id": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "uuid"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Checkout Id",
-            "description": "Checkout ID. Used to look up subscription or order from the checkout page."
-          },
-          "checkout_client_secret": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Checkout Client Secret",
-            "description": "Client secret of the checkout. Required when assigning seats via checkout_id as an anonymous caller (e.g. the checkout confirmation page)."
+            "description": "Subscription ID. Required if neither order_id nor checkout_id is provided."
           },
           "order_id": {
             "anyOf": [
@@ -64889,7 +64987,7 @@
               }
             ],
             "title": "Order Id",
-            "description": "Order ID for one-time purchases. Required if subscription_id and checkout_id are not provided."
+            "description": "Order ID for one-time purchases. Required if subscription_id is not provided."
           },
           "email": {
             "anyOf": [
