@@ -167,7 +167,7 @@
           "disabled": true
         },
         "x-speakeasy-group": "organizations",
-        "x-speakeasy-name-override": "list"
+        "x-speakeasy-name-override": "list_organizations"
       },
       "post": {
         "tags": [
@@ -69841,9 +69841,6 @@
           },
           "url": {
             "type": "string",
-            "maxLength": 2083,
-            "minLength": 1,
-            "format": "uri",
             "title": "Url",
             "description": "The URL where the webhook events will be sent.",
             "examples": [
