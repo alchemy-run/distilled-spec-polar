@@ -15067,6 +15067,16 @@
               }
             }
           },
+          "400": {
+            "description": "The card was declined while setting up the payment method.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentMethodSetupFailed"
+                }
+              }
+            }
+          },
           "422": {
             "description": "Validation Error",
             "content": {
@@ -61996,6 +62006,28 @@
           "detail"
         ],
         "title": "PaymentMethodInUseByActiveSubscription"
+      },
+      "PaymentMethodSetupFailed": {
+        "properties": {
+          "error": {
+            "type": "string",
+            "const": "PaymentMethodSetupFailed",
+            "title": "Error",
+            "examples": [
+              "PaymentMethodSetupFailed"
+            ]
+          },
+          "detail": {
+            "type": "string",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "error",
+          "detail"
+        ],
+        "title": "PaymentMethodSetupFailed"
       },
       "PaymentNotReady": {
         "properties": {
