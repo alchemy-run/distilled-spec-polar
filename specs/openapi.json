@@ -60005,6 +60005,7 @@
           },
           "slug": {
             "type": "string",
+            "maxLength": 64,
             "minLength": 3,
             "title": "Slug"
           },
