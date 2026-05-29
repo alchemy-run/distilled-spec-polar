@@ -22468,6 +22468,34 @@
             "description": "Filter by order ID."
           },
           {
+            "name": "customer_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid4",
+                  "description": "The customer ID."
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "uuid4",
+                    "description": "The customer ID."
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "CustomerID Filter",
+              "description": "Filter by customer ID."
+            },
+            "description": "Filter by customer ID."
+          },
+          {
             "name": "status",
             "in": "query",
             "required": false,
