@@ -12383,6 +12383,24 @@
             "description": "Filter by name, email, or external ID."
           },
           {
+            "name": "active",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by active customers, i.e. customers with at least one trialing, active or past_due subscription.",
+              "title": "Active"
+            },
+            "description": "Filter by active customers, i.e. customers with at least one trialing, active or past_due subscription."
+          },
+          {
             "name": "page",
             "in": "query",
             "required": false,
@@ -64896,8 +64914,6 @@
           "email",
           "user:read",
           "user:write",
-          "web:read",
-          "web:write",
           "organizations:read",
           "organizations:write",
           "custom_fields:read",
