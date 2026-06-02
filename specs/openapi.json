@@ -64320,7 +64320,7 @@
           "private",
           "public"
         ],
-        "title": "ProductVisibility"
+        "title": "Visibility"
       },
       "PropertyAggregation": {
         "properties": {
@@ -69360,6 +69360,15 @@
           "type"
         ],
         "title": "ValidationError"
+      },
+      "Visibility": {
+        "type": "string",
+        "enum": [
+          "draft",
+          "private",
+          "public"
+        ],
+        "title": "Visibility"
       },
       "WebhookBenefitCreatedPayload": {
         "properties": {
