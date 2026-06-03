@@ -4969,6 +4969,78 @@
         },
         "x-speakeasy-group": "orders",
         "x-speakeasy-name-override": "list"
+      },
+      "post": {
+        "tags": [
+          "orders",
+          "public",
+          "mcp"
+        ],
+        "summary": "Create Order",
+        "description": "Create a draft order for an off-session charge against a saved payment\nmethod. The order is created with `status=draft` and no invoice number;\ncall `POST /v1/orders/{id}/finalize` to attempt the charge.\n\nThe organization must have the `off_session_charges_enabled` feature flag.\n\n**Scopes**: `orders:write`",
+        "operationId": "orders:create",
+        "security": [
+          {
+            "oidc": [
+              "orders:write"
+            ]
+          },
+          {
+            "pat": [
+              "orders:write"
+            ]
+          },
+          {
+            "oat": [
+              "orders:write"
+            ]
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Order"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-polar-allowed-subjects": [
+          "Organization",
+          "User"
+        ],
+        "x-speakeasy-mcp": {
+          "disabled": false,
+          "scopes": [
+            "write",
+            "orders"
+          ]
+        },
+        "x-speakeasy-group": "orders",
+        "x-speakeasy-name-override": "create"
       }
     },
     "/v1/orders/export": {
@@ -5304,6 +5376,150 @@
         },
         "x-speakeasy-group": "orders",
         "x-speakeasy-name-override": "update"
+      }
+    },
+    "/v1/orders/{id}/finalize": {
+      "post": {
+        "tags": [
+          "orders",
+          "public",
+          "mcp"
+        ],
+        "summary": "Finalize Order",
+        "description": "Finalize a draft order and synchronously attempt an off-session charge.\n\nOn success, the order transitions to `paid` and benefit grants fire\nbefore the response returns. On failure (decline, missing payment method,\nSCA challenge), the order stays in `draft` and a 4xx error is returned.\n\nThe request fails with 412 if the order is not in `draft` status.\n\n**Scopes**: `orders:write`",
+        "operationId": "orders:finalize",
+        "security": [
+          {
+            "oidc": [
+              "orders:write"
+            ]
+          },
+          {
+            "pat": [
+              "orders:write"
+            ]
+          },
+          {
+            "oat": [
+              "orders:write"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid4",
+              "description": "The order ID.",
+              "title": "Id"
+            },
+            "description": "The order ID."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderFinalize"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Order"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "The charge failed, or requires customer authentication (e.g. a 3DS challenge) that can't be completed off-session.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/PaymentFailed"
+                    },
+                    {
+                      "$ref": "#/components/schemas/PaymentActionRequired"
+                    }
+                  ],
+                  "title": "Response 402 Orders:Finalize"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Off-session charges are not enabled for this organization, or its account can't currently accept payments.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/OffSessionChargesNotEnabled"
+                    },
+                    {
+                      "$ref": "#/components/schemas/OrganizationNotReadyForPayments"
+                    }
+                  ],
+                  "title": "Response 403 Orders:Finalize"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Order not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                }
+              }
+            }
+          },
+          "412": {
+            "description": "The order is not in `draft` status.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderNotDraft"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-polar-allowed-subjects": [
+          "Organization",
+          "User"
+        ],
+        "x-speakeasy-mcp": {
+          "disabled": false,
+          "scopes": [
+            "write",
+            "orders"
+          ]
+        },
+        "x-speakeasy-group": "orders",
+        "x-speakeasy-name-override": "finalize"
       }
     },
     "/v1/orders/{id}/invoice": {
@@ -42612,9 +42828,16 @@
             ]
           },
           "invoice_number": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Invoice Number",
-            "description": "The invoice number associated with this order."
+            "description": "The invoice number associated with this order. `null` while the order is in `draft` status; assigned at finalize."
           },
           "is_invoice_generated": {
             "type": "boolean",
@@ -57022,6 +57245,28 @@
         ],
         "title": "OAuth2ClientPublic"
       },
+      "OffSessionChargesNotEnabled": {
+        "properties": {
+          "error": {
+            "type": "string",
+            "const": "OffSessionChargesNotEnabled",
+            "title": "Error",
+            "examples": [
+              "OffSessionChargesNotEnabled"
+            ]
+          },
+          "detail": {
+            "type": "string",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "error",
+          "detail"
+        ],
+        "title": "OffSessionChargesNotEnabled"
+      },
       "Order": {
         "properties": {
           "id": {
@@ -57168,9 +57413,16 @@
             ]
           },
           "invoice_number": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Invoice Number",
-            "description": "The invoice number associated with this order."
+            "description": "The invoice number associated with this order. `null` while the order is in `draft` status; assigned at finalize."
           },
           "is_invoice_generated": {
             "type": "boolean",
@@ -57453,6 +57705,116 @@
         "title": "OrderBillingReasonInternal",
         "description": "Internal billing reasons with additional granularity."
       },
+      "OrderCreate": {
+        "properties": {
+          "custom_field_data": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "type": "object",
+            "title": "Custom Field Data",
+            "description": "Key-value object storing custom field values."
+          },
+          "metadata": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 500,
+                  "minLength": 1
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "boolean"
+                }
+              ]
+            },
+            "propertyNames": {
+              "maxLength": 40,
+              "minLength": 1
+            },
+            "type": "object",
+            "maxProperties": 50,
+            "title": "Metadata",
+            "description": "Key-value object allowing you to store additional information.\n\nThe key must be a string with a maximum length of **40 characters**.\nThe value must be either:\n\n* A string with a maximum length of **500 characters**\n* An integer\n* A floating-point number\n* A boolean\n\nYou can store up to **50 key-value pairs**."
+          },
+          "organization_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid4",
+                "description": "The organization ID.",
+                "examples": [
+                  "1dbfc517-0bbf-4301-9ba8-555ca42b9737"
+                ],
+                "x-polar-selector-widget": {
+                  "displayProperty": "name",
+                  "resourceName": "Organization",
+                  "resourceRoot": "/v1/organizations"
+                }
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Organization Id",
+            "description": "The ID of the organization the order belongs to. **Required unless you use an organization token.** The customer and product must belong to this organization."
+          },
+          "customer_id": {
+            "type": "string",
+            "format": "uuid4",
+            "title": "Customer Id",
+            "description": "The ID of the customer the order is for. Must belong to the order's organization."
+          },
+          "product_id": {
+            "type": "string",
+            "format": "uuid4",
+            "title": "Product Id",
+            "description": "The ID of the one-time, fixed-price product to charge for. Must belong to the order's organization. Subscription, seat-based, and pay-what-you-want products are not supported."
+          },
+          "currency": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Currency",
+            "description": "The currency to charge in (ISO 4217, lowercase, e.g. `usd`). Defaults to the organization's default currency; specify it to force a different one, or when the product isn't priced in the organization's default currency."
+          }
+        },
+        "type": "object",
+        "required": [
+          "customer_id",
+          "product_id"
+        ],
+        "title": "OrderCreate",
+        "description": "Schema to create a draft order for an off-session charge."
+      },
       "OrderCustomer": {
         "properties": {
           "id": {
@@ -57646,6 +58008,26 @@
         ],
         "title": "OrderCustomer"
       },
+      "OrderFinalize": {
+        "properties": {
+          "payment_method_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid4"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Payment Method Id",
+            "description": "ID of the payment method to charge. Must belong to the order's customer. Falls back to the customer's default payment method when unset."
+          }
+        },
+        "type": "object",
+        "title": "OrderFinalize",
+        "description": "Schema to finalize a draft order and trigger an off-session charge."
+      },
       "OrderInvoice": {
         "properties": {
           "url": {
@@ -57747,6 +58129,28 @@
         ],
         "title": "OrderItemSchema",
         "description": "An order line item."
+      },
+      "OrderNotDraft": {
+        "properties": {
+          "error": {
+            "type": "string",
+            "const": "OrderNotDraft",
+            "title": "Error",
+            "examples": [
+              "OrderNotDraft"
+            ]
+          },
+          "detail": {
+            "type": "string",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "error",
+          "detail"
+        ],
+        "title": "OrderNotDraft"
       },
       "OrderNotEligibleForRetry": {
         "properties": {
@@ -58324,6 +58728,7 @@
       "OrderStatus": {
         "type": "string",
         "enum": [
+          "draft",
           "pending",
           "paid",
           "refunded",
@@ -60983,6 +61388,12 @@
             "description": "If this organization has access to reset proration behavior.",
             "default": false
           },
+          "off_session_charges_enabled": {
+            "type": "boolean",
+            "title": "Off Session Charges Enabled",
+            "description": "If this organization can create and finalize draft orders via the API (off-session charges against a saved payment method).",
+            "default": false
+          },
           "billing_enabled": {
             "type": "boolean",
             "title": "Billing Enabled",
@@ -61006,6 +61417,28 @@
           "type"
         ],
         "title": "OrganizationIndividualLegalEntitySchema"
+      },
+      "OrganizationNotReadyForPayments": {
+        "properties": {
+          "error": {
+            "type": "string",
+            "const": "OrganizationNotReadyForPayments",
+            "title": "Error",
+            "examples": [
+              "OrganizationNotReadyForPayments"
+            ]
+          },
+          "detail": {
+            "type": "string",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "error",
+          "detail"
+        ],
+        "title": "OrganizationNotReadyForPayments"
       },
       "OrganizationNotificationSettings": {
         "properties": {
@@ -61819,6 +62252,28 @@
             "$ref": "#/components/schemas/GenericPayment"
           }
         ]
+      },
+      "PaymentActionRequired": {
+        "properties": {
+          "error": {
+            "type": "string",
+            "const": "PaymentActionRequired",
+            "title": "Error",
+            "examples": [
+              "PaymentActionRequired"
+            ]
+          },
+          "detail": {
+            "type": "string",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "error",
+          "detail"
+        ],
+        "title": "PaymentActionRequired"
       },
       "PaymentAlreadyInProgress": {
         "properties": {
@@ -63344,7 +63799,7 @@
             "type": "integer",
             "minimum": 0,
             "title": "Minimum Amount",
-            "description": "The minimum amount the customer can pay. If set to 0, the price is 'free or pay what you want' and $0 is accepted. If set to a value below the minimum price amount for the currency, it will be rejected. Defaults to the minimum price amount for the currency. Minimum per currency:\n- USD: 0.5\n- AED: 2\n- ALL: 50\n- AMD: 200\n- AOA: 500\n- ARS: 750\n- AUD: 0.7\n- AWG: 1\n- AZN: 1\n- BAM: 1\n- BBD: 2\n- BDT: 70\n- BIF: 2,000\n- BMD: 1\n- BND: 1\n- BOB: 5\n- BRL: 2.5\n- BSD: 1\n- BWP: 10\n- BZD: 2\n- CAD: 0.7\n- CDF: 2,000\n- CHF: 0.5\n- CLP: 500\n- CNY: 5\n- COP: 2,000\n- CRC: 300\n- CVE: 50\n- CZK: 15\n- DJF: 100\n- DKK: 3.2\n- DOP: 40\n- DZD: 70\n- EGP: 30\n- ETB: 80\n- EUR: 0.5\n- FJD: 2\n- FKP: 1\n- GBP: 0.4\n- GEL: 2\n- GNF: 5,000\n- GIP: 1\n- GMD: 40\n- GTQ: 5\n- GYD: 200\n- HKD: 4\n- HNL: 20\n- HTG: 70\n- HUF: 175\n- IDR: 9,000\n- ILS: 1.5\n- INR: 60\n- ISK: 70\n- JMD: 80\n- JPY: 80\n- KES: 70\n- KGS: 50\n- KHR: 3,000\n- KMF: 500\n- KRW: 800\n- KYD: 1\n- KZT: 300\n- LAK: 20,000\n- LKR: 200\n- LRD: 100\n- LSL: 10\n- MAD: 5\n- MDL: 10\n- MGA: 3,000\n- MKD: 50\n- MNT: 2,000\n- MOP: 5\n- MUR: 50\n- MVR: 8\n- MXN: 9\n- MWK: 1,000\n- MYR: 2\n- MZN: 50\n- NAD: 10\n- NGN: 700\n- NIO: 20\n- NOK: 5\n- NPR: 80\n- NZD: 0.9\n- PAB: 1\n- PEN: 2\n- PGK: 3\n- PHP: 35\n- PKR: 200\n- PLN: 2\n- PYG: 4,000\n- QAR: 2\n- RON: 2.5\n- RSD: 60\n- RWF: 1,000\n- SAR: 2\n- SBD: 4\n- SCR: 8\n- SEK: 5\n- SGD: 0.7\n- SHP: 1\n- SOS: 500\n- SRD: 20\n- SZL: 10\n- THB: 20\n- TJS: 5\n- TOP: 2\n- TRY: 30\n- TTD: 4\n- TWD: 20\n- TZS: 2,000\n- UAH: 30\n- UGX: 2,000\n- UYU: 20\n- UZS: 7,000\n- VND: 20,000\n- VUV: 100\n- WST: 2\n- XAF: 500\n- XCD: 2\n- XCG: 1\n- XOF: 500\n- XPF: 100\n- YER: 200\n- ZAR: 9\n- ZMW: 10",
+            "description": "The minimum amount the customer can pay. If set to 0, the price is 'free or pay what you want' and $0 is accepted. If set to a value below the minimum price amount for the currency, it will be rejected. Defaults to the minimum price amount for the currency. Minimum per currency:\n- USD: 0.5\n- AED: 2\n- ALL: 50\n- AMD: 200\n- AOA: 500\n- ARS: 750\n- AUD: 0.7\n- AWG: 1\n- AZN: 1\n- BAM: 1\n- BBD: 2\n- BDT: 70\n- BIF: 2,000\n- BMD: 1\n- BND: 1\n- BOB: 5\n- BRL: 2.5\n- BSD: 1\n- BWP: 10\n- BZD: 2\n- CAD: 0.7\n- CDF: 2,000\n- CHF: 0.5\n- CLP: 500\n- CNY: 5\n- COP: 2,000\n- CRC: 300\n- CVE: 50\n- CZK: 15\n- DJF: 100\n- DKK: 3.2\n- DOP: 40\n- DZD: 70\n- EGP: 30\n- ETB: 80\n- EUR: 0.5\n- FJD: 2\n- FKP: 1\n- GBP: 0.4\n- GEL: 2\n- GNF: 5,000\n- GIP: 1\n- GMD: 40\n- GTQ: 5\n- GYD: 200\n- HKD: 4\n- HNL: 20\n- HTG: 70\n- HUF: 175\n- IDR: 9,000\n- ILS: 1.5\n- INR: 60\n- ISK: 70\n- JMD: 80\n- JPY: 80\n- KES: 70\n- KGS: 50\n- KHR: 3,000\n- KMF: 500\n- KRW: 800\n- KYD: 1\n- KZT: 300\n- LAK: 20,000\n- LKR: 200\n- LRD: 100\n- LSL: 10\n- MAD: 5\n- MDL: 10\n- MGA: 3,000\n- MKD: 50\n- MNT: 2,000\n- MOP: 5\n- MUR: 50\n- MVR: 8\n- MXN: 9\n- MWK: 1,000\n- MYR: 2\n- MZN: 50\n- NAD: 10\n- NGN: 700\n- NIO: 20\n- NOK: 5\n- NPR: 80\n- NZD: 0.9\n- PAB: 1\n- PEN: 2\n- PGK: 3\n- PHP: 35\n- PKR: 200\n- PLN: 2\n- PYG: 4,000\n- QAR: 2\n- RON: 2.5\n- RSD: 60\n- RWF: 1,000\n- SAR: 2\n- SBD: 4\n- SCR: 8\n- SEK: 5\n- SGD: 0.7\n- SHP: 1\n- SOS: 500\n- SRD: 20\n- SZL: 10\n- THB: 20\n- TJS: 5\n- TOP: 2\n- TRY: 30\n- TTD: 4\n- TWD: 20\n- TZS: 2,000\n- UAH: 30\n- UGX: 2,000\n- UYU: 20\n- UZS: 7,000\n- VND: 20,000\n- VUV: 100\n- WST: 2\n- XAF: 500\n- XCD: 2\n- XCG: 1\n- XOF: 500\n- XPF: 100\n- YER: 200\n- ZAR: 9\n- ZMW: 10\n- Other currencies: 50 minor units",
             "default": 50
           },
           "maximum_amount": {
@@ -63352,28 +63807,28 @@
               {
                 "type": "integer",
                 "minimum": 1,
-                "description": "The price in cents.\nMinimum amounts per currency:\n- USD: 0.5\n- AED: 2\n- ALL: 50\n- AMD: 200\n- AOA: 500\n- ARS: 750\n- AUD: 0.7\n- AWG: 1\n- AZN: 1\n- BAM: 1\n- BBD: 2\n- BDT: 70\n- BIF: 2,000\n- BMD: 1\n- BND: 1\n- BOB: 5\n- BRL: 2.5\n- BSD: 1\n- BWP: 10\n- BZD: 2\n- CAD: 0.7\n- CDF: 2,000\n- CHF: 0.5\n- CLP: 500\n- CNY: 5\n- COP: 2,000\n- CRC: 300\n- CVE: 50\n- CZK: 15\n- DJF: 100\n- DKK: 3.2\n- DOP: 40\n- DZD: 70\n- EGP: 30\n- ETB: 80\n- EUR: 0.5\n- FJD: 2\n- FKP: 1\n- GBP: 0.4\n- GEL: 2\n- GNF: 5,000\n- GIP: 1\n- GMD: 40\n- GTQ: 5\n- GYD: 200\n- HKD: 4\n- HNL: 20\n- HTG: 70\n- HUF: 175\n- IDR: 9,000\n- ILS: 1.5\n- INR: 60\n- ISK: 70\n- JMD: 80\n- JPY: 80\n- KES: 70\n- KGS: 50\n- KHR: 3,000\n- KMF: 500\n- KRW: 800\n- KYD: 1\n- KZT: 300\n- LAK: 20,000\n- LKR: 200\n- LRD: 100\n- LSL: 10\n- MAD: 5\n- MDL: 10\n- MGA: 3,000\n- MKD: 50\n- MNT: 2,000\n- MOP: 5\n- MUR: 50\n- MVR: 8\n- MXN: 9\n- MWK: 1,000\n- MYR: 2\n- MZN: 50\n- NAD: 10\n- NGN: 700\n- NIO: 20\n- NOK: 5\n- NPR: 80\n- NZD: 0.9\n- PAB: 1\n- PEN: 2\n- PGK: 3\n- PHP: 35\n- PKR: 200\n- PLN: 2\n- PYG: 4,000\n- QAR: 2\n- RON: 2.5\n- RSD: 60\n- RWF: 1,000\n- SAR: 2\n- SBD: 4\n- SCR: 8\n- SEK: 5\n- SGD: 0.7\n- SHP: 1\n- SOS: 500\n- SRD: 20\n- SZL: 10\n- THB: 20\n- TJS: 5\n- TOP: 2\n- TRY: 30\n- TTD: 4\n- TWD: 20\n- TZS: 2,000\n- UAH: 30\n- UGX: 2,000\n- UYU: 20\n- UZS: 7,000\n- VND: 20,000\n- VUV: 100\n- WST: 2\n- XAF: 500\n- XCD: 2\n- XCG: 1\n- XOF: 500\n- XPF: 100\n- YER: 200\n- ZAR: 9\n- ZMW: 10"
+                "description": "The price in cents.\nMinimum amounts per currency:\n- USD: 0.5\n- AED: 2\n- ALL: 50\n- AMD: 200\n- AOA: 500\n- ARS: 750\n- AUD: 0.7\n- AWG: 1\n- AZN: 1\n- BAM: 1\n- BBD: 2\n- BDT: 70\n- BIF: 2,000\n- BMD: 1\n- BND: 1\n- BOB: 5\n- BRL: 2.5\n- BSD: 1\n- BWP: 10\n- BZD: 2\n- CAD: 0.7\n- CDF: 2,000\n- CHF: 0.5\n- CLP: 500\n- CNY: 5\n- COP: 2,000\n- CRC: 300\n- CVE: 50\n- CZK: 15\n- DJF: 100\n- DKK: 3.2\n- DOP: 40\n- DZD: 70\n- EGP: 30\n- ETB: 80\n- EUR: 0.5\n- FJD: 2\n- FKP: 1\n- GBP: 0.4\n- GEL: 2\n- GNF: 5,000\n- GIP: 1\n- GMD: 40\n- GTQ: 5\n- GYD: 200\n- HKD: 4\n- HNL: 20\n- HTG: 70\n- HUF: 175\n- IDR: 9,000\n- ILS: 1.5\n- INR: 60\n- ISK: 70\n- JMD: 80\n- JPY: 80\n- KES: 70\n- KGS: 50\n- KHR: 3,000\n- KMF: 500\n- KRW: 800\n- KYD: 1\n- KZT: 300\n- LAK: 20,000\n- LKR: 200\n- LRD: 100\n- LSL: 10\n- MAD: 5\n- MDL: 10\n- MGA: 3,000\n- MKD: 50\n- MNT: 2,000\n- MOP: 5\n- MUR: 50\n- MVR: 8\n- MXN: 9\n- MWK: 1,000\n- MYR: 2\n- MZN: 50\n- NAD: 10\n- NGN: 700\n- NIO: 20\n- NOK: 5\n- NPR: 80\n- NZD: 0.9\n- PAB: 1\n- PEN: 2\n- PGK: 3\n- PHP: 35\n- PKR: 200\n- PLN: 2\n- PYG: 4,000\n- QAR: 2\n- RON: 2.5\n- RSD: 60\n- RWF: 1,000\n- SAR: 2\n- SBD: 4\n- SCR: 8\n- SEK: 5\n- SGD: 0.7\n- SHP: 1\n- SOS: 500\n- SRD: 20\n- SZL: 10\n- THB: 20\n- TJS: 5\n- TOP: 2\n- TRY: 30\n- TTD: 4\n- TWD: 20\n- TZS: 2,000\n- UAH: 30\n- UGX: 2,000\n- UYU: 20\n- UZS: 7,000\n- VND: 20,000\n- VUV: 100\n- WST: 2\n- XAF: 500\n- XCD: 2\n- XCG: 1\n- XOF: 500\n- XPF: 100\n- YER: 200\n- ZAR: 9\n- ZMW: 10\n- Other currencies: 50 minor units"
               },
               {
                 "type": "null"
               }
             ],
             "title": "Maximum Amount",
-            "description": "The maximum amount the customer can pay."
+            "description": "The maximum amount the customer can pay. Maximum per currency:\n- USD: 999,999.99\n- EUR: 999,999.99\n- GBP: 999,999.99\n- ARS: 1,400,000\n- CDF: 2,800,000\n- COP: 4,000,000\n- IDR: 16,000,000\n- KHR: 4,000,000\n- LAK: 21,000,000\n- MNT: 3,500,000\n- MWK: 1,750,000\n- NGN: 1,550,000\n- TZS: 2,500,000\n- UGX: 3,700,000\n- UZS: 12,500,000\n- Other currencies: 99,999,999 minor units"
           },
           "preset_amount": {
             "anyOf": [
               {
                 "type": "integer",
                 "minimum": 0,
-                "description": "The price in cents.\nMinimum amounts per currency:\n- USD: 0.5\n- AED: 2\n- ALL: 50\n- AMD: 200\n- AOA: 500\n- ARS: 750\n- AUD: 0.7\n- AWG: 1\n- AZN: 1\n- BAM: 1\n- BBD: 2\n- BDT: 70\n- BIF: 2,000\n- BMD: 1\n- BND: 1\n- BOB: 5\n- BRL: 2.5\n- BSD: 1\n- BWP: 10\n- BZD: 2\n- CAD: 0.7\n- CDF: 2,000\n- CHF: 0.5\n- CLP: 500\n- CNY: 5\n- COP: 2,000\n- CRC: 300\n- CVE: 50\n- CZK: 15\n- DJF: 100\n- DKK: 3.2\n- DOP: 40\n- DZD: 70\n- EGP: 30\n- ETB: 80\n- EUR: 0.5\n- FJD: 2\n- FKP: 1\n- GBP: 0.4\n- GEL: 2\n- GNF: 5,000\n- GIP: 1\n- GMD: 40\n- GTQ: 5\n- GYD: 200\n- HKD: 4\n- HNL: 20\n- HTG: 70\n- HUF: 175\n- IDR: 9,000\n- ILS: 1.5\n- INR: 60\n- ISK: 70\n- JMD: 80\n- JPY: 80\n- KES: 70\n- KGS: 50\n- KHR: 3,000\n- KMF: 500\n- KRW: 800\n- KYD: 1\n- KZT: 300\n- LAK: 20,000\n- LKR: 200\n- LRD: 100\n- LSL: 10\n- MAD: 5\n- MDL: 10\n- MGA: 3,000\n- MKD: 50\n- MNT: 2,000\n- MOP: 5\n- MUR: 50\n- MVR: 8\n- MXN: 9\n- MWK: 1,000\n- MYR: 2\n- MZN: 50\n- NAD: 10\n- NGN: 700\n- NIO: 20\n- NOK: 5\n- NPR: 80\n- NZD: 0.9\n- PAB: 1\n- PEN: 2\n- PGK: 3\n- PHP: 35\n- PKR: 200\n- PLN: 2\n- PYG: 4,000\n- QAR: 2\n- RON: 2.5\n- RSD: 60\n- RWF: 1,000\n- SAR: 2\n- SBD: 4\n- SCR: 8\n- SEK: 5\n- SGD: 0.7\n- SHP: 1\n- SOS: 500\n- SRD: 20\n- SZL: 10\n- THB: 20\n- TJS: 5\n- TOP: 2\n- TRY: 30\n- TTD: 4\n- TWD: 20\n- TZS: 2,000\n- UAH: 30\n- UGX: 2,000\n- UYU: 20\n- UZS: 7,000\n- VND: 20,000\n- VUV: 100\n- WST: 2\n- XAF: 500\n- XCD: 2\n- XCG: 1\n- XOF: 500\n- XPF: 100\n- YER: 200\n- ZAR: 9\n- ZMW: 10"
+                "description": "The price in cents.\nMinimum amounts per currency:\n- USD: 0.5\n- AED: 2\n- ALL: 50\n- AMD: 200\n- AOA: 500\n- ARS: 750\n- AUD: 0.7\n- AWG: 1\n- AZN: 1\n- BAM: 1\n- BBD: 2\n- BDT: 70\n- BIF: 2,000\n- BMD: 1\n- BND: 1\n- BOB: 5\n- BRL: 2.5\n- BSD: 1\n- BWP: 10\n- BZD: 2\n- CAD: 0.7\n- CDF: 2,000\n- CHF: 0.5\n- CLP: 500\n- CNY: 5\n- COP: 2,000\n- CRC: 300\n- CVE: 50\n- CZK: 15\n- DJF: 100\n- DKK: 3.2\n- DOP: 40\n- DZD: 70\n- EGP: 30\n- ETB: 80\n- EUR: 0.5\n- FJD: 2\n- FKP: 1\n- GBP: 0.4\n- GEL: 2\n- GNF: 5,000\n- GIP: 1\n- GMD: 40\n- GTQ: 5\n- GYD: 200\n- HKD: 4\n- HNL: 20\n- HTG: 70\n- HUF: 175\n- IDR: 9,000\n- ILS: 1.5\n- INR: 60\n- ISK: 70\n- JMD: 80\n- JPY: 80\n- KES: 70\n- KGS: 50\n- KHR: 3,000\n- KMF: 500\n- KRW: 800\n- KYD: 1\n- KZT: 300\n- LAK: 20,000\n- LKR: 200\n- LRD: 100\n- LSL: 10\n- MAD: 5\n- MDL: 10\n- MGA: 3,000\n- MKD: 50\n- MNT: 2,000\n- MOP: 5\n- MUR: 50\n- MVR: 8\n- MXN: 9\n- MWK: 1,000\n- MYR: 2\n- MZN: 50\n- NAD: 10\n- NGN: 700\n- NIO: 20\n- NOK: 5\n- NPR: 80\n- NZD: 0.9\n- PAB: 1\n- PEN: 2\n- PGK: 3\n- PHP: 35\n- PKR: 200\n- PLN: 2\n- PYG: 4,000\n- QAR: 2\n- RON: 2.5\n- RSD: 60\n- RWF: 1,000\n- SAR: 2\n- SBD: 4\n- SCR: 8\n- SEK: 5\n- SGD: 0.7\n- SHP: 1\n- SOS: 500\n- SRD: 20\n- SZL: 10\n- THB: 20\n- TJS: 5\n- TOP: 2\n- TRY: 30\n- TTD: 4\n- TWD: 20\n- TZS: 2,000\n- UAH: 30\n- UGX: 2,000\n- UYU: 20\n- UZS: 7,000\n- VND: 20,000\n- VUV: 100\n- WST: 2\n- XAF: 500\n- XCD: 2\n- XCG: 1\n- XOF: 500\n- XPF: 100\n- YER: 200\n- ZAR: 9\n- ZMW: 10\n- Other currencies: 50 minor units"
               },
               {
                 "type": "null"
               }
             ],
             "title": "Preset Amount",
-            "description": "The initial amount shown to the customer. If 0, the customer will see $0 as the default. If set to a value below the minimum price amount for the currency, it will be rejected.Minimum per currency:\n- USD: 0.5\n- AED: 2\n- ALL: 50\n- AMD: 200\n- AOA: 500\n- ARS: 750\n- AUD: 0.7\n- AWG: 1\n- AZN: 1\n- BAM: 1\n- BBD: 2\n- BDT: 70\n- BIF: 2,000\n- BMD: 1\n- BND: 1\n- BOB: 5\n- BRL: 2.5\n- BSD: 1\n- BWP: 10\n- BZD: 2\n- CAD: 0.7\n- CDF: 2,000\n- CHF: 0.5\n- CLP: 500\n- CNY: 5\n- COP: 2,000\n- CRC: 300\n- CVE: 50\n- CZK: 15\n- DJF: 100\n- DKK: 3.2\n- DOP: 40\n- DZD: 70\n- EGP: 30\n- ETB: 80\n- EUR: 0.5\n- FJD: 2\n- FKP: 1\n- GBP: 0.4\n- GEL: 2\n- GNF: 5,000\n- GIP: 1\n- GMD: 40\n- GTQ: 5\n- GYD: 200\n- HKD: 4\n- HNL: 20\n- HTG: 70\n- HUF: 175\n- IDR: 9,000\n- ILS: 1.5\n- INR: 60\n- ISK: 70\n- JMD: 80\n- JPY: 80\n- KES: 70\n- KGS: 50\n- KHR: 3,000\n- KMF: 500\n- KRW: 800\n- KYD: 1\n- KZT: 300\n- LAK: 20,000\n- LKR: 200\n- LRD: 100\n- LSL: 10\n- MAD: 5\n- MDL: 10\n- MGA: 3,000\n- MKD: 50\n- MNT: 2,000\n- MOP: 5\n- MUR: 50\n- MVR: 8\n- MXN: 9\n- MWK: 1,000\n- MYR: 2\n- MZN: 50\n- NAD: 10\n- NGN: 700\n- NIO: 20\n- NOK: 5\n- NPR: 80\n- NZD: 0.9\n- PAB: 1\n- PEN: 2\n- PGK: 3\n- PHP: 35\n- PKR: 200\n- PLN: 2\n- PYG: 4,000\n- QAR: 2\n- RON: 2.5\n- RSD: 60\n- RWF: 1,000\n- SAR: 2\n- SBD: 4\n- SCR: 8\n- SEK: 5\n- SGD: 0.7\n- SHP: 1\n- SOS: 500\n- SRD: 20\n- SZL: 10\n- THB: 20\n- TJS: 5\n- TOP: 2\n- TRY: 30\n- TTD: 4\n- TWD: 20\n- TZS: 2,000\n- UAH: 30\n- UGX: 2,000\n- UYU: 20\n- UZS: 7,000\n- VND: 20,000\n- VUV: 100\n- WST: 2\n- XAF: 500\n- XCD: 2\n- XCG: 1\n- XOF: 500\n- XPF: 100\n- YER: 200\n- ZAR: 9\n- ZMW: 10"
+            "description": "The initial amount shown to the customer. If 0, the customer will see $0 as the default. If set to a value below the minimum price amount for the currency, it will be rejected.Minimum per currency:\n- USD: 0.5\n- AED: 2\n- ALL: 50\n- AMD: 200\n- AOA: 500\n- ARS: 750\n- AUD: 0.7\n- AWG: 1\n- AZN: 1\n- BAM: 1\n- BBD: 2\n- BDT: 70\n- BIF: 2,000\n- BMD: 1\n- BND: 1\n- BOB: 5\n- BRL: 2.5\n- BSD: 1\n- BWP: 10\n- BZD: 2\n- CAD: 0.7\n- CDF: 2,000\n- CHF: 0.5\n- CLP: 500\n- CNY: 5\n- COP: 2,000\n- CRC: 300\n- CVE: 50\n- CZK: 15\n- DJF: 100\n- DKK: 3.2\n- DOP: 40\n- DZD: 70\n- EGP: 30\n- ETB: 80\n- EUR: 0.5\n- FJD: 2\n- FKP: 1\n- GBP: 0.4\n- GEL: 2\n- GNF: 5,000\n- GIP: 1\n- GMD: 40\n- GTQ: 5\n- GYD: 200\n- HKD: 4\n- HNL: 20\n- HTG: 70\n- HUF: 175\n- IDR: 9,000\n- ILS: 1.5\n- INR: 60\n- ISK: 70\n- JMD: 80\n- JPY: 80\n- KES: 70\n- KGS: 50\n- KHR: 3,000\n- KMF: 500\n- KRW: 800\n- KYD: 1\n- KZT: 300\n- LAK: 20,000\n- LKR: 200\n- LRD: 100\n- LSL: 10\n- MAD: 5\n- MDL: 10\n- MGA: 3,000\n- MKD: 50\n- MNT: 2,000\n- MOP: 5\n- MUR: 50\n- MVR: 8\n- MXN: 9\n- MWK: 1,000\n- MYR: 2\n- MZN: 50\n- NAD: 10\n- NGN: 700\n- NIO: 20\n- NOK: 5\n- NPR: 80\n- NZD: 0.9\n- PAB: 1\n- PEN: 2\n- PGK: 3\n- PHP: 35\n- PKR: 200\n- PLN: 2\n- PYG: 4,000\n- QAR: 2\n- RON: 2.5\n- RSD: 60\n- RWF: 1,000\n- SAR: 2\n- SBD: 4\n- SCR: 8\n- SEK: 5\n- SGD: 0.7\n- SHP: 1\n- SOS: 500\n- SRD: 20\n- SZL: 10\n- THB: 20\n- TJS: 5\n- TOP: 2\n- TRY: 30\n- TTD: 4\n- TWD: 20\n- TZS: 2,000\n- UAH: 30\n- UGX: 2,000\n- UYU: 20\n- UZS: 7,000\n- VND: 20,000\n- VUV: 100\n- WST: 2\n- XAF: 500\n- XCD: 2\n- XCG: 1\n- XOF: 500\n- XPF: 100\n- YER: 200\n- ZAR: 9\n- ZMW: 10\n- Other currencies: 50 minor units"
           }
         },
         "type": "object",
@@ -63495,7 +63950,7 @@
             "type": "integer",
             "minimum": 1,
             "title": "Price Amount",
-            "description": "The price in cents.\nMinimum amounts per currency:\n- USD: 0.5\n- AED: 2\n- ALL: 50\n- AMD: 200\n- AOA: 500\n- ARS: 750\n- AUD: 0.7\n- AWG: 1\n- AZN: 1\n- BAM: 1\n- BBD: 2\n- BDT: 70\n- BIF: 2,000\n- BMD: 1\n- BND: 1\n- BOB: 5\n- BRL: 2.5\n- BSD: 1\n- BWP: 10\n- BZD: 2\n- CAD: 0.7\n- CDF: 2,000\n- CHF: 0.5\n- CLP: 500\n- CNY: 5\n- COP: 2,000\n- CRC: 300\n- CVE: 50\n- CZK: 15\n- DJF: 100\n- DKK: 3.2\n- DOP: 40\n- DZD: 70\n- EGP: 30\n- ETB: 80\n- EUR: 0.5\n- FJD: 2\n- FKP: 1\n- GBP: 0.4\n- GEL: 2\n- GNF: 5,000\n- GIP: 1\n- GMD: 40\n- GTQ: 5\n- GYD: 200\n- HKD: 4\n- HNL: 20\n- HTG: 70\n- HUF: 175\n- IDR: 9,000\n- ILS: 1.5\n- INR: 60\n- ISK: 70\n- JMD: 80\n- JPY: 80\n- KES: 70\n- KGS: 50\n- KHR: 3,000\n- KMF: 500\n- KRW: 800\n- KYD: 1\n- KZT: 300\n- LAK: 20,000\n- LKR: 200\n- LRD: 100\n- LSL: 10\n- MAD: 5\n- MDL: 10\n- MGA: 3,000\n- MKD: 50\n- MNT: 2,000\n- MOP: 5\n- MUR: 50\n- MVR: 8\n- MXN: 9\n- MWK: 1,000\n- MYR: 2\n- MZN: 50\n- NAD: 10\n- NGN: 700\n- NIO: 20\n- NOK: 5\n- NPR: 80\n- NZD: 0.9\n- PAB: 1\n- PEN: 2\n- PGK: 3\n- PHP: 35\n- PKR: 200\n- PLN: 2\n- PYG: 4,000\n- QAR: 2\n- RON: 2.5\n- RSD: 60\n- RWF: 1,000\n- SAR: 2\n- SBD: 4\n- SCR: 8\n- SEK: 5\n- SGD: 0.7\n- SHP: 1\n- SOS: 500\n- SRD: 20\n- SZL: 10\n- THB: 20\n- TJS: 5\n- TOP: 2\n- TRY: 30\n- TTD: 4\n- TWD: 20\n- TZS: 2,000\n- UAH: 30\n- UGX: 2,000\n- UYU: 20\n- UZS: 7,000\n- VND: 20,000\n- VUV: 100\n- WST: 2\n- XAF: 500\n- XCD: 2\n- XCG: 1\n- XOF: 500\n- XPF: 100\n- YER: 200\n- ZAR: 9\n- ZMW: 10"
+            "description": "The price in cents.\nMinimum amounts per currency:\n- USD: 0.5\n- AED: 2\n- ALL: 50\n- AMD: 200\n- AOA: 500\n- ARS: 750\n- AUD: 0.7\n- AWG: 1\n- AZN: 1\n- BAM: 1\n- BBD: 2\n- BDT: 70\n- BIF: 2,000\n- BMD: 1\n- BND: 1\n- BOB: 5\n- BRL: 2.5\n- BSD: 1\n- BWP: 10\n- BZD: 2\n- CAD: 0.7\n- CDF: 2,000\n- CHF: 0.5\n- CLP: 500\n- CNY: 5\n- COP: 2,000\n- CRC: 300\n- CVE: 50\n- CZK: 15\n- DJF: 100\n- DKK: 3.2\n- DOP: 40\n- DZD: 70\n- EGP: 30\n- ETB: 80\n- EUR: 0.5\n- FJD: 2\n- FKP: 1\n- GBP: 0.4\n- GEL: 2\n- GNF: 5,000\n- GIP: 1\n- GMD: 40\n- GTQ: 5\n- GYD: 200\n- HKD: 4\n- HNL: 20\n- HTG: 70\n- HUF: 175\n- IDR: 9,000\n- ILS: 1.5\n- INR: 60\n- ISK: 70\n- JMD: 80\n- JPY: 80\n- KES: 70\n- KGS: 50\n- KHR: 3,000\n- KMF: 500\n- KRW: 800\n- KYD: 1\n- KZT: 300\n- LAK: 20,000\n- LKR: 200\n- LRD: 100\n- LSL: 10\n- MAD: 5\n- MDL: 10\n- MGA: 3,000\n- MKD: 50\n- MNT: 2,000\n- MOP: 5\n- MUR: 50\n- MVR: 8\n- MXN: 9\n- MWK: 1,000\n- MYR: 2\n- MZN: 50\n- NAD: 10\n- NGN: 700\n- NIO: 20\n- NOK: 5\n- NPR: 80\n- NZD: 0.9\n- PAB: 1\n- PEN: 2\n- PGK: 3\n- PHP: 35\n- PKR: 200\n- PLN: 2\n- PYG: 4,000\n- QAR: 2\n- RON: 2.5\n- RSD: 60\n- RWF: 1,000\n- SAR: 2\n- SBD: 4\n- SCR: 8\n- SEK: 5\n- SGD: 0.7\n- SHP: 1\n- SOS: 500\n- SRD: 20\n- SZL: 10\n- THB: 20\n- TJS: 5\n- TOP: 2\n- TRY: 30\n- TTD: 4\n- TWD: 20\n- TZS: 2,000\n- UAH: 30\n- UGX: 2,000\n- UYU: 20\n- UZS: 7,000\n- VND: 20,000\n- VUV: 100\n- WST: 2\n- XAF: 500\n- XCD: 2\n- XCG: 1\n- XOF: 500\n- XPF: 100\n- YER: 200\n- ZAR: 9\n- ZMW: 10\n- Other currencies: 50 minor units"
           }
         },
         "type": "object",
