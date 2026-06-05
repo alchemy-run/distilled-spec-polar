@@ -13655,6 +13655,277 @@
         "x-speakeasy-name-override": "get_state_external"
       }
     },
+    "/v1/customers/{id}/payment-methods": {
+      "get": {
+        "tags": [
+          "customers",
+          "public",
+          "mcp"
+        ],
+        "summary": "List Customer Payment Methods",
+        "description": "Get saved payment methods of a customer.\n\n**Scopes**: `customers:read` `customers:write`",
+        "operationId": "customers:list_payment_methods",
+        "security": [
+          {
+            "oidc": [
+              "customers:read",
+              "customers:write"
+            ]
+          },
+          {
+            "pat": [
+              "customers:read",
+              "customers:write"
+            ]
+          },
+          {
+            "oat": [
+              "customers:read",
+              "customers:write"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid4",
+              "description": "The customer ID.",
+              "title": "Id"
+            },
+            "description": "The customer ID."
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "description": "Page number, defaults to 1.",
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "Page number, defaults to 1."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "description": "Size of a page, defaults to 10. Maximum is 100.",
+              "default": 10,
+              "title": "Limit"
+            },
+            "description": "Size of a page, defaults to 10. Maximum is 100."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListResource_PaymentMethod_"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Customer not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-polar-allowed-subjects": [
+          "Organization",
+          "User"
+        ],
+        "x-speakeasy-pagination": {
+          "type": "offsetLimit",
+          "inputs": [
+            {
+              "name": "page",
+              "in": "parameters",
+              "type": "page"
+            },
+            {
+              "name": "limit",
+              "in": "parameters",
+              "type": "limit"
+            }
+          ],
+          "outputs": {
+            "results": "$.items",
+            "numPages": "$.pagination.max_page"
+          }
+        },
+        "x-speakeasy-mcp": {
+          "disabled": false,
+          "scopes": [
+            "read",
+            "customers"
+          ]
+        },
+        "x-speakeasy-group": "customers",
+        "x-speakeasy-name-override": "list_payment_methods"
+      }
+    },
+    "/v1/customers/external/{external_id}/payment-methods": {
+      "get": {
+        "tags": [
+          "customers",
+          "public",
+          "mcp"
+        ],
+        "summary": "List Customer Payment Methods by External ID",
+        "description": "Get saved payment methods of a customer by external ID.\n\n**Scopes**: `customers:read` `customers:write`",
+        "operationId": "customers:list_payment_methods_external",
+        "security": [
+          {
+            "oidc": [
+              "customers:read",
+              "customers:write"
+            ]
+          },
+          {
+            "pat": [
+              "customers:read",
+              "customers:write"
+            ]
+          },
+          {
+            "oat": [
+              "customers:read",
+              "customers:write"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "external_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The customer external ID.",
+              "title": "External Id"
+            },
+            "description": "The customer external ID."
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "description": "Page number, defaults to 1.",
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "Page number, defaults to 1."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "description": "Size of a page, defaults to 10. Maximum is 100.",
+              "default": 10,
+              "title": "Limit"
+            },
+            "description": "Size of a page, defaults to 10. Maximum is 100."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListResource_PaymentMethod_"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Customer not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-polar-allowed-subjects": [
+          "Organization",
+          "User"
+        ],
+        "x-speakeasy-pagination": {
+          "type": "offsetLimit",
+          "inputs": [
+            {
+              "name": "page",
+              "in": "parameters",
+              "type": "page"
+            },
+            {
+              "name": "limit",
+              "in": "parameters",
+              "type": "limit"
+            }
+          ],
+          "outputs": {
+            "results": "$.items",
+            "numPages": "$.pagination.max_page"
+          }
+        },
+        "x-speakeasy-mcp": {
+          "disabled": false,
+          "scopes": [
+            "read",
+            "customers"
+          ]
+        },
+        "x-speakeasy-group": "customers",
+        "x-speakeasy-name-override": "list_payment_methods_external"
+      }
+    },
     "/v1/members/": {
       "get": {
         "tags": [
@@ -42345,6 +42616,19 @@
               "1dbfc517-0bbf-4301-9ba8-555ca42b9737"
             ]
           },
+          "default_payment_method_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid4"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Default Payment Method Id",
+            "description": "The ID of the customer's default payment method, if any. Use the payment methods endpoint to retrieve its details."
+          },
           "deleted_at": {
             "anyOf": [
               {
@@ -43753,6 +44037,71 @@
           }
         ]
       },
+      "CustomerPaymentMethodCard": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid4",
+            "title": "Id",
+            "description": "The ID of the object."
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "description": "Creation timestamp of the object."
+          },
+          "modified_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Modified At",
+            "description": "Last modification timestamp of the object."
+          },
+          "processor": {
+            "$ref": "#/components/schemas/PaymentProcessor"
+          },
+          "customer_id": {
+            "type": "string",
+            "format": "uuid4",
+            "title": "Customer Id"
+          },
+          "type": {
+            "type": "string",
+            "const": "card",
+            "title": "Type"
+          },
+          "method_metadata": {
+            "$ref": "#/components/schemas/PaymentMethodCardMetadata"
+          },
+          "is_default": {
+            "type": "boolean",
+            "title": "Is Default",
+            "description": "Whether this payment method is the customer's default payment method.",
+            "examples": [
+              true
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "created_at",
+          "modified_at",
+          "processor",
+          "customer_id",
+          "type",
+          "method_metadata",
+          "is_default"
+        ],
+        "title": "CustomerPaymentMethodCard"
+      },
       "CustomerPaymentMethodConfirm": {
         "properties": {
           "setup_intent_id": {
@@ -43848,6 +44197,66 @@
           "payment_method"
         ],
         "title": "CustomerPaymentMethodCreateSucceededResponse"
+      },
+      "CustomerPaymentMethodGeneric": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid4",
+            "title": "Id",
+            "description": "The ID of the object."
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "description": "Creation timestamp of the object."
+          },
+          "modified_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Modified At",
+            "description": "Last modification timestamp of the object."
+          },
+          "processor": {
+            "$ref": "#/components/schemas/PaymentProcessor"
+          },
+          "customer_id": {
+            "type": "string",
+            "format": "uuid4",
+            "title": "Customer Id"
+          },
+          "type": {
+            "type": "string",
+            "title": "Type"
+          },
+          "is_default": {
+            "type": "boolean",
+            "title": "Is Default",
+            "description": "Whether this payment method is the customer's default payment method.",
+            "examples": [
+              false
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "created_at",
+          "modified_at",
+          "processor",
+          "customer_id",
+          "type",
+          "is_default"
+        ],
+        "title": "CustomerPaymentMethodGeneric"
       },
       "CustomerPortalCustomer": {
         "properties": {
@@ -45198,6 +45607,19 @@
               "1dbfc517-0bbf-4301-9ba8-555ca42b9737"
             ]
           },
+          "default_payment_method_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid4"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Default Payment Method Id",
+            "description": "The ID of the customer's default payment method, if any. Use the payment methods endpoint to retrieve its details."
+          },
           "deleted_at": {
             "anyOf": [
               {
@@ -45824,6 +46246,19 @@
             "examples": [
               "1dbfc517-0bbf-4301-9ba8-555ca42b9737"
             ]
+          },
+          "default_payment_method_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid4"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Default Payment Method Id",
+            "description": "The ID of the customer's default payment method, if any. Use the payment methods endpoint to retrieve its details."
           },
           "deleted_at": {
             "anyOf": [
@@ -46758,6 +47193,19 @@
             "examples": [
               "1dbfc517-0bbf-4301-9ba8-555ca42b9737"
             ]
+          },
+          "default_payment_method_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid4"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Default Payment Method Id",
+            "description": "The ID of the customer's default payment method, if any. Use the payment methods endpoint to retrieve its details."
           },
           "deleted_at": {
             "anyOf": [
@@ -52060,6 +52508,19 @@
               "1dbfc517-0bbf-4301-9ba8-555ca42b9737"
             ]
           },
+          "default_payment_method_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid4"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Default Payment Method Id",
+            "description": "The ID of the customer's default payment method, if any. Use the payment methods endpoint to retrieve its details."
+          },
           "deleted_at": {
             "anyOf": [
               {
@@ -53200,6 +53661,27 @@
           "pagination"
         ],
         "title": "ListResource[Organization]"
+      },
+      "ListResource_PaymentMethod_": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/PaymentMethod",
+              "title": "PaymentMethod"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "pagination"
+        ],
+        "title": "ListResource[PaymentMethod]"
       },
       "ListResource_Payment_": {
         "properties": {
@@ -57995,6 +58477,19 @@
               "1dbfc517-0bbf-4301-9ba8-555ca42b9737"
             ]
           },
+          "default_payment_method_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid4"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Default Payment Method Id",
+            "description": "The ID of the customer's default payment method, if any. Use the payment methods endpoint to retrieve its details."
+          },
           "deleted_at": {
             "anyOf": [
               {
@@ -62366,6 +62861,16 @@
           "detail"
         ],
         "title": "PaymentFailed"
+      },
+      "PaymentMethod": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/CustomerPaymentMethodCard"
+          },
+          {
+            "$ref": "#/components/schemas/CustomerPaymentMethodGeneric"
+          }
+        ]
       },
       "PaymentMethodCard": {
         "properties": {
@@ -66963,6 +67468,19 @@
               "1dbfc517-0bbf-4301-9ba8-555ca42b9737"
             ]
           },
+          "default_payment_method_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid4"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Default Payment Method Id",
+            "description": "The ID of the customer's default payment method, if any. Use the payment methods endpoint to retrieve its details."
+          },
           "deleted_at": {
             "anyOf": [
               {
@@ -68754,49 +69272,6 @@
         ],
         "title": "SubscriptionUpdateTrial"
       },
-      "SubscriptionUpdatedBillingPeriodMetadata": {
-        "properties": {
-          "subscription_id": {
-            "type": "string",
-            "title": "Subscription Id"
-          },
-          "billing_period_end": {
-            "type": "string",
-            "title": "Billing Period End"
-          }
-        },
-        "type": "object",
-        "required": [
-          "subscription_id",
-          "billing_period_end"
-        ],
-        "title": "SubscriptionUpdatedBillingPeriodMetadata"
-      },
-      "SubscriptionUpdatedDiscountMetadata": {
-        "properties": {
-          "subscription_id": {
-            "type": "string",
-            "title": "Subscription Id"
-          },
-          "discount_id": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Discount Id"
-          }
-        },
-        "type": "object",
-        "required": [
-          "subscription_id",
-          "discount_id"
-        ],
-        "title": "SubscriptionUpdatedDiscountMetadata"
-      },
       "SubscriptionUpdatedEvent": {
         "properties": {
           "id": {
@@ -68923,24 +69398,7 @@
             "description": "The name of the event."
           },
           "metadata": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/SubscriptionUpdatedProductMetadata"
-              },
-              {
-                "$ref": "#/components/schemas/SubscriptionUpdatedDiscountMetadata"
-              },
-              {
-                "$ref": "#/components/schemas/SubscriptionUpdatedTrialMetadata"
-              },
-              {
-                "$ref": "#/components/schemas/SubscriptionUpdatedSeatsMetadata"
-              },
-              {
-                "$ref": "#/components/schemas/SubscriptionUpdatedBillingPeriodMetadata"
-              }
-            ],
-            "title": "Metadata"
+            "$ref": "#/components/schemas/SubscriptionUpdatedMetadata"
           }
         },
         "type": "object",
@@ -68959,67 +69417,48 @@
         "title": "SubscriptionUpdatedEvent",
         "description": "An event created by Polar when a subscription is updated."
       },
-      "SubscriptionUpdatedProductMetadata": {
+      "SubscriptionUpdatedMetadata": {
         "properties": {
-          "subscription_id": {
-            "type": "string",
-            "title": "Subscription Id"
-          },
           "product_id": {
             "type": "string",
             "title": "Product Id"
           },
           "proration_behavior": {
             "$ref": "#/components/schemas/SubscriptionProrationBehavior"
-          }
-        },
-        "type": "object",
-        "required": [
-          "subscription_id",
-          "product_id",
-          "proration_behavior"
-        ],
-        "title": "SubscriptionUpdatedProductMetadata"
-      },
-      "SubscriptionUpdatedSeatsMetadata": {
-        "properties": {
-          "subscription_id": {
+          },
+          "discount_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Discount Id"
+          },
+          "trial_end": {
             "type": "string",
-            "title": "Subscription Id"
+            "title": "Trial End"
           },
           "seats": {
             "type": "integer",
             "title": "Seats"
           },
-          "proration_behavior": {
-            "$ref": "#/components/schemas/SubscriptionProrationBehavior"
-          }
-        },
-        "type": "object",
-        "required": [
-          "subscription_id",
-          "seats",
-          "proration_behavior"
-        ],
-        "title": "SubscriptionUpdatedSeatsMetadata"
-      },
-      "SubscriptionUpdatedTrialMetadata": {
-        "properties": {
+          "billing_period_end": {
+            "type": "string",
+            "title": "Billing Period End"
+          },
           "subscription_id": {
             "type": "string",
             "title": "Subscription Id"
-          },
-          "trial_end": {
-            "type": "string",
-            "title": "Trial End"
           }
         },
         "type": "object",
         "required": [
-          "subscription_id",
-          "trial_end"
+          "subscription_id"
         ],
-        "title": "SubscriptionUpdatedTrialMetadata"
+        "title": "SubscriptionUpdatedMetadata"
       },
       "SubscriptionUser": {
         "properties": {
