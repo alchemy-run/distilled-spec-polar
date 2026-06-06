@@ -61920,6 +61920,12 @@
             "title": "Billing Enabled",
             "description": "If this organization has billing enabled",
             "default": false
+          },
+          "slack_benefit_enabled": {
+            "type": "boolean",
+            "title": "Slack Benefit Enabled",
+            "description": "Enables the slack shared channel benefit",
+            "default": false
           }
         },
         "type": "object",
