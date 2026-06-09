@@ -42555,6 +42555,21 @@
               "John Doe"
             ]
           },
+          "billing_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Billing Name",
+            "description": "The name that should appear on the customer's invoices. Falls back to the customer name when not explicitly set.",
+            "examples": [
+              "John Doe"
+            ]
+          },
           "billing_address": {
             "anyOf": [
               {
@@ -42661,6 +42676,7 @@
           "email_verified",
           "type",
           "name",
+          "billing_name",
           "billing_address",
           "tax_id",
           "organization_id",
@@ -45546,6 +45562,21 @@
               "John Doe"
             ]
           },
+          "billing_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Billing Name",
+            "description": "The name that should appear on the customer's invoices. Falls back to the customer name when not explicitly set.",
+            "examples": [
+              "John Doe"
+            ]
+          },
           "billing_address": {
             "anyOf": [
               {
@@ -45676,6 +45707,7 @@
           "email_verified",
           "type",
           "name",
+          "billing_name",
           "billing_address",
           "tax_id",
           "organization_id",
@@ -46186,6 +46218,21 @@
               "John Doe"
             ]
           },
+          "billing_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Billing Name",
+            "description": "The name that should appear on the customer's invoices. Falls back to the customer name when not explicitly set.",
+            "examples": [
+              "John Doe"
+            ]
+          },
           "billing_address": {
             "anyOf": [
               {
@@ -46315,6 +46362,7 @@
           "email_verified",
           "type",
           "name",
+          "billing_name",
           "billing_address",
           "tax_id",
           "organization_id",
@@ -47133,6 +47181,21 @@
               "John Doe"
             ]
           },
+          "billing_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Billing Name",
+            "description": "The name that should appear on the customer's invoices. Falls back to the customer name when not explicitly set.",
+            "examples": [
+              "John Doe"
+            ]
+          },
           "billing_address": {
             "anyOf": [
               {
@@ -47238,6 +47301,7 @@
           "email_verified",
           "type",
           "name",
+          "billing_name",
           "billing_address",
           "tax_id",
           "organization_id",
@@ -47815,6 +47879,17 @@
               }
             ],
             "title": "Name"
+          },
+          "billing_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Billing Name"
           },
           "email": {
             "anyOf": [
@@ -52447,6 +52522,21 @@
               "John Doe"
             ]
           },
+          "billing_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Billing Name",
+            "description": "The name that should appear on the customer's invoices. Falls back to the customer name when not explicitly set.",
+            "examples": [
+              "John Doe"
+            ]
+          },
           "billing_address": {
             "anyOf": [
               {
@@ -52552,6 +52642,7 @@
           "email_verified",
           "type",
           "name",
+          "billing_name",
           "billing_address",
           "tax_id",
           "organization_id",
@@ -58416,6 +58507,21 @@
               "John Doe"
             ]
           },
+          "billing_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Billing Name",
+            "description": "The name that should appear on the customer's invoices. Falls back to the customer name when not explicitly set.",
+            "examples": [
+              "John Doe"
+            ]
+          },
           "billing_address": {
             "anyOf": [
               {
@@ -58521,6 +58627,7 @@
           "email_verified",
           "type",
           "name",
+          "billing_name",
           "billing_address",
           "tax_id",
           "organization_id",
@@ -61880,12 +61987,6 @@
             "type": "boolean",
             "title": "Checkout Localization Enabled",
             "description": "If this organization has checkout localization enabled",
-            "default": false
-          },
-          "account_review_v2_enabled": {
-            "type": "boolean",
-            "title": "Account Review V2 Enabled",
-            "description": "If this organization sees the new account review checklist UI.",
             "default": false
           },
           "overview_metrics": {
@@ -67413,6 +67514,21 @@
               "John Doe"
             ]
           },
+          "billing_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Billing Name",
+            "description": "The name that should appear on the customer's invoices. Falls back to the customer name when not explicitly set.",
+            "examples": [
+              "John Doe"
+            ]
+          },
           "billing_address": {
             "anyOf": [
               {
@@ -67518,6 +67634,7 @@
           "email_verified",
           "type",
           "name",
+          "billing_name",
           "billing_address",
           "tax_id",
           "organization_id",
@@ -68966,13 +69083,7 @@
       "SubscriptionUpdate": {
         "anyOf": [
           {
-            "$ref": "#/components/schemas/SubscriptionUpdateProduct"
-          },
-          {
-            "$ref": "#/components/schemas/SubscriptionUpdateDiscount"
-          },
-          {
-            "$ref": "#/components/schemas/SubscriptionUpdateTrial"
+            "$ref": "#/components/schemas/SubscriptionUpdateBase"
           },
           {
             "$ref": "#/components/schemas/SubscriptionUpdateSeats"
@@ -68990,6 +69101,69 @@
             "$ref": "#/components/schemas/SubscriptionUpdateClear"
           }
         ]
+      },
+      "SubscriptionUpdateBase": {
+        "properties": {
+          "product_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid4"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Product Id",
+            "description": "Update subscription to another product.",
+            "examples": [
+              "d8dd2de1-21b7-4a41-8bc3-ce909c0cfe23"
+            ]
+          },
+          "proration_behavior": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SubscriptionProrationBehavior"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Determine how to handle the proration billing. If not provided, will use the default organization setting."
+          },
+          "discount_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid4"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Discount Id",
+            "description": "Update the subscription to apply a new discount. If set to `null`, the discount will be removed. The change will be applied on the next billing cycle."
+          },
+          "trial_end": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "string",
+                "const": "now"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trial End",
+            "description": "Set or extend the trial period of the subscription. If set to `now`, the trial will end immediately."
+          }
+        },
+        "type": "object",
+        "title": "SubscriptionUpdateBase"
       },
       "SubscriptionUpdateBillingPeriod": {
         "properties": {
@@ -69178,57 +69352,6 @@
         ],
         "title": "SubscriptionUpdateClearedMetadata"
       },
-      "SubscriptionUpdateDiscount": {
-        "properties": {
-          "discount_id": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "uuid4"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Discount Id",
-            "description": "Update the subscription to apply a new discount. If set to `null`, the discount will be removed. The change will be applied on the next billing cycle."
-          }
-        },
-        "type": "object",
-        "required": [
-          "discount_id"
-        ],
-        "title": "SubscriptionUpdateDiscount"
-      },
-      "SubscriptionUpdateProduct": {
-        "properties": {
-          "product_id": {
-            "type": "string",
-            "format": "uuid4",
-            "title": "Product Id",
-            "description": "Update subscription to another product.",
-            "examples": [
-              "d8dd2de1-21b7-4a41-8bc3-ce909c0cfe23"
-            ]
-          },
-          "proration_behavior": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/SubscriptionProrationBehavior"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "Determine how to handle the proration billing. If not provided, will use the default organization setting."
-          }
-        },
-        "type": "object",
-        "required": [
-          "product_id"
-        ],
-        "title": "SubscriptionUpdateProduct"
-      },
       "SubscriptionUpdateSeats": {
         "properties": {
           "seats": {
@@ -69254,29 +69377,6 @@
           "seats"
         ],
         "title": "SubscriptionUpdateSeats"
-      },
-      "SubscriptionUpdateTrial": {
-        "properties": {
-          "trial_end": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "string",
-                "const": "now"
-              }
-            ],
-            "title": "Trial End",
-            "description": "Set or extend the trial period of the subscription. If set to `now`, the trial will end immediately."
-          }
-        },
-        "type": "object",
-        "required": [
-          "trial_end"
-        ],
-        "title": "SubscriptionUpdateTrial"
       },
       "SubscriptionUpdatedEvent": {
         "properties": {
