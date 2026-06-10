@@ -32512,7 +32512,8 @@
           "downloadables",
           "license_keys",
           "meter_credit",
-          "feature_flag"
+          "feature_flag",
+          "slack_shared_channel"
         ],
         "title": "BenefitType"
       },
@@ -34378,6 +34379,18 @@
             "title": "Discount Id",
             "description": "ID of the discount to apply to the checkout. If the discount is not applicable anymore when opening the checkout link, it'll be ignored."
           },
+          "seats": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Seats",
+            "description": "Preconfigured number of seats for seat-based pricing. When set, checkout sessions created from this link are locked to this number of seats and the customer won't be able to change it. All products on the link must use seat-based pricing and allow this number of seats. If the products no longer accommodate this value when the link is opened, it'll be ignored."
+          },
           "organization_id": {
             "type": "string",
             "format": "uuid4",
@@ -34446,6 +34459,7 @@
           "allow_discount_codes",
           "require_billing_address",
           "discount_id",
+          "seats",
           "organization_id",
           "products",
           "discount",
@@ -34564,6 +34578,20 @@
             ],
             "title": "Discount Id",
             "description": "ID of the discount to apply to the checkout. If the discount is not applicable anymore when opening the checkout link, it'll be ignored."
+          },
+          "seats": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 1000,
+                "minimum": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Seats",
+            "description": "Preconfigured number of seats for seat-based pricing. When set, checkout sessions created from this link are locked to this number of seats and the customer won't be able to change it. All products on the link must use seat-based pricing and allow this number of seats. If the products no longer accommodate this value when the link is opened, it'll be ignored."
           },
           "success_url": {
             "anyOf": [
@@ -34707,6 +34735,20 @@
             "title": "Discount Id",
             "description": "ID of the discount to apply to the checkout. If the discount is not applicable anymore when opening the checkout link, it'll be ignored."
           },
+          "seats": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 1000,
+                "minimum": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Seats",
+            "description": "Preconfigured number of seats for seat-based pricing. When set, checkout sessions created from this link are locked to this number of seats and the customer won't be able to change it. All products on the link must use seat-based pricing and allow this number of seats. If the products no longer accommodate this value when the link is opened, it'll be ignored."
+          },
           "success_url": {
             "anyOf": [
               {
@@ -34848,6 +34890,20 @@
             ],
             "title": "Discount Id",
             "description": "ID of the discount to apply to the checkout. If the discount is not applicable anymore when opening the checkout link, it'll be ignored."
+          },
+          "seats": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 1000,
+                "minimum": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Seats",
+            "description": "Preconfigured number of seats for seat-based pricing. When set, checkout sessions created from this link are locked to this number of seats and the customer won't be able to change it. All products on the link must use seat-based pricing and allow this number of seats. If the products no longer accommodate this value when the link is opened, it'll be ignored."
           },
           "success_url": {
             "anyOf": [
@@ -35199,6 +35255,20 @@
             ],
             "title": "Discount Id",
             "description": "ID of the discount to apply to the checkout. If the discount is not applicable anymore when opening the checkout link, it'll be ignored."
+          },
+          "seats": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 1000,
+                "minimum": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Seats",
+            "description": "Preconfigured number of seats for seat-based pricing. When set, checkout sessions created from this link are locked to this number of seats and the customer won't be able to change it. All products on the link must use seat-based pricing and allow this number of seats. If the products no longer accommodate this value when the link is opened, it'll be ignored."
           },
           "success_url": {
             "anyOf": [
@@ -64586,9 +64656,9 @@
           },
           "price_amount": {
             "type": "integer",
-            "minimum": 1,
+            "minimum": 0,
             "title": "Price Amount",
-            "description": "The price in cents.\nMinimum amounts per currency:\n- USD: 0.5\n- AED: 2\n- ALL: 50\n- AMD: 200\n- AOA: 500\n- ARS: 750\n- AUD: 0.7\n- AWG: 1\n- AZN: 1\n- BAM: 1\n- BBD: 2\n- BDT: 70\n- BIF: 2,000\n- BMD: 1\n- BND: 1\n- BOB: 5\n- BRL: 2.5\n- BSD: 1\n- BWP: 10\n- BZD: 2\n- CAD: 0.7\n- CDF: 2,000\n- CHF: 0.5\n- CLP: 500\n- CNY: 5\n- COP: 2,000\n- CRC: 300\n- CVE: 50\n- CZK: 15\n- DJF: 100\n- DKK: 3.2\n- DOP: 40\n- DZD: 70\n- EGP: 30\n- ETB: 80\n- EUR: 0.5\n- FJD: 2\n- FKP: 1\n- GBP: 0.4\n- GEL: 2\n- GNF: 5,000\n- GIP: 1\n- GMD: 40\n- GTQ: 5\n- GYD: 200\n- HKD: 4\n- HNL: 20\n- HTG: 70\n- HUF: 175\n- IDR: 9,000\n- ILS: 1.5\n- INR: 60\n- ISK: 70\n- JMD: 80\n- JPY: 80\n- KES: 70\n- KGS: 50\n- KHR: 3,000\n- KMF: 500\n- KRW: 800\n- KYD: 1\n- KZT: 300\n- LAK: 20,000\n- LKR: 200\n- LRD: 100\n- LSL: 10\n- MAD: 5\n- MDL: 10\n- MGA: 3,000\n- MKD: 50\n- MNT: 2,000\n- MOP: 5\n- MUR: 50\n- MVR: 8\n- MXN: 9\n- MWK: 1,000\n- MYR: 2\n- MZN: 50\n- NAD: 10\n- NGN: 700\n- NIO: 20\n- NOK: 5\n- NPR: 80\n- NZD: 0.9\n- PAB: 1\n- PEN: 2\n- PGK: 3\n- PHP: 35\n- PKR: 200\n- PLN: 2\n- PYG: 4,000\n- QAR: 2\n- RON: 2.5\n- RSD: 60\n- RWF: 1,000\n- SAR: 2\n- SBD: 4\n- SCR: 8\n- SEK: 5\n- SGD: 0.7\n- SHP: 1\n- SOS: 500\n- SRD: 20\n- SZL: 10\n- THB: 20\n- TJS: 5\n- TOP: 2\n- TRY: 30\n- TTD: 4\n- TWD: 20\n- TZS: 2,000\n- UAH: 30\n- UGX: 2,000\n- UYU: 20\n- UZS: 7,000\n- VND: 20,000\n- VUV: 100\n- WST: 2\n- XAF: 500\n- XCD: 2\n- XCG: 1\n- XOF: 500\n- XPF: 100\n- YER: 200\n- ZAR: 9\n- ZMW: 10\n- Other currencies: 50 minor units"
+            "description": "The price in cents. Set to `0` for a free price.\nMinimum amounts per currency:\n- USD: 0.5\n- AED: 2\n- ALL: 50\n- AMD: 200\n- AOA: 500\n- ARS: 750\n- AUD: 0.7\n- AWG: 1\n- AZN: 1\n- BAM: 1\n- BBD: 2\n- BDT: 70\n- BIF: 2,000\n- BMD: 1\n- BND: 1\n- BOB: 5\n- BRL: 2.5\n- BSD: 1\n- BWP: 10\n- BZD: 2\n- CAD: 0.7\n- CDF: 2,000\n- CHF: 0.5\n- CLP: 500\n- CNY: 5\n- COP: 2,000\n- CRC: 300\n- CVE: 50\n- CZK: 15\n- DJF: 100\n- DKK: 3.2\n- DOP: 40\n- DZD: 70\n- EGP: 30\n- ETB: 80\n- EUR: 0.5\n- FJD: 2\n- FKP: 1\n- GBP: 0.4\n- GEL: 2\n- GNF: 5,000\n- GIP: 1\n- GMD: 40\n- GTQ: 5\n- GYD: 200\n- HKD: 4\n- HNL: 20\n- HTG: 70\n- HUF: 175\n- IDR: 9,000\n- ILS: 1.5\n- INR: 60\n- ISK: 70\n- JMD: 80\n- JPY: 80\n- KES: 70\n- KGS: 50\n- KHR: 3,000\n- KMF: 500\n- KRW: 800\n- KYD: 1\n- KZT: 300\n- LAK: 20,000\n- LKR: 200\n- LRD: 100\n- LSL: 10\n- MAD: 5\n- MDL: 10\n- MGA: 3,000\n- MKD: 50\n- MNT: 2,000\n- MOP: 5\n- MUR: 50\n- MVR: 8\n- MXN: 9\n- MWK: 1,000\n- MYR: 2\n- MZN: 50\n- NAD: 10\n- NGN: 700\n- NIO: 20\n- NOK: 5\n- NPR: 80\n- NZD: 0.9\n- PAB: 1\n- PEN: 2\n- PGK: 3\n- PHP: 35\n- PKR: 200\n- PLN: 2\n- PYG: 4,000\n- QAR: 2\n- RON: 2.5\n- RSD: 60\n- RWF: 1,000\n- SAR: 2\n- SBD: 4\n- SCR: 8\n- SEK: 5\n- SGD: 0.7\n- SHP: 1\n- SOS: 500\n- SRD: 20\n- SZL: 10\n- THB: 20\n- TJS: 5\n- TOP: 2\n- TRY: 30\n- TTD: 4\n- TWD: 20\n- TZS: 2,000\n- UAH: 30\n- UGX: 2,000\n- UYU: 20\n- UZS: 7,000\n- VND: 20,000\n- VUV: 100\n- WST: 2\n- XAF: 500\n- XCD: 2\n- XCG: 1\n- XOF: 500\n- XPF: 100\n- YER: 200\n- ZAR: 9\n- ZMW: 10\n- Other currencies: 50 minor units"
           }
         },
         "type": "object",
