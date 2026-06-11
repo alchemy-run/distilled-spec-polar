@@ -651,9 +651,35 @@
                 }
               ],
               "description": "Filter by active or inactive subscription.",
+              "deprecated": true,
               "title": "Active"
             },
-            "description": "Filter by active or inactive subscription."
+            "description": "Filter by active or inactive subscription.",
+            "deprecated": true
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/SubscriptionStatus"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SubscriptionStatus"
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Status Filter",
+              "description": "Filter by subscription status."
+            },
+            "description": "Filter by subscription status."
           },
           {
             "name": "cancel_at_period_end",
@@ -36757,7 +36783,7 @@
                   },
                   "type": "array",
                   "minItems": 1,
-                  "description": "List of prices for the product. At most one static price (fixed, custom or free) is allowed. Any number of metered prices can be added."
+                  "description": "List of prices for the product. At most one fixed price and one seat-based price may be combined (billed as `fixed + seat_charge`), or a single custom or free price may stand alone, plus any number of metered prices. A free price cannot be combined with other prices, and a custom price cannot be combined with a fixed or seat-based price."
                 },
                 "propertyNames": {
                   "format": "uuid4"
@@ -44107,6 +44133,12 @@
             "title": "Member Model Enabled",
             "description": "Whether the member model is enabled for this organization.",
             "default": false
+          },
+          "checkout_localization_enabled": {
+            "type": "boolean",
+            "title": "Checkout Localization Enabled",
+            "description": "Whether localization is enabled for this organization.",
+            "default": false
           }
         },
         "type": "object",
@@ -44477,6 +44509,17 @@
                 "type": "null"
               }
             ]
+          },
+          "locale": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Locale"
           }
         },
         "type": "object",
@@ -63868,7 +63911,7 @@
             "type": "array",
             "minItems": 1,
             "title": "ProductPriceCreateList",
-            "description": "List of available prices for this product. It should contain at most one static price (fixed, custom or free), and any number of metered prices. Metered prices are not supported on one-time purchase products."
+            "description": "List of available prices for this product. It may combine at most one fixed price with one seat-based price (billed as `fixed + seat_charge`), or contain a single custom or free price, plus any number of metered prices. A free price cannot be combined with other prices, and a custom price cannot be combined with a fixed or seat-based price. Metered prices are not supported on one-time purchase products."
           },
           "medias": {
             "anyOf": [
@@ -64021,7 +64064,7 @@
             "type": "array",
             "minItems": 1,
             "title": "ProductPriceCreateList",
-            "description": "List of available prices for this product. It should contain at most one static price (fixed, custom or free), and any number of metered prices. Metered prices are not supported on one-time purchase products."
+            "description": "List of available prices for this product. It may combine at most one fixed price with one seat-based price (billed as `fixed + seat_charge`), or contain a single custom or free price, plus any number of metered prices. A free price cannot be combined with other prices, and a custom price cannot be combined with a fixed or seat-based price. Metered prices are not supported on one-time purchase products."
           },
           "medias": {
             "anyOf": [
