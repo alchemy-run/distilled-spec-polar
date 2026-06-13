@@ -7680,6 +7680,9 @@
                     },
                     {
                       "$ref": "#/components/schemas/OrganizationAvatarFileRead"
+                    },
+                    {
+                      "$ref": "#/components/schemas/SupportCaseAttachmentFileRead"
                     }
                   ],
                   "discriminator": {
@@ -7687,7 +7690,8 @@
                     "mapping": {
                       "downloadable": "#/components/schemas/DownloadableFileRead",
                       "product_media": "#/components/schemas/ProductMediaFileRead",
-                      "organization_avatar": "#/components/schemas/OrganizationAvatarFileRead"
+                      "organization_avatar": "#/components/schemas/OrganizationAvatarFileRead",
+                      "support_case_attachment": "#/components/schemas/SupportCaseAttachmentFileRead"
                     }
                   },
                   "title": "Response Files:Uploaded"
@@ -7802,6 +7806,9 @@
                     },
                     {
                       "$ref": "#/components/schemas/OrganizationAvatarFileRead"
+                    },
+                    {
+                      "$ref": "#/components/schemas/SupportCaseAttachmentFileRead"
                     }
                   ],
                   "discriminator": {
@@ -7809,7 +7816,8 @@
                     "mapping": {
                       "downloadable": "#/components/schemas/DownloadableFileRead",
                       "product_media": "#/components/schemas/ProductMediaFileRead",
-                      "organization_avatar": "#/components/schemas/OrganizationAvatarFileRead"
+                      "organization_avatar": "#/components/schemas/OrganizationAvatarFileRead",
+                      "support_case_attachment": "#/components/schemas/SupportCaseAttachmentFileRead"
                     }
                   },
                   "title": "Response Files:Update"
@@ -28476,17 +28484,6 @@
             "title": "Description",
             "description": "The description of the benefit. Will be displayed on products having this benefit."
           },
-          "visibility": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/BenefitVisibility"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "The visibility of the benefit in the customer portal."
-          },
           "type": {
             "type": "string",
             "const": "discord",
@@ -28886,17 +28883,6 @@
             ],
             "title": "Description",
             "description": "The description of the benefit. Will be displayed on products having this benefit."
-          },
-          "visibility": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/BenefitVisibility"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "The visibility of the benefit in the customer portal."
           },
           "type": {
             "type": "string",
@@ -29688,17 +29674,6 @@
             ],
             "title": "Description",
             "description": "The description of the benefit. Will be displayed on products having this benefit."
-          },
-          "visibility": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/BenefitVisibility"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "The visibility of the benefit in the customer portal."
           },
           "type": {
             "type": "string",
@@ -33280,17 +33255,6 @@
             ],
             "title": "Description",
             "description": "The description of the benefit. Will be displayed on products having this benefit."
-          },
-          "visibility": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/BenefitVisibility"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "The visibility of the benefit in the customer portal."
           },
           "type": {
             "type": "string",
@@ -52303,6 +52267,9 @@
           },
           {
             "$ref": "#/components/schemas/OrganizationAvatarFileCreate"
+          },
+          {
+            "$ref": "#/components/schemas/SupportCaseAttachmentFileCreate"
           }
         ],
         "discriminator": {
@@ -52310,7 +52277,8 @@
           "mapping": {
             "downloadable": "#/components/schemas/DownloadableFileCreate",
             "organization_avatar": "#/components/schemas/OrganizationAvatarFileCreate",
-            "product_media": "#/components/schemas/ProductMediaFileCreate"
+            "product_media": "#/components/schemas/ProductMediaFileCreate",
+            "support_case_attachment": "#/components/schemas/SupportCaseAttachmentFileCreate"
           }
         }
       },
@@ -52480,7 +52448,8 @@
         "enum": [
           "downloadable",
           "product_media",
-          "organization_avatar"
+          "organization_avatar",
+          "support_case_attachment"
         ],
         "title": "FileServiceTypes"
       },
@@ -54786,6 +54755,9 @@
                 },
                 {
                   "$ref": "#/components/schemas/OrganizationAvatarFileRead"
+                },
+                {
+                  "$ref": "#/components/schemas/SupportCaseAttachmentFileRead"
                 }
               ],
               "title": "FileRead",
@@ -54794,7 +54766,8 @@
                 "mapping": {
                   "downloadable": "#/components/schemas/DownloadableFileRead",
                   "organization_avatar": "#/components/schemas/OrganizationAvatarFileRead",
-                  "product_media": "#/components/schemas/ProductMediaFileRead"
+                  "product_media": "#/components/schemas/ProductMediaFileRead",
+                  "support_case_attachment": "#/components/schemas/SupportCaseAttachmentFileRead"
                 }
               }
             },
@@ -70836,6 +70809,225 @@
           "public_name"
         ],
         "title": "SubscriptionUser"
+      },
+      "SupportCaseAttachmentFileCreate": {
+        "properties": {
+          "organization_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid4",
+                "description": "The organization ID.",
+                "examples": [
+                  "1dbfc517-0bbf-4301-9ba8-555ca42b9737"
+                ],
+                "x-polar-selector-widget": {
+                  "displayProperty": "name",
+                  "resourceName": "Organization",
+                  "resourceRoot": "/v1/organizations"
+                }
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Organization Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "mime_type": {
+            "type": "string",
+            "pattern": "^(image\\/(jpeg|png|gif|webp)|video\\/(mp4|quicktime|webm)|application\\/pdf|text\\/(csv|plain)|application\\/msword|application\\/vnd\\.openxmlformats-officedocument\\.wordprocessingml\\.document|application\\/vnd\\.ms-excel|application\\/vnd\\.openxmlformats-officedocument\\.spreadsheetml\\.sheet)$",
+            "title": "Mime Type",
+            "description": "MIME type of the file. Images, videos, PDF, CSV, plain text, Word and Excel documents are supported."
+          },
+          "size": {
+            "type": "integer",
+            "maximum": 262144000,
+            "title": "Size",
+            "description": "Size of the file. A maximum of 250 MB is allowed for this type of file."
+          },
+          "checksum_sha256_base64": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Checksum Sha256 Base64"
+          },
+          "upload": {
+            "$ref": "#/components/schemas/S3FileCreateMultipart"
+          },
+          "service": {
+            "type": "string",
+            "const": "support_case_attachment",
+            "title": "Service"
+          },
+          "version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Version"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "mime_type",
+          "size",
+          "upload",
+          "service"
+        ],
+        "title": "SupportCaseAttachmentFileCreate",
+        "description": "Schema to create a file attached to a support case."
+      },
+      "SupportCaseAttachmentFileRead": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid4",
+            "title": "Id",
+            "description": "The ID of the object."
+          },
+          "organization_id": {
+            "type": "string",
+            "format": "uuid4",
+            "title": "Organization Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "path": {
+            "type": "string",
+            "title": "Path"
+          },
+          "mime_type": {
+            "type": "string",
+            "title": "Mime Type"
+          },
+          "size": {
+            "type": "integer",
+            "title": "Size"
+          },
+          "storage_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Storage Version"
+          },
+          "checksum_etag": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Checksum Etag"
+          },
+          "checksum_sha256_base64": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Checksum Sha256 Base64"
+          },
+          "checksum_sha256_hex": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Checksum Sha256 Hex"
+          },
+          "last_modified_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Modified At"
+          },
+          "version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Version"
+          },
+          "service": {
+            "type": "string",
+            "const": "support_case_attachment",
+            "title": "Service"
+          },
+          "is_uploaded": {
+            "type": "boolean",
+            "title": "Is Uploaded"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "size_readable": {
+            "type": "string",
+            "title": "Size Readable",
+            "readOnly": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "organization_id",
+          "name",
+          "path",
+          "mime_type",
+          "size",
+          "storage_version",
+          "checksum_etag",
+          "checksum_sha256_base64",
+          "checksum_sha256_hex",
+          "last_modified_at",
+          "version",
+          "service",
+          "is_uploaded",
+          "created_at",
+          "size_readable"
+        ],
+        "title": "SupportCaseAttachmentFileRead",
+        "description": "File attached to a support case (private; fetched via presigned URL)."
       },
       "SystemEvent": {
         "oneOf": [
