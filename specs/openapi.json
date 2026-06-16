@@ -45931,7 +45931,7 @@
             },
             "type": "array",
             "title": "BenefitPublic",
-            "description": "The benefits granted by the product."
+            "description": "List of benefits granted by the product."
           },
           "medias": {
             "items": {
@@ -63179,6 +63179,12 @@
             "title": "Slack Benefit Enabled",
             "description": "Enables the slack shared channel benefit",
             "default": false
+          },
+          "preview_access_enabled": {
+            "type": "boolean",
+            "title": "Preview Access Enabled",
+            "description": "If this organization has preview access to new features enabled",
+            "default": false
           }
         },
         "type": "object",
@@ -68106,6 +68112,7 @@
             "description": "Cancel an active subscription once the current period ends.\n\nOr uncancel a subscription currently set to be revoked at period end."
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "cancel_at_period_end"
@@ -69695,6 +69702,7 @@
             "description": "Cancel and revoke an active subscription immediately"
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "revoke"
@@ -70354,6 +70362,7 @@
             "description": "Set or extend the trial period of the subscription. If set to `now`, the trial will end immediately."
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "title": "SubscriptionUpdateBase"
       },
@@ -70366,6 +70375,7 @@
             "description": "Set a new date for the end of the current billing period. The subscription will renew on this date. The new date can be earlier or later than the current period end, as long as it's in the future.\n\nIt is not possible to update the current billing period on a canceled subscription."
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "current_billing_period_end"
@@ -70380,6 +70390,7 @@
             "description": "Clear the pending subscription update. Set to null to remove scheduled changes."
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "pending_update"
@@ -70564,6 +70575,7 @@
             "description": "Determine how to handle the proration billing. If not provided, will use the default organization setting."
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "seats"
