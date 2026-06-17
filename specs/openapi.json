@@ -37605,9 +37605,6 @@
                         "$ref": "#/components/schemas/ProductPriceCustomCreate"
                       },
                       {
-                        "$ref": "#/components/schemas/ProductPriceFreeCreate"
-                      },
-                      {
                         "$ref": "#/components/schemas/ProductPriceSeatBasedCreate"
                       },
                       {
@@ -37619,7 +37616,6 @@
                       "mapping": {
                         "custom": "#/components/schemas/ProductPriceCustomCreate",
                         "fixed": "#/components/schemas/ProductPriceFixedCreate",
-                        "free": "#/components/schemas/ProductPriceFreeCreate",
                         "metered_unit": "#/components/schemas/ProductPriceMeteredUnitCreate",
                         "seat_based": "#/components/schemas/ProductPriceSeatBasedCreate"
                       }
@@ -37627,7 +37623,7 @@
                   },
                   "type": "array",
                   "minItems": 1,
-                  "description": "List of prices for the product. At most one fixed price and one seat-based price may be combined (billed as `fixed + seat_charge`), or a single custom or free price may stand alone, plus any number of metered prices. A free price cannot be combined with other prices, and a custom price cannot be combined with a fixed or seat-based price."
+                  "description": "List of prices for the product. At most one fixed price and one seat-based price may be combined (billed as `fixed + seat_charge`), or a single custom price may stand alone, plus any number of metered prices. A custom price cannot be combined with a fixed or seat-based price."
                 },
                 "propertyNames": {
                   "format": "uuid4"
@@ -53017,17 +53013,13 @@
           },
           {
             "$ref": "#/components/schemas/LegacyRecurringProductPriceCustom"
-          },
-          {
-            "$ref": "#/components/schemas/LegacyRecurringProductPriceFree"
           }
         ],
         "discriminator": {
           "propertyName": "amount_type",
           "mapping": {
             "custom": "#/components/schemas/LegacyRecurringProductPriceCustom",
-            "fixed": "#/components/schemas/LegacyRecurringProductPriceFixed",
-            "free": "#/components/schemas/LegacyRecurringProductPriceFree"
+            "fixed": "#/components/schemas/LegacyRecurringProductPriceFixed"
           }
         }
       },
@@ -53264,104 +53256,6 @@
         ],
         "title": "LegacyRecurringProductPriceFixed",
         "description": "A recurring price for a product, i.e. a subscription.\n\n**Deprecated**: The recurring interval should be set on the product itself."
-      },
-      "LegacyRecurringProductPriceFree": {
-        "properties": {
-          "created_at": {
-            "type": "string",
-            "format": "date-time",
-            "title": "Created At",
-            "description": "Creation timestamp of the object."
-          },
-          "modified_at": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Modified At",
-            "description": "Last modification timestamp of the object."
-          },
-          "id": {
-            "type": "string",
-            "format": "uuid4",
-            "title": "Id",
-            "description": "The ID of the price."
-          },
-          "source": {
-            "$ref": "#/components/schemas/ProductPriceSource",
-            "description": "The source of the price . `catalog` is a predefined price, while `ad_hoc` is a price created dynamically on a Checkout session."
-          },
-          "amount_type": {
-            "type": "string",
-            "const": "free",
-            "title": "Amount Type"
-          },
-          "price_currency": {
-            "type": "string",
-            "title": "Price Currency",
-            "description": "The currency in which the customer will be charged."
-          },
-          "tax_behavior": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/TaxBehaviorOption"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "The tax behavior of the price. If null, it defaults to the organization's default tax behavior."
-          },
-          "is_archived": {
-            "type": "boolean",
-            "title": "Is Archived",
-            "description": "Whether the price is archived and no longer available."
-          },
-          "product_id": {
-            "type": "string",
-            "format": "uuid4",
-            "title": "Product Id",
-            "description": "The ID of the product owning the price."
-          },
-          "type": {
-            "type": "string",
-            "const": "recurring",
-            "title": "Type",
-            "description": "The type of the price."
-          },
-          "recurring_interval": {
-            "$ref": "#/components/schemas/SubscriptionRecurringInterval",
-            "description": "The recurring interval of the price."
-          },
-          "legacy": {
-            "type": "boolean",
-            "const": true,
-            "title": "Legacy",
-            "readOnly": true
-          }
-        },
-        "type": "object",
-        "required": [
-          "created_at",
-          "modified_at",
-          "id",
-          "source",
-          "amount_type",
-          "price_currency",
-          "tax_behavior",
-          "is_archived",
-          "product_id",
-          "type",
-          "recurring_interval",
-          "legacy"
-        ],
-        "title": "LegacyRecurringProductPriceFree",
-        "description": "A free recurring price for a product, i.e. a subscription.\n\n**Deprecated**: The recurring interval should be set on the product itself."
       },
       "LicenseKeyActivate": {
         "properties": {
@@ -63168,12 +63062,6 @@
             "description": "If this organization can create and finalize draft orders via the API (off-session charges against a saved payment method).",
             "default": false
           },
-          "billing_enabled": {
-            "type": "boolean",
-            "title": "Billing Enabled",
-            "description": "If this organization has billing enabled",
-            "default": false
-          },
           "slack_benefit_enabled": {
             "type": "boolean",
             "title": "Slack Benefit Enabled",
@@ -64973,9 +64861,6 @@
                   "$ref": "#/components/schemas/ProductPriceCustomCreate"
                 },
                 {
-                  "$ref": "#/components/schemas/ProductPriceFreeCreate"
-                },
-                {
                   "$ref": "#/components/schemas/ProductPriceSeatBasedCreate"
                 },
                 {
@@ -64987,7 +64872,6 @@
                 "mapping": {
                   "custom": "#/components/schemas/ProductPriceCustomCreate",
                   "fixed": "#/components/schemas/ProductPriceFixedCreate",
-                  "free": "#/components/schemas/ProductPriceFreeCreate",
                   "metered_unit": "#/components/schemas/ProductPriceMeteredUnitCreate",
                   "seat_based": "#/components/schemas/ProductPriceSeatBasedCreate"
                 }
@@ -65126,9 +65010,6 @@
                   "$ref": "#/components/schemas/ProductPriceCustomCreate"
                 },
                 {
-                  "$ref": "#/components/schemas/ProductPriceFreeCreate"
-                },
-                {
                   "$ref": "#/components/schemas/ProductPriceSeatBasedCreate"
                 },
                 {
@@ -65140,7 +65021,6 @@
                 "mapping": {
                   "custom": "#/components/schemas/ProductPriceCustomCreate",
                   "fixed": "#/components/schemas/ProductPriceFixedCreate",
-                  "free": "#/components/schemas/ProductPriceFreeCreate",
                   "metered_unit": "#/components/schemas/ProductPriceMeteredUnitCreate",
                   "seat_based": "#/components/schemas/ProductPriceSeatBasedCreate"
                 }
@@ -65477,9 +65357,6 @@
             "$ref": "#/components/schemas/ProductPriceCustom"
           },
           {
-            "$ref": "#/components/schemas/ProductPriceFree"
-          },
-          {
             "$ref": "#/components/schemas/ProductPriceSeatBased"
           },
           {
@@ -65491,7 +65368,6 @@
           "mapping": {
             "custom": "#/components/schemas/ProductPriceCustom",
             "fixed": "#/components/schemas/ProductPriceFixed",
-            "free": "#/components/schemas/ProductPriceFree",
             "metered_unit": "#/components/schemas/ProductPriceMeteredUnit",
             "seat_based": "#/components/schemas/ProductPriceSeatBased"
           }
@@ -65796,116 +65672,6 @@
         ],
         "title": "ProductPriceFixedCreate",
         "description": "Schema to create a fixed price."
-      },
-      "ProductPriceFree": {
-        "properties": {
-          "created_at": {
-            "type": "string",
-            "format": "date-time",
-            "title": "Created At",
-            "description": "Creation timestamp of the object."
-          },
-          "modified_at": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Modified At",
-            "description": "Last modification timestamp of the object."
-          },
-          "id": {
-            "type": "string",
-            "format": "uuid4",
-            "title": "Id",
-            "description": "The ID of the price."
-          },
-          "source": {
-            "$ref": "#/components/schemas/ProductPriceSource",
-            "description": "The source of the price . `catalog` is a predefined price, while `ad_hoc` is a price created dynamically on a Checkout session."
-          },
-          "amount_type": {
-            "type": "string",
-            "const": "free",
-            "title": "Amount Type"
-          },
-          "price_currency": {
-            "type": "string",
-            "title": "Price Currency",
-            "description": "The currency in which the customer will be charged."
-          },
-          "tax_behavior": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/TaxBehaviorOption"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "The tax behavior of the price. If null, it defaults to the organization's default tax behavior."
-          },
-          "is_archived": {
-            "type": "boolean",
-            "title": "Is Archived",
-            "description": "Whether the price is archived and no longer available."
-          },
-          "product_id": {
-            "type": "string",
-            "format": "uuid4",
-            "title": "Product Id",
-            "description": "The ID of the product owning the price."
-          }
-        },
-        "type": "object",
-        "required": [
-          "created_at",
-          "modified_at",
-          "id",
-          "source",
-          "amount_type",
-          "price_currency",
-          "tax_behavior",
-          "is_archived",
-          "product_id"
-        ],
-        "title": "ProductPriceFree",
-        "description": "A free price for a product."
-      },
-      "ProductPriceFreeCreate": {
-        "properties": {
-          "amount_type": {
-            "type": "string",
-            "const": "free",
-            "title": "Amount Type"
-          },
-          "price_currency": {
-            "$ref": "#/components/schemas/PresentmentCurrency",
-            "description": "The currency in which the customer will be charged.",
-            "default": "usd"
-          },
-          "tax_behavior": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/TaxBehaviorOption"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "The tax behavior of the price. If not set, it will default to the organization's default tax behavior."
-          }
-        },
-        "type": "object",
-        "required": [
-          "amount_type"
-        ],
-        "title": "ProductPriceFreeCreate",
-        "description": "Schema to create a free price."
       },
       "ProductPriceMeter": {
         "properties": {
@@ -66537,9 +66303,6 @@
                           "$ref": "#/components/schemas/ProductPriceCustomCreate"
                         },
                         {
-                          "$ref": "#/components/schemas/ProductPriceFreeCreate"
-                        },
-                        {
                           "$ref": "#/components/schemas/ProductPriceSeatBasedCreate"
                         },
                         {
@@ -66551,7 +66314,6 @@
                         "mapping": {
                           "custom": "#/components/schemas/ProductPriceCustomCreate",
                           "fixed": "#/components/schemas/ProductPriceFixedCreate",
-                          "free": "#/components/schemas/ProductPriceFreeCreate",
                           "metered_unit": "#/components/schemas/ProductPriceMeteredUnitCreate",
                           "seat_based": "#/components/schemas/ProductPriceSeatBasedCreate"
                         }
@@ -71268,7 +71030,8 @@
           "uy_ruc",
           "ve_rif",
           "vn_tin",
-          "za_vat"
+          "za_vat",
+          "mu_tan"
         ],
         "title": "TaxIDFormat",
         "description": "List of supported tax ID formats.\n\nRef: https://docs.stripe.com/billing/customer/tax-ids#supported-tax-id"
