@@ -4,7 +4,7 @@
     "title": "Polar API",
     "summary": "Polar HTTP and Webhooks API",
     "description": "Read the docs at https://polar.sh/docs/api-reference",
-    "version": "0.1.0"
+    "version": "2026-04"
   },
   "servers": [
     {
@@ -14336,7 +14336,7 @@
           "mcp"
         ],
         "summary": "Update Member",
-        "description": "Update a member.\n\nOnly name and role can be updated.\nThe authenticated user or organization must have access to the member's organization.\n\n**Scopes**: `members:write`",
+        "description": "Update a member.\n\nOnly name, email and role can be updated.\nThe authenticated user or organization must have access to the member's organization.\n\n**Scopes**: `members:write`",
         "operationId": "members:update_member",
         "security": [
           {
@@ -55210,6 +55210,18 @@
             ],
             "title": "Name"
           },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "email"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          },
           "role": {
             "anyOf": [
               {
@@ -58634,7 +58646,7 @@
           },
           "default_sub_type": {
             "$ref": "#/components/schemas/SubType",
-            "default": "organization"
+            "default": "user"
           }
         },
         "type": "object",
@@ -58755,7 +58767,7 @@
           },
           "default_sub_type": {
             "$ref": "#/components/schemas/SubType",
-            "default": "organization"
+            "default": "user"
           },
           "client_id": {
             "type": "string",
@@ -61052,10 +61064,6 @@
             "$ref": "#/components/schemas/OrganizationSubscriptionSettings",
             "description": "Settings related to subscriptions management"
           },
-          "notification_settings": {
-            "$ref": "#/components/schemas/OrganizationNotificationSettings",
-            "description": "Settings related to notifications"
-          },
           "customer_email_settings": {
             "$ref": "#/components/schemas/OrganizationCustomerEmailSettings",
             "description": "Settings related to customer emails"
@@ -61628,7 +61636,6 @@
           "default_tax_behavior",
           "feature_settings",
           "subscription_settings",
-          "notification_settings",
           "customer_email_settings",
           "customer_portal_settings",
           "account_id",
@@ -62751,16 +62758,6 @@
               }
             ]
           },
-          "notification_settings": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/OrganizationNotificationSettings"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
           "customer_email_settings": {
             "anyOf": [
               {
@@ -63877,16 +63874,6 @@
             "anyOf": [
               {
                 "$ref": "#/components/schemas/OrganizationSubscriptionSettings"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "notification_settings": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/OrganizationNotificationSettings"
               },
               {
                 "type": "null"
