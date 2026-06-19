@@ -163,9 +163,6 @@
             "numPages": "$.pagination.max_page"
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "organizations",
         "x-speakeasy-name-override": "list_organizations"
       },
@@ -224,9 +221,6 @@
         "x-polar-allowed-subjects": [
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "organizations",
         "x-speakeasy-name-override": "create"
       }
@@ -317,9 +311,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "organizations",
         "x-speakeasy-name-override": "get"
       },
@@ -425,9 +416,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "organizations",
         "x-speakeasy-name-override": "update"
       }
@@ -436,8 +424,7 @@
       "get": {
         "tags": [
           "subscriptions",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "List Subscriptions",
         "description": "List subscriptions.\n\n**Scopes**: `subscriptions:read` `subscriptions:write`",
@@ -867,21 +854,13 @@
             "numPages": "$.pagination.max_page"
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "read",
-            "subscriptions"
-          ]
-        },
         "x-speakeasy-group": "subscriptions",
         "x-speakeasy-name-override": "list"
       },
       "post": {
         "tags": [
           "subscriptions",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Create Subscription",
         "description": "Create a subscription programmatically.\n\nThis endpoint only allows to create subscription on free products.\nFor paid products, use the checkout flow.\n\nNo initial order will be created and no confirmation email will be sent.\n\n**Scopes**: `subscriptions:write`",
@@ -947,13 +926,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "write",
-            "subscriptions"
-          ]
-        },
         "x-speakeasy-group": "subscriptions",
         "x-speakeasy-name-override": "create"
       }
@@ -962,8 +934,7 @@
       "get": {
         "tags": [
           "subscriptions",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Export Subscriptions",
         "description": "Export subscriptions as a CSV file.\n\n**Scopes**: `subscriptions:read` `subscriptions:write`",
@@ -1063,13 +1034,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "read",
-            "subscriptions"
-          ]
-        },
         "x-speakeasy-group": "subscriptions",
         "x-speakeasy-name-override": "export"
       }
@@ -1078,8 +1042,7 @@
       "get": {
         "tags": [
           "subscriptions",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Get Subscription",
         "description": "Get a subscription by ID.\n\n**Scopes**: `subscriptions:read` `subscriptions:write`",
@@ -1154,21 +1117,13 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "read",
-            "subscriptions"
-          ]
-        },
         "x-speakeasy-group": "subscriptions",
         "x-speakeasy-name-override": "get"
       },
       "patch": {
         "tags": [
           "subscriptions",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Update Subscription",
         "description": "Update a subscription.\n\n**Scopes**: `subscriptions:write`",
@@ -1280,21 +1235,13 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "write",
-            "subscriptions"
-          ]
-        },
         "x-speakeasy-group": "subscriptions",
         "x-speakeasy-name-override": "update"
       },
       "delete": {
         "tags": [
           "subscriptions",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Revoke Subscription",
         "description": "Revoke a subscription, i.e cancel immediately.\n\n**Scopes**: `subscriptions:write`",
@@ -1386,13 +1333,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "write",
-            "subscriptions"
-          ]
-        },
         "x-speakeasy-group": "subscriptions",
         "x-speakeasy-name-override": "revoke"
       }
@@ -1449,9 +1389,6 @@
           "Anonymous",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "oauth2.clients",
         "x-speakeasy-name-override": "create"
       }
@@ -1509,9 +1446,6 @@
           "Anonymous",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "oauth2.clients",
         "x-speakeasy-name-override": "get"
       },
@@ -1577,9 +1511,6 @@
           "Anonymous",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "oauth2.clients",
         "x-speakeasy-name-override": "update"
       },
@@ -1635,9 +1566,6 @@
           "Anonymous",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "oauth2.clients",
         "x-speakeasy-name-override": "delete"
       }
@@ -1689,9 +1617,6 @@
           "Anonymous",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "oauth2",
         "x-speakeasy-name-override": "authorize"
       }
@@ -1737,9 +1662,6 @@
             }
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "oauth2",
         "x-speakeasy-name-override": "token"
       }
@@ -1775,9 +1697,6 @@
             }
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "oauth2",
         "x-speakeasy-name-override": "revoke"
       }
@@ -1812,9 +1731,6 @@
               }
             }
           }
-        },
-        "x-speakeasy-mcp": {
-          "disabled": true
         },
         "x-speakeasy-group": "oauth2",
         "x-speakeasy-name-override": "introspect"
@@ -1855,9 +1771,6 @@
           }
         ],
         "x-speakeasy-name-override": "userinfo",
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "oauth2"
       }
     },
@@ -2159,9 +2072,6 @@
             "numPages": "$.pagination.max_page"
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "benefits",
         "x-speakeasy-name-override": "list"
       },
@@ -2227,9 +2137,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "benefits",
         "x-speakeasy-name-override": "create"
       }
@@ -2318,9 +2225,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "benefits",
         "x-speakeasy-name-override": "get"
       },
@@ -2440,9 +2344,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "benefits",
         "x-speakeasy-name-override": "update"
       },
@@ -2528,9 +2429,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "benefits",
         "x-speakeasy-name-override": "delete"
       }
@@ -2734,9 +2632,6 @@
             "results": "$.items",
             "numPages": "$.pagination.max_page"
           }
-        },
-        "x-speakeasy-mcp": {
-          "disabled": true
         },
         "x-speakeasy-group": "benefits",
         "x-speakeasy-name-override": "grants"
@@ -2984,9 +2879,6 @@
             "numPages": "$.pagination.max_page"
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "benefit-grants",
         "x-speakeasy-name-override": "list"
       }
@@ -3137,9 +3029,6 @@
             "numPages": "$.pagination.max_page"
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "webhooks",
         "x-speakeasy-name-override": "list_webhook_endpoints"
       },
@@ -3204,9 +3093,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "webhooks",
         "x-speakeasy-name-override": "create_webhook_endpoint"
       }
@@ -3290,9 +3176,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "webhooks",
         "x-speakeasy-name-override": "get_webhook_endpoint"
       },
@@ -3381,9 +3264,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "webhooks",
         "x-speakeasy-name-override": "update_webhook_endpoint"
       },
@@ -3455,9 +3335,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "webhooks",
         "x-speakeasy-name-override": "delete_webhook_endpoint"
       }
@@ -3538,9 +3415,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "webhooks",
         "x-speakeasy-name-override": "reset_webhook_endpoint_secret"
       }
@@ -3795,9 +3669,6 @@
             "numPages": "$.pagination.max_page"
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "webhooks",
         "x-speakeasy-name-override": "list_webhook_deliveries"
       }
@@ -3876,9 +3747,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "webhooks",
         "x-speakeasy-name-override": "redeliver_webhook_event"
       }
@@ -3887,8 +3755,7 @@
       "get": {
         "tags": [
           "products",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "List Products",
         "description": "List products.\n\n**Scopes**: `products:read` `products:write`",
@@ -4215,21 +4082,13 @@
             "numPages": "$.pagination.max_page"
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "read",
-            "products"
-          ]
-        },
         "x-speakeasy-group": "products",
         "x-speakeasy-name-override": "list"
       },
       "post": {
         "tags": [
           "products",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Create Product",
         "description": "Create a product.\n\n**Scopes**: `products:write`",
@@ -4287,13 +4146,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "write",
-            "products"
-          ]
-        },
         "x-speakeasy-group": "products",
         "x-speakeasy-name-override": "create"
       }
@@ -4302,8 +4154,7 @@
       "get": {
         "tags": [
           "products",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Get Product",
         "description": "Get a product by ID.\n\n**Scopes**: `products:read` `products:write`",
@@ -4382,21 +4233,13 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "read",
-            "products"
-          ]
-        },
         "x-speakeasy-group": "products",
         "x-speakeasy-name-override": "get"
       },
       "patch": {
         "tags": [
           "products",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Update Product",
         "description": "Update a product.\n\n**Scopes**: `products:write`",
@@ -4492,13 +4335,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "write",
-            "products"
-          ]
-        },
         "x-speakeasy-group": "products",
         "x-speakeasy-name-override": "update"
       }
@@ -4507,8 +4343,7 @@
       "post": {
         "tags": [
           "products",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Update Product Benefits",
         "description": "Update benefits granted by a product.\n\n**Scopes**: `products:write`",
@@ -4604,13 +4439,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "write",
-            "products"
-          ]
-        },
         "x-speakeasy-group": "products",
         "x-speakeasy-name-override": "update_benefits"
       }
@@ -4619,8 +4447,7 @@
       "get": {
         "tags": [
           "orders",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "List Orders",
         "description": "List orders.\n\n**Scopes**: `orders:read`",
@@ -4989,21 +4816,13 @@
             "numPages": "$.pagination.max_page"
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "read",
-            "orders"
-          ]
-        },
         "x-speakeasy-group": "orders",
         "x-speakeasy-name-override": "list"
       },
       "post": {
         "tags": [
           "orders",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Create Order",
         "description": "Create a draft order for an off-session charge against a saved payment\nmethod. The order is created with `status=draft` and no invoice number;\ncall `POST /v1/orders/{id}/finalize` to attempt the charge.\n\nThe organization must have the `off_session_charges_enabled` feature flag.\n\n**Scopes**: `orders:write`",
@@ -5061,13 +4880,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "write",
-            "orders"
-          ]
-        },
         "x-speakeasy-group": "orders",
         "x-speakeasy-name-override": "create"
       }
@@ -5076,8 +4888,7 @@
       "get": {
         "tags": [
           "orders",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Export Orders",
         "description": "Export orders as a CSV file.\n\n**Scopes**: `orders:read`",
@@ -5212,13 +5023,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "read",
-            "orders"
-          ]
-        },
         "x-speakeasy-group": "orders",
         "x-speakeasy-name-override": "export"
       }
@@ -5227,8 +5031,7 @@
       "get": {
         "tags": [
           "orders",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Get Order",
         "description": "Get an order by ID.\n\n**Scopes**: `orders:read`",
@@ -5300,21 +5103,13 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "read",
-            "orders"
-          ]
-        },
         "x-speakeasy-group": "orders",
         "x-speakeasy-name-override": "get"
       },
       "patch": {
         "tags": [
           "orders",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Update Order",
         "description": "Update an order.\n\n**Scopes**: `orders:write`",
@@ -5396,13 +5191,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "write",
-            "orders"
-          ]
-        },
         "x-speakeasy-group": "orders",
         "x-speakeasy-name-override": "update"
       }
@@ -5411,8 +5199,7 @@
       "post": {
         "tags": [
           "orders",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Finalize Order",
         "description": "Finalize a draft order and synchronously attempt an off-session charge.\n\nOn success, the order transitions to `paid` and benefit grants fire\nbefore the response returns. On failure (decline, missing payment method,\nSCA challenge), the order stays in `draft` and a 4xx error is returned.\n\nThe request fails with 412 if the order is not in `draft` status.\n\n**Scopes**: `orders:write`",
@@ -5540,13 +5327,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "write",
-            "orders"
-          ]
-        },
         "x-speakeasy-group": "orders",
         "x-speakeasy-name-override": "finalize"
       }
@@ -5555,8 +5335,7 @@
       "post": {
         "tags": [
           "orders",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Generate Order Invoice",
         "description": "Trigger generation of an order's invoice.\n\n**Scopes**: `orders:read`",
@@ -5624,21 +5403,13 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "write",
-            "orders"
-          ]
-        },
         "x-speakeasy-group": "orders",
         "x-speakeasy-name-override": "generate_invoice"
       },
       "get": {
         "tags": [
           "orders",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Get Order Invoice",
         "description": "Get an order's invoice data.\n\n**Scopes**: `orders:read`",
@@ -5710,13 +5481,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "read",
-            "orders"
-          ]
-        },
         "x-speakeasy-group": "orders",
         "x-speakeasy-name-override": "invoice"
       }
@@ -5725,8 +5489,7 @@
       "get": {
         "tags": [
           "orders",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Get Order Receipt",
         "description": "Get a presigned URL to download an order's receipt PDF.\n\n**Scopes**: `orders:read`",
@@ -5801,13 +5564,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "read",
-            "orders"
-          ]
-        },
         "x-speakeasy-group": "orders",
         "x-speakeasy-name-override": "receipt"
       }
@@ -6138,9 +5894,6 @@
             "numPages": "$.pagination.max_page"
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "refunds",
         "x-speakeasy-name-override": "list"
       },
@@ -6215,9 +5968,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "refunds",
         "x-speakeasy-name-override": "create"
       }
@@ -6441,9 +6191,6 @@
             "numPages": "$.pagination.max_page"
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "disputes",
         "x-speakeasy-name-override": "list"
       }
@@ -6524,9 +6271,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "disputes",
         "x-speakeasy-name-override": "get"
       }
@@ -6835,9 +6579,6 @@
             "numPages": "$.pagination.max_page"
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "checkouts",
         "x-speakeasy-name-override": "list"
       },
@@ -6902,9 +6643,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "checkouts",
         "x-speakeasy-name-override": "create"
       }
@@ -6988,9 +6726,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "checkouts",
         "x-speakeasy-name-override": "get"
       },
@@ -7089,9 +6824,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "checkouts",
         "x-speakeasy-name-override": "update"
       }
@@ -7159,9 +6891,6 @@
               }
             }
           }
-        },
-        "x-speakeasy-mcp": {
-          "disabled": true
         },
         "x-speakeasy-group": "checkouts",
         "x-speakeasy-name-override": "client_get"
@@ -7248,9 +6977,6 @@
               }
             }
           }
-        },
-        "x-speakeasy-mcp": {
-          "disabled": true
         },
         "x-speakeasy-group": "checkouts",
         "x-speakeasy-name-override": "client_update"
@@ -7362,9 +7088,6 @@
           "Anonymous",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "checkouts",
         "x-speakeasy-name-override": "client_confirm"
       }
@@ -7541,9 +7264,6 @@
             "numPages": "$.pagination.max_page"
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "files",
         "x-speakeasy-name-override": "list"
       },
@@ -7608,9 +7328,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "files",
         "x-speakeasy-name-override": "create"
       }
@@ -7734,9 +7451,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "files",
         "x-speakeasy-name-override": "uploaded"
       }
@@ -7860,9 +7574,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "files",
         "x-speakeasy-name-override": "update"
       },
@@ -7942,9 +7653,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "files",
         "x-speakeasy-name-override": "delete"
       }
@@ -7953,8 +7661,7 @@
       "get": {
         "tags": [
           "metrics",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Get Metrics",
         "description": "Get metrics about your orders and subscriptions.\n\nCurrency values are output in cents.\n\n**Scopes**: `metrics:read`",
@@ -8807,13 +8514,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "read",
-            "metrics"
-          ]
-        },
         "x-speakeasy-group": "metrics",
         "x-speakeasy-name-override": "get"
       }
@@ -8822,8 +8522,7 @@
       "get": {
         "tags": [
           "metrics",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Export Metrics",
         "description": "Export metrics as a CSV file.\n\n**Scopes**: `metrics:read`",
@@ -9679,13 +9378,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "read",
-            "metrics"
-          ]
-        },
         "x-speakeasy-group": "metrics",
         "x-speakeasy-name-override": "export"
       }
@@ -9694,8 +9386,7 @@
       "get": {
         "tags": [
           "metrics",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Get Metrics Limits",
         "description": "Get the interval limits for the metrics endpoint.\n\n**Scopes**: `metrics:read`",
@@ -9733,13 +9424,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "read",
-            "metrics"
-          ]
-        },
         "x-speakeasy-group": "metrics",
         "x-speakeasy-name-override": "limits"
       }
@@ -9748,8 +9432,7 @@
       "get": {
         "tags": [
           "metrics",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "List Metric Dashboards",
         "description": "List user-defined metric dashboards.\n\n**Scopes**: `metrics:read`",
@@ -9847,21 +9530,13 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "read",
-            "metrics"
-          ]
-        },
         "x-speakeasy-group": "metrics",
         "x-speakeasy-name-override": "list_dashboards"
       },
       "post": {
         "tags": [
           "metrics",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Create Metric Dashboard",
         "description": "Create a user-defined metric dashboard.\n\n**Scopes**: `metrics:write`",
@@ -9919,13 +9594,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "write",
-            "metrics"
-          ]
-        },
         "x-speakeasy-group": "metrics",
         "x-speakeasy-name-override": "create_dashboard"
       }
@@ -9934,8 +9602,7 @@
       "get": {
         "tags": [
           "metrics",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Get Metric Dashboard",
         "description": "Get a user-defined metric dashboard by ID.\n\n**Scopes**: `metrics:read`",
@@ -9997,21 +9664,13 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "read",
-            "metrics"
-          ]
-        },
         "x-speakeasy-group": "metrics",
         "x-speakeasy-name-override": "get_dashboard"
       },
       "patch": {
         "tags": [
           "metrics",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Update Metric Dashboard",
         "description": "Update a user-defined metric dashboard.\n\n**Scopes**: `metrics:write`",
@@ -10083,21 +9742,13 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "write",
-            "metrics"
-          ]
-        },
         "x-speakeasy-group": "metrics",
         "x-speakeasy-name-override": "update_dashboard"
       },
       "delete": {
         "tags": [
           "metrics",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Delete Metric Dashboard",
         "description": "Delete a user-defined metric dashboard.\n\n**Scopes**: `metrics:write`",
@@ -10152,13 +9803,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "write",
-            "metrics"
-          ]
-        },
         "x-speakeasy-group": "metrics",
         "x-speakeasy-name-override": "delete_dashboard"
       }
@@ -10391,9 +10035,6 @@
             "numPages": "$.pagination.max_page"
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "license_keys",
         "x-speakeasy-name-override": "list"
       }
@@ -10485,9 +10126,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "license_keys",
         "x-speakeasy-name-override": "get"
       },
@@ -10584,9 +10222,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "license_keys",
         "x-speakeasy-name-override": "update"
       }
@@ -10688,9 +10323,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "license_keys",
         "x-speakeasy-name-override": "get_activation"
       }
@@ -10767,9 +10399,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "license_keys",
         "x-speakeasy-name-override": "validate"
       }
@@ -10856,9 +10485,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "license_keys",
         "x-speakeasy-name-override": "activate"
       }
@@ -10928,9 +10554,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "license_keys",
         "x-speakeasy-name-override": "deactivate"
       }
@@ -11143,9 +10766,6 @@
             "numPages": "$.pagination.max_page"
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "checkout-links",
         "x-speakeasy-name-override": "list"
       },
@@ -11210,9 +10830,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "checkout-links",
         "x-speakeasy-name-override": "create"
       }
@@ -11296,9 +10913,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "checkout-links",
         "x-speakeasy-name-override": "get"
       },
@@ -11387,9 +11001,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "checkout-links",
         "x-speakeasy-name-override": "update"
       },
@@ -11461,9 +11072,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "checkout-links",
         "x-speakeasy-name-override": "delete"
       }
@@ -11680,9 +11288,6 @@
             "numPages": "$.pagination.max_page"
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "custom-fields",
         "x-speakeasy-name-override": "list"
       },
@@ -11748,9 +11353,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "custom-fields",
         "x-speakeasy-name-override": "create"
       }
@@ -11835,9 +11437,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "custom-fields",
         "x-speakeasy-name-override": "get"
       },
@@ -11927,9 +11526,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "custom-fields",
         "x-speakeasy-name-override": "update"
       },
@@ -12001,9 +11597,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "custom-fields",
         "x-speakeasy-name-override": "delete"
       }
@@ -12196,9 +11789,6 @@
             "numPages": "$.pagination.max_page"
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "discounts",
         "x-speakeasy-name-override": "list"
       },
@@ -12264,9 +11854,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "discounts",
         "x-speakeasy-name-override": "create"
       }
@@ -12351,9 +11938,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "discounts",
         "x-speakeasy-name-override": "get"
       },
@@ -12443,9 +12027,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "discounts",
         "x-speakeasy-name-override": "update"
       },
@@ -12517,9 +12098,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "discounts",
         "x-speakeasy-name-override": "delete"
       }
@@ -12528,8 +12106,7 @@
       "get": {
         "tags": [
           "customers",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "List Customers",
         "description": "List customers.\n\n**Scopes**: `customers:read` `customers:write`",
@@ -12759,21 +12336,13 @@
             "numPages": "$.pagination.max_page"
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "read",
-            "customers"
-          ]
-        },
         "x-speakeasy-group": "customers",
         "x-speakeasy-name-override": "list"
       },
       "post": {
         "tags": [
           "customers",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Create Customer",
         "description": "Create a customer.\n\n**Scopes**: `customers:write`",
@@ -12831,13 +12400,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "write",
-            "customers"
-          ]
-        },
         "x-speakeasy-group": "customers",
         "x-speakeasy-name-override": "create"
       }
@@ -12846,8 +12408,7 @@
       "get": {
         "tags": [
           "customers",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Export Customers",
         "description": "Export customers as a CSV file.\n\n**Scopes**: `customers:read` `customers:write`",
@@ -12947,13 +12508,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "read",
-            "customers"
-          ]
-        },
         "x-speakeasy-group": "customers",
         "x-speakeasy-name-override": "export"
       }
@@ -12962,8 +12516,7 @@
       "get": {
         "tags": [
           "customers",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Get Customer",
         "description": "Get a customer by ID.\n\n**Scopes**: `customers:read` `customers:write`",
@@ -13038,21 +12591,13 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "read",
-            "customers"
-          ]
-        },
         "x-speakeasy-group": "customers",
         "x-speakeasy-name-override": "get"
       },
       "patch": {
         "tags": [
           "customers",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Update Customer",
         "description": "Update a customer.\n\n**Scopes**: `customers:write`",
@@ -13134,21 +12679,13 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "write",
-            "customers"
-          ]
-        },
         "x-speakeasy-group": "customers",
         "x-speakeasy-name-override": "update"
       },
       "delete": {
         "tags": [
           "customers",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Delete Customer",
         "description": "Delete a customer.\n\nThis action cannot be undone and will immediately:\n- Cancel any active subscriptions for the customer\n- Revoke all their benefits\n- Clear any `external_id`\n\nUse it only in the context of deleting a user within your\nown service. Otherwise, use more granular API endpoints to cancel\na specific subscription or revoke certain benefits.\n\nNote: The customers information will nonetheless be retained for historic\norders and subscriptions.\n\nSet `anonymize=true` to also anonymize PII for GDPR compliance.\n\n**Scopes**: `customers:write`",
@@ -13225,13 +12762,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "write",
-            "customers"
-          ]
-        },
         "x-speakeasy-group": "customers",
         "x-speakeasy-name-override": "delete"
       }
@@ -13240,8 +12770,7 @@
       "get": {
         "tags": [
           "customers",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Get Customer by External ID",
         "description": "Get a customer by external ID.\n\n**Scopes**: `customers:read` `customers:write`",
@@ -13315,21 +12844,13 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "read",
-            "customers"
-          ]
-        },
         "x-speakeasy-group": "customers",
         "x-speakeasy-name-override": "get_external"
       },
       "patch": {
         "tags": [
           "customers",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Update Customer by External ID",
         "description": "Update a customer by external ID.\n\n**Scopes**: `customers:write`",
@@ -13410,21 +12931,13 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "write",
-            "customers"
-          ]
-        },
         "x-speakeasy-group": "customers",
         "x-speakeasy-name-override": "update_external"
       },
       "delete": {
         "tags": [
           "customers",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Delete Customer by External ID",
         "description": "Delete a customer by external ID.\n\nImmediately cancels any active subscriptions and revokes any active benefits.\n\nSet `anonymize=true` to also anonymize PII for GDPR compliance.\n\n**Scopes**: `customers:write`",
@@ -13500,13 +13013,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "write",
-            "customers"
-          ]
-        },
         "x-speakeasy-group": "customers",
         "x-speakeasy-name-override": "delete_external"
       }
@@ -13515,8 +13021,7 @@
       "get": {
         "tags": [
           "customers",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Get Customer State",
         "description": "Get a customer state by ID.\n\nThe customer state includes information about\nthe customer's active subscriptions and benefits.\n\nIt's the ideal endpoint to use when you need to get a full overview\nof a customer's status.\n\n**Scopes**: `customers:read` `customers:write`",
@@ -13591,13 +13096,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "read",
-            "customers"
-          ]
-        },
         "x-speakeasy-group": "customers",
         "x-speakeasy-name-override": "get_state"
       }
@@ -13606,8 +13104,7 @@
       "get": {
         "tags": [
           "customers",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Get Customer State by External ID",
         "description": "Get a customer state by external ID.\n\nThe customer state includes information about\nthe customer's active subscriptions and benefits.\n\nIt's the ideal endpoint to use when you need to get a full overview\nof a customer's status.\n\n**Scopes**: `customers:read` `customers:write`",
@@ -13681,13 +13178,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "read",
-            "customers"
-          ]
-        },
         "x-speakeasy-group": "customers",
         "x-speakeasy-name-override": "get_state_external"
       }
@@ -13696,8 +13186,7 @@
       "get": {
         "tags": [
           "customers",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "List Customer Payment Methods",
         "description": "Get saved payment methods of a customer.\n\n**Scopes**: `customers:read` `customers:write`",
@@ -13817,13 +13306,6 @@
             "numPages": "$.pagination.max_page"
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "read",
-            "customers"
-          ]
-        },
         "x-speakeasy-group": "customers",
         "x-speakeasy-name-override": "list_payment_methods"
       }
@@ -13832,8 +13314,7 @@
       "get": {
         "tags": [
           "customers",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "List Customer Payment Methods by External ID",
         "description": "Get saved payment methods of a customer by external ID.\n\n**Scopes**: `customers:read` `customers:write`",
@@ -13952,13 +13433,6 @@
             "numPages": "$.pagination.max_page"
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "read",
-            "customers"
-          ]
-        },
         "x-speakeasy-group": "customers",
         "x-speakeasy-name-override": "list_payment_methods_external"
       }
@@ -13967,8 +13441,7 @@
       "get": {
         "tags": [
           "members",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "List Members",
         "description": "List members with optional customer ID filter.\n\n**Scopes**: `members:read` `members:write`",
@@ -14145,21 +13618,13 @@
             "numPages": "$.pagination.max_page"
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "read",
-            "members"
-          ]
-        },
         "x-speakeasy-group": "members",
         "x-speakeasy-name-override": "list_members"
       },
       "post": {
         "tags": [
           "members",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Create Member",
         "description": "Create a new member for a customer.\n\nOnly B2B customers with the member management feature enabled can add members.\nThe authenticated user or organization must have access to the customer's organization.\n\n**Scopes**: `members:write`",
@@ -14230,13 +13695,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "write",
-            "members"
-          ]
-        },
         "x-speakeasy-group": "members",
         "x-speakeasy-name-override": "create_member"
       }
@@ -14245,8 +13703,7 @@
       "get": {
         "tags": [
           "members",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Get Member",
         "description": "Get a member by ID.\n\nThe authenticated user or organization must have access to the member's organization.\n\n**Scopes**: `members:read` `members:write`",
@@ -14319,21 +13776,13 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "read",
-            "members"
-          ]
-        },
         "x-speakeasy-group": "members",
         "x-speakeasy-name-override": "get_member"
       },
       "patch": {
         "tags": [
           "members",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Update Member",
         "description": "Update a member.\n\nOnly name, email and role can be updated.\nThe authenticated user or organization must have access to the member's organization.\n\n**Scopes**: `members:write`",
@@ -14413,21 +13862,13 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "write",
-            "members"
-          ]
-        },
         "x-speakeasy-group": "members",
         "x-speakeasy-name-override": "update_member"
       },
       "delete": {
         "tags": [
           "members",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Delete Member",
         "description": "Delete a member.\n\nThe authenticated user or organization must have access to the member's organization.\n\n**Scopes**: `members:write`",
@@ -14490,13 +13931,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "write",
-            "members"
-          ]
-        },
         "x-speakeasy-group": "members",
         "x-speakeasy-name-override": "delete_member"
       }
@@ -14505,8 +13939,7 @@
       "get": {
         "tags": [
           "members",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Get Member by External ID",
         "description": "Get a member by external ID. One of customer_id or external_customer_id must be specified.\n\n**Scopes**: `members:read` `members:write`",
@@ -14617,21 +14050,13 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "read",
-            "members"
-          ]
-        },
         "x-speakeasy-group": "members",
         "x-speakeasy-name-override": "get_member_by_external_id"
       },
       "patch": {
         "tags": [
           "members",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Update Member by External ID",
         "description": "Update a member by external ID. One of customer_id or external_customer_id must be specified.\n\n**Scopes**: `members:write`",
@@ -14749,21 +14174,13 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "write",
-            "members"
-          ]
-        },
         "x-speakeasy-group": "members",
         "x-speakeasy-name-override": "update_member_by_external_id"
       },
       "delete": {
         "tags": [
           "members",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Delete Member by External ID",
         "description": "Delete a member by external ID. One of customer_id or external_customer_id must be specified.\n\n**Scopes**: `members:write`",
@@ -14864,13 +14281,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "write",
-            "members"
-          ]
-        },
         "x-speakeasy-group": "members",
         "x-speakeasy-name-override": "delete_member_by_external_id"
       }
@@ -15173,9 +14583,6 @@
             "numPages": "$.pagination.max_page"
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "customer_portal.benefit-grants",
         "x-speakeasy-name-override": "list"
       }
@@ -15255,9 +14662,6 @@
           "Customer",
           "Member"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "customer_portal.benefit-grants",
         "x-speakeasy-name-override": "get"
       },
@@ -15354,9 +14758,6 @@
           "Customer",
           "Member"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "customer_portal.benefit-grants",
         "x-speakeasy-name-override": "update"
       }
@@ -15401,9 +14802,6 @@
           "Customer",
           "Member"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "customer_portal.customers",
         "x-speakeasy-name-override": "get"
       },
@@ -15460,9 +14858,6 @@
             ]
           }
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "customer_portal.customers",
         "x-speakeasy-name-override": "update"
       }
@@ -15560,9 +14955,6 @@
             "numPages": "$.pagination.max_page"
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "customer_portal.customers",
         "x-speakeasy-name-override": "list_payment_methods"
       },
@@ -15629,9 +15021,6 @@
               }
             }
           }
-        },
-        "x-speakeasy-mcp": {
-          "disabled": true
         },
         "x-speakeasy-group": "customer_portal.customers",
         "x-speakeasy-name-override": "add_payment_method"
@@ -15702,9 +15091,6 @@
             ]
           }
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "customer_portal.customers",
         "x-speakeasy-name-override": "confirm_payment_method"
       }
@@ -15778,9 +15164,6 @@
             }
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "customer_portal.customers",
         "x-speakeasy-name-override": "delete_payment_method"
       }
@@ -15837,9 +15220,6 @@
             ]
           }
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "customer_portal.customers",
         "x-speakeasy-name-override": "request_email_update"
       }
@@ -15883,9 +15263,6 @@
             }
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "customer_portal.customers",
         "x-speakeasy-name-override": "check_email_update"
       }
@@ -15927,9 +15304,6 @@
           "422": {
             "description": "Email address is already in use."
           }
-        },
-        "x-speakeasy-mcp": {
-          "disabled": true
         },
         "x-speakeasy-group": "customer_portal.customers",
         "x-speakeasy-name-override": "verify_email_update"
@@ -16102,9 +15476,6 @@
             "numPages": "$.pagination.max_page"
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "customer_portal.customer_meters",
         "x-speakeasy-name-override": "list"
       }
@@ -16183,9 +15554,6 @@
           "Customer",
           "Member"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "customer_portal.customer_meters",
         "x-speakeasy-name-override": "get"
       }
@@ -16289,9 +15657,6 @@
           "Customer",
           "Member"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "customer_portal.seats",
         "x-speakeasy-name-override": "list_seats"
       },
@@ -16358,9 +15723,6 @@
               }
             }
           }
-        },
-        "x-speakeasy-mcp": {
-          "disabled": true
         },
         "x-speakeasy-group": "customer_portal.seats",
         "x-speakeasy-name-override": "assign_seat"
@@ -16429,9 +15791,6 @@
               }
             }
           }
-        },
-        "x-speakeasy-mcp": {
-          "disabled": true
         },
         "x-speakeasy-group": "customer_portal.seats",
         "x-speakeasy-name-override": "revoke_seat"
@@ -16503,9 +15862,6 @@
               }
             }
           }
-        },
-        "x-speakeasy-mcp": {
-          "disabled": true
         },
         "x-speakeasy-group": "customer_portal.seats",
         "x-speakeasy-name-override": "resend_invitation"
@@ -16611,9 +15967,6 @@
             "numPages": "$.pagination.max_page"
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "customer_portal.seats",
         "x-speakeasy-name-override": "list_claimed_subscriptions"
       }
@@ -16658,9 +16011,6 @@
           "Customer",
           "Member"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "customer_portal.customer-session",
         "x-speakeasy-name-override": "introspect"
       }
@@ -16705,9 +16055,6 @@
           "Customer",
           "Member"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "customer_portal.customer-session",
         "x-speakeasy-name-override": "get_authenticated_user"
       }
@@ -16846,9 +16193,6 @@
             "results": "$.items",
             "numPages": "$.pagination.max_page"
           }
-        },
-        "x-speakeasy-mcp": {
-          "disabled": true
         },
         "x-speakeasy-group": "customer_portal.downloadables",
         "x-speakeasy-name-override": "list"
@@ -16996,9 +16340,6 @@
             "numPages": "$.pagination.max_page"
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "customer_portal.license_keys",
         "x-speakeasy-name-override": "list"
       }
@@ -17075,9 +16416,6 @@
           "Customer",
           "Member"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "customer_portal.license_keys",
         "x-speakeasy-name-override": "get"
       }
@@ -17133,9 +16471,6 @@
               }
             }
           }
-        },
-        "x-speakeasy-mcp": {
-          "disabled": true
         },
         "x-speakeasy-group": "customer_portal.license_keys",
         "x-speakeasy-name-override": "validate"
@@ -17203,9 +16538,6 @@
             }
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "customer_portal.license_keys",
         "x-speakeasy-name-override": "activate"
       }
@@ -17254,9 +16586,6 @@
               }
             }
           }
-        },
-        "x-speakeasy-mcp": {
-          "disabled": true
         },
         "x-speakeasy-group": "customer_portal.license_keys",
         "x-speakeasy-name-override": "deactivate"
@@ -17354,9 +16683,6 @@
             "numPages": "$.pagination.max_page"
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "customer_portal.members",
         "x-speakeasy-name-override": "list_members"
       },
@@ -17417,9 +16743,6 @@
             }
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "customer_portal.members",
         "x-speakeasy-name-override": "add_member"
       }
@@ -17432,7 +16755,7 @@
           "public"
         ],
         "summary": "Update Member",
-        "description": "Update a member's role.\n\nOnly available to owners and billing managers of team customers.\n\nRules:\n- Cannot modify your own role (to prevent self-demotion)\n- Customer must have exactly one owner at all times",
+        "description": "Update a member's name or role.\n\nOnly available to owners and billing managers of team customers.\n\nRules:\n- Cannot modify your own role (to prevent self-demotion)\n- Customer must have exactly one owner at all times",
         "operationId": "customer_portal:members:update_member",
         "security": [
           {
@@ -17497,9 +16820,6 @@
             }
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "customer_portal.members",
         "x-speakeasy-name-override": "update_member"
       },
@@ -17557,9 +16877,6 @@
               }
             }
           }
-        },
-        "x-speakeasy-mcp": {
-          "disabled": true
         },
         "x-speakeasy-group": "customer_portal.members",
         "x-speakeasy-name-override": "remove_member"
@@ -17790,9 +17107,6 @@
             "numPages": "$.pagination.max_page"
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "customer_portal.orders",
         "x-speakeasy-name-override": "list"
       }
@@ -17866,9 +17180,6 @@
               }
             }
           }
-        },
-        "x-speakeasy-mcp": {
-          "disabled": true
         },
         "x-speakeasy-group": "customer_portal.orders",
         "x-speakeasy-name-override": "get"
@@ -17950,9 +17261,6 @@
             }
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "customer_portal.orders",
         "x-speakeasy-name-override": "update"
       }
@@ -18022,9 +17330,6 @@
               }
             }
           }
-        },
-        "x-speakeasy-mcp": {
-          "disabled": true
         },
         "x-speakeasy-group": "customer_portal.orders",
         "x-speakeasy-name-override": "generate_invoice"
@@ -18097,9 +17402,6 @@
               }
             }
           }
-        },
-        "x-speakeasy-mcp": {
-          "disabled": true
         },
         "x-speakeasy-group": "customer_portal.orders",
         "x-speakeasy-name-override": "invoice"
@@ -18178,9 +17480,6 @@
             }
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "customer_portal.orders",
         "x-speakeasy-name-override": "receipt"
       }
@@ -18254,9 +17553,6 @@
               }
             }
           }
-        },
-        "x-speakeasy-mcp": {
-          "disabled": true
         },
         "x-speakeasy-group": "customer_portal.orders",
         "x-speakeasy-name-override": "get_payment_status"
@@ -18360,9 +17656,6 @@
             }
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "customer_portal.orders",
         "x-speakeasy-name-override": "confirm_retry_payment"
       }
@@ -18421,9 +17714,6 @@
               }
             }
           }
-        },
-        "x-speakeasy-mcp": {
-          "disabled": true
         },
         "x-speakeasy-group": "customer_portal.organizations",
         "x-speakeasy-name-override": "get"
@@ -18624,9 +17914,6 @@
             "numPages": "$.pagination.max_page"
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "customer_portal.subscriptions",
         "x-speakeasy-name-override": "list"
       }
@@ -18705,9 +17992,6 @@
           "Customer",
           "Member"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "customer_portal.subscriptions",
         "x-speakeasy-name-override": "get"
       },
@@ -18808,9 +18092,6 @@
             }
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "customer_portal.subscriptions",
         "x-speakeasy-name-override": "update"
       },
@@ -18890,9 +18171,6 @@
               }
             }
           }
-        },
-        "x-speakeasy-mcp": {
-          "disabled": true
         },
         "x-speakeasy-group": "customer_portal.subscriptions",
         "x-speakeasy-name-override": "cancel"
@@ -19015,9 +18293,6 @@
             "numPages": "$.pagination.max_page"
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "customer_portal.wallets",
         "x-speakeasy-name-override": "list"
       }
@@ -19091,9 +18366,6 @@
               }
             }
           }
-        },
-        "x-speakeasy-mcp": {
-          "disabled": true
         },
         "x-speakeasy-group": "customer_portal.wallets",
         "x-speakeasy-name-override": "get"
@@ -19173,9 +18445,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "customer-seats",
         "x-speakeasy-name-override": "assign_seat"
       },
@@ -19275,9 +18544,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "customer-seats",
         "x-speakeasy-name-override": "list_seats"
       }
@@ -19355,9 +18621,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "customer-seats",
         "x-speakeasy-name-override": "revoke_seat"
       }
@@ -19438,9 +18701,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "customer-seats",
         "x-speakeasy-name-override": "resend_invitation"
       }
@@ -19495,9 +18755,6 @@
             }
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "customer-seats",
         "x-speakeasy-name-override": "get_claim_info"
       }
@@ -19547,9 +18804,6 @@
               }
             }
           }
-        },
-        "x-speakeasy-mcp": {
-          "disabled": true
         },
         "x-speakeasy-group": "customer-seats",
         "x-speakeasy-name-override": "claim_seat"
@@ -19625,9 +18879,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "customer-sessions",
         "x-speakeasy-name-override": "create"
       }
@@ -20035,9 +19286,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "events",
         "x-speakeasy-name-override": "list"
       }
@@ -20306,9 +19554,6 @@
             "numPages": "$.pagination.max_page"
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "events",
         "x-speakeasy-name-override": "list_names"
       }
@@ -20392,9 +19637,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "events",
         "x-speakeasy-name-override": "get"
       }
@@ -20461,9 +19703,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "events",
         "x-speakeasy-name-override": "ingest"
       }
@@ -20757,9 +19996,6 @@
             "numPages": "$.pagination.max_page"
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "event-types",
         "x-speakeasy-name-override": "list"
       }
@@ -20843,9 +20079,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "event-types",
         "x-speakeasy-name-override": "update"
       }
@@ -21066,9 +20299,6 @@
             "numPages": "$.pagination.max_page"
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "meters",
         "x-speakeasy-name-override": "list"
       },
@@ -21133,9 +20363,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "meters",
         "x-speakeasy-name-override": "create"
       }
@@ -21219,9 +20446,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "meters",
         "x-speakeasy-name-override": "get"
       },
@@ -21310,9 +20534,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "meters",
         "x-speakeasy-name-override": "update"
       }
@@ -22124,9 +21345,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": true
-        },
         "x-speakeasy-group": "meters",
         "x-speakeasy-name-override": "quantities"
       }
@@ -22135,8 +21353,7 @@
       "get": {
         "tags": [
           "organization_access_tokens",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "List",
         "description": "List organization access tokens.\n\n**Scopes**: `organization_access_tokens:read` `organization_access_tokens:write`",
@@ -22302,21 +21519,13 @@
             "numPages": "$.pagination.max_page"
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "read",
-            "organization_access_tokens"
-          ]
-        },
         "x-speakeasy-group": "organization_access_tokens",
         "x-speakeasy-name-override": "list"
       },
       "post": {
         "tags": [
           "organization_access_tokens",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Create",
         "description": "**Scopes**: `organization_access_tokens:write`",
@@ -22374,13 +21583,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "write",
-            "organization_access_tokens"
-          ]
-        },
         "x-speakeasy-group": "organization_access_tokens",
         "x-speakeasy-name-override": "create"
       }
@@ -22389,8 +21591,7 @@
       "patch": {
         "tags": [
           "organization_access_tokens",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Update",
         "description": "**Scopes**: `organization_access_tokens:write`",
@@ -22460,21 +21661,13 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "write",
-            "organization_access_tokens"
-          ]
-        },
         "x-speakeasy-group": "organization_access_tokens",
         "x-speakeasy-name-override": "update"
       },
       "delete": {
         "tags": [
           "organization_access_tokens",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Delete",
         "description": "**Scopes**: `organization_access_tokens:write`",
@@ -22527,13 +21720,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "write",
-            "organization_access_tokens"
-          ]
-        },
         "x-speakeasy-group": "organization_access_tokens",
         "x-speakeasy-name-override": "delete"
       }
@@ -22542,8 +21728,7 @@
       "get": {
         "tags": [
           "customer_meters",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "List Customer Meters",
         "description": "List customer meters.\n\n**Scopes**: `customer_meters:read`",
@@ -22786,13 +21971,6 @@
             "numPages": "$.pagination.max_page"
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "read",
-            "customer_meters"
-          ]
-        },
         "x-speakeasy-group": "customer_meters",
         "x-speakeasy-name-override": "list"
       }
@@ -22801,8 +21979,7 @@
       "get": {
         "tags": [
           "customer_meters",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Get Customer Meter",
         "description": "Get a customer meter by ID.\n\n**Scopes**: `customer_meters:read`",
@@ -22874,13 +22051,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "read",
-            "customer_meters"
-          ]
-        },
         "x-speakeasy-group": "customer_meters",
         "x-speakeasy-name-override": "get"
       }
@@ -22889,8 +22059,7 @@
       "get": {
         "tags": [
           "payments",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "List Payments",
         "description": "List payments.\n\n**Scopes**: `payments:read`",
@@ -23205,13 +22374,6 @@
             "numPages": "$.pagination.max_page"
           }
         },
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "read",
-            "payments"
-          ]
-        },
         "x-speakeasy-group": "payments",
         "x-speakeasy-name-override": "list"
       }
@@ -23220,8 +22382,7 @@
       "get": {
         "tags": [
           "payments",
-          "public",
-          "mcp"
+          "public"
         ],
         "summary": "Get Payment",
         "description": "Get a payment by ID.\n\n**Scopes**: `payments:read`",
@@ -23293,13 +22454,6 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-mcp": {
-          "disabled": false,
-          "scopes": [
-            "read",
-            "payments"
-          ]
-        },
         "x-speakeasy-group": "payments",
         "x-speakeasy-name-override": "get"
       }
@@ -43777,9 +42931,15 @@
             "description": "Timestamp for when the customer was soft deleted."
           },
           "avatar_url": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Avatar Url",
-            "readOnly": true,
             "examples": [
               "https://www.gravatar.com/avatar/xxx?d=404"
             ]
@@ -45720,6 +44880,23 @@
       },
       "CustomerPortalMemberUpdate": {
         "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 256,
+                "description": "The name of the member.",
+                "examples": [
+                  "Jane Doe"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name",
+            "description": "The new name for the member."
+          },
           "role": {
             "anyOf": [
               {
@@ -45738,7 +44915,7 @@
         },
         "type": "object",
         "title": "CustomerPortalMemberUpdate",
-        "description": "Schema for updating a member's role in the customer portal."
+        "description": "Schema for updating a member in the customer portal."
       },
       "CustomerPortalOAuthAccount": {
         "properties": {
@@ -46803,6 +45980,20 @@
             "title": "Deleted At",
             "description": "Timestamp for when the customer was soft deleted."
           },
+          "avatar_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Avatar Url",
+            "examples": [
+              "https://www.gravatar.com/avatar/xxx?d=404"
+            ]
+          },
           "active_subscriptions": {
             "items": {
               "$ref": "#/components/schemas/CustomerStateSubscription"
@@ -46826,14 +46017,6 @@
             "type": "array",
             "title": "Active Meters",
             "description": "The customer's active meters."
-          },
-          "avatar_url": {
-            "type": "string",
-            "title": "Avatar Url",
-            "readOnly": true,
-            "examples": [
-              "https://www.gravatar.com/avatar/xxx?d=404"
-            ]
           }
         },
         "type": "object",
@@ -46851,10 +46034,10 @@
           "tax_id",
           "organization_id",
           "deleted_at",
+          "avatar_url",
           "active_subscriptions",
           "granted_benefits",
-          "active_meters",
-          "avatar_url"
+          "active_meters"
         ],
         "title": "CustomerStateIndividual",
         "description": "A customer along with additional state information:\n\n* Active subscriptions\n* Granted benefits\n* Active meters"
@@ -47459,6 +46642,20 @@
             "title": "Deleted At",
             "description": "Timestamp for when the customer was soft deleted."
           },
+          "avatar_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Avatar Url",
+            "examples": [
+              "https://www.gravatar.com/avatar/xxx?d=404"
+            ]
+          },
           "active_subscriptions": {
             "items": {
               "$ref": "#/components/schemas/CustomerStateSubscription"
@@ -47482,14 +46679,6 @@
             "type": "array",
             "title": "Active Meters",
             "description": "The customer's active meters."
-          },
-          "avatar_url": {
-            "type": "string",
-            "title": "Avatar Url",
-            "readOnly": true,
-            "examples": [
-              "https://www.gravatar.com/avatar/xxx?d=404"
-            ]
           }
         },
         "type": "object",
@@ -47506,10 +46695,10 @@
           "tax_id",
           "organization_id",
           "deleted_at",
+          "avatar_url",
           "active_subscriptions",
           "granted_benefits",
-          "active_meters",
-          "avatar_url"
+          "active_meters"
         ],
         "title": "CustomerStateTeam",
         "description": "A team customer along with additional state information:\n\n* Active subscriptions\n* Granted benefits\n* Active meters"
@@ -48423,9 +47612,15 @@
             "description": "Timestamp for when the customer was soft deleted."
           },
           "avatar_url": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Avatar Url",
-            "readOnly": true,
             "examples": [
               "https://www.gravatar.com/avatar/xxx?d=404"
             ]
@@ -53667,9 +52862,15 @@
             "description": "Timestamp for when the customer was soft deleted."
           },
           "avatar_url": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Avatar Url",
-            "readOnly": true,
             "examples": [
               "https://www.gravatar.com/avatar/xxx?d=404"
             ]
@@ -59668,9 +58869,15 @@
             "description": "Timestamp for when the customer was soft deleted."
           },
           "avatar_url": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Avatar Url",
-            "readOnly": true,
             "examples": [
               "https://www.gravatar.com/avatar/xxx?d=404"
             ]
@@ -63160,12 +62367,17 @@
           "new_subscription": {
             "type": "boolean",
             "title": "New Subscription"
+          },
+          "chargeback_prevention": {
+            "type": "boolean",
+            "title": "Chargeback Prevention"
           }
         },
         "type": "object",
         "required": [
           "new_order",
-          "new_subscription"
+          "new_subscription",
+          "chargeback_prevention"
         ],
         "title": "OrganizationNotificationSettings"
       },
@@ -68565,9 +67777,15 @@
             "description": "Timestamp for when the customer was soft deleted."
           },
           "avatar_url": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Avatar Url",
-            "readOnly": true,
             "examples": [
               "https://www.gravatar.com/avatar/xxx?d=404"
             ]
@@ -73293,10 +72511,6 @@
     {
       "name": "private",
       "description": "Endpoints that should appear in the schema only in development to generate our internal JS SDK."
-    },
-    {
-      "name": "mcp",
-      "description": "Endpoints enabled in the MCP server."
     }
   ]
 }
