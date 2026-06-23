@@ -21349,381 +21349,6 @@
         "x-speakeasy-name-override": "quantities"
       }
     },
-    "/v1/organization-access-tokens/": {
-      "get": {
-        "tags": [
-          "organization_access_tokens",
-          "public"
-        ],
-        "summary": "List",
-        "description": "List organization access tokens.\n\n**Scopes**: `organization_access_tokens:read` `organization_access_tokens:write`",
-        "operationId": "organization_access_tokens:list",
-        "security": [
-          {
-            "oidc": [
-              "organization_access_tokens:read",
-              "organization_access_tokens:write"
-            ]
-          },
-          {
-            "pat": [
-              "organization_access_tokens:read",
-              "organization_access_tokens:write"
-            ]
-          },
-          {
-            "oat": [
-              "organization_access_tokens:read",
-              "organization_access_tokens:write"
-            ]
-          }
-        ],
-        "parameters": [
-          {
-            "name": "organization_id",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string",
-                  "format": "uuid4",
-                  "examples": [
-                    "1dbfc517-0bbf-4301-9ba8-555ca42b9737"
-                  ],
-                  "description": "The organization ID.",
-                  "x-polar-selector-widget": {
-                    "resourceRoot": "/v1/organizations",
-                    "resourceName": "Organization",
-                    "displayProperty": "name"
-                  }
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string",
-                    "format": "uuid4",
-                    "examples": [
-                      "1dbfc517-0bbf-4301-9ba8-555ca42b9737"
-                    ],
-                    "description": "The organization ID.",
-                    "x-polar-selector-widget": {
-                      "resourceRoot": "/v1/organizations",
-                      "resourceName": "Organization",
-                      "displayProperty": "name"
-                    }
-                  }
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "OrganizationID Filter",
-              "description": "Filter by organization ID."
-            },
-            "description": "Filter by organization ID."
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "exclusiveMinimum": 0,
-              "description": "Page number, defaults to 1.",
-              "default": 1,
-              "title": "Page"
-            },
-            "description": "Page number, defaults to 1."
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "exclusiveMinimum": 0,
-              "description": "Size of a page, defaults to 10. Maximum is 100.",
-              "default": 10,
-              "title": "Limit"
-            },
-            "description": "Size of a page, defaults to 10. Maximum is 100."
-          },
-          {
-            "name": "sorting",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/OrganizationAccessTokenSortProperty"
-                  }
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "description": "Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order.",
-              "default": [
-                "created_at"
-              ],
-              "title": "Sorting"
-            },
-            "description": "Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order."
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ListResource_OrganizationAccessToken_"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        },
-        "x-polar-allowed-subjects": [
-          "Organization",
-          "User"
-        ],
-        "x-speakeasy-pagination": {
-          "type": "offsetLimit",
-          "inputs": [
-            {
-              "name": "page",
-              "in": "parameters",
-              "type": "page"
-            },
-            {
-              "name": "limit",
-              "in": "parameters",
-              "type": "limit"
-            }
-          ],
-          "outputs": {
-            "results": "$.items",
-            "numPages": "$.pagination.max_page"
-          }
-        },
-        "x-speakeasy-group": "organization_access_tokens",
-        "x-speakeasy-name-override": "list"
-      },
-      "post": {
-        "tags": [
-          "organization_access_tokens",
-          "public"
-        ],
-        "summary": "Create",
-        "description": "**Scopes**: `organization_access_tokens:write`",
-        "operationId": "organization_access_tokens:create",
-        "security": [
-          {
-            "oidc": [
-              "organization_access_tokens:write"
-            ]
-          },
-          {
-            "pat": [
-              "organization_access_tokens:write"
-            ]
-          },
-          {
-            "oat": [
-              "organization_access_tokens:write"
-            ]
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/OrganizationAccessTokenCreate"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OrganizationAccessTokenCreateResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        },
-        "x-polar-allowed-subjects": [
-          "Organization",
-          "User"
-        ],
-        "x-speakeasy-group": "organization_access_tokens",
-        "x-speakeasy-name-override": "create"
-      }
-    },
-    "/v1/organization-access-tokens/{id}": {
-      "patch": {
-        "tags": [
-          "organization_access_tokens",
-          "public"
-        ],
-        "summary": "Update",
-        "description": "**Scopes**: `organization_access_tokens:write`",
-        "operationId": "organization_access_tokens:update",
-        "security": [
-          {
-            "oidc": [
-              "organization_access_tokens:write"
-            ]
-          },
-          {
-            "pat": [
-              "organization_access_tokens:write"
-            ]
-          },
-          {
-            "oat": [
-              "organization_access_tokens:write"
-            ]
-          }
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid4",
-              "title": "Id"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/OrganizationAccessTokenUpdate"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OrganizationAccessToken"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        },
-        "x-polar-allowed-subjects": [
-          "Organization",
-          "User"
-        ],
-        "x-speakeasy-group": "organization_access_tokens",
-        "x-speakeasy-name-override": "update"
-      },
-      "delete": {
-        "tags": [
-          "organization_access_tokens",
-          "public"
-        ],
-        "summary": "Delete",
-        "description": "**Scopes**: `organization_access_tokens:write`",
-        "operationId": "organization_access_tokens:delete",
-        "security": [
-          {
-            "oidc": [
-              "organization_access_tokens:write"
-            ]
-          },
-          {
-            "pat": [
-              "organization_access_tokens:write"
-            ]
-          },
-          {
-            "oat": [
-              "organization_access_tokens:write"
-            ]
-          }
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid4",
-              "title": "Id"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Successful Response"
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        },
-        "x-polar-allowed-subjects": [
-          "Organization",
-          "User"
-        ],
-        "x-speakeasy-group": "organization_access_tokens",
-        "x-speakeasy-name-override": "delete"
-      }
-    },
     "/v1/customer-meters/": {
       "get": {
         "tags": [
@@ -25333,74 +24958,6 @@
           "avatar_url"
         ],
         "title": "AuthorizeUser"
-      },
-      "AvailableScope": {
-        "type": "string",
-        "enum": [
-          "openid",
-          "profile",
-          "email",
-          "user:read",
-          "user:write",
-          "organizations:read",
-          "organizations:write",
-          "custom_fields:read",
-          "custom_fields:write",
-          "discounts:read",
-          "discounts:write",
-          "checkout_links:read",
-          "checkout_links:write",
-          "checkouts:read",
-          "checkouts:write",
-          "transactions:read",
-          "transactions:write",
-          "payouts:read",
-          "payouts:write",
-          "products:read",
-          "products:write",
-          "benefits:read",
-          "benefits:write",
-          "events:read",
-          "events:write",
-          "meters:read",
-          "meters:write",
-          "files:read",
-          "files:write",
-          "subscriptions:read",
-          "subscriptions:write",
-          "customers:read",
-          "customers:write",
-          "members:read",
-          "members:write",
-          "wallets:read",
-          "wallets:write",
-          "disputes:read",
-          "customer_meters:read",
-          "customer_sessions:write",
-          "member_sessions:write",
-          "customer_seats:read",
-          "customer_seats:write",
-          "orders:read",
-          "orders:write",
-          "refunds:read",
-          "refunds:write",
-          "payments:read",
-          "metrics:read",
-          "metrics:write",
-          "webhooks:read",
-          "webhooks:write",
-          "license_keys:read",
-          "license_keys:write",
-          "customer_portal:read",
-          "customer_portal:write",
-          "notifications:read",
-          "notifications:write",
-          "notification_recipients:read",
-          "notification_recipients:write",
-          "organization_access_tokens:read",
-          "organization_access_tokens:write"
-        ],
-        "title": "AvailableScope"
       },
       "BalanceCreditOrderEvent": {
         "properties": {
@@ -31547,6 +31104,7 @@
           "units": {
             "type": "integer",
             "maximum": 2147483647,
+            "minimum": -2147483648,
             "exclusiveMinimum": 0,
             "title": "Units"
           },
@@ -48533,6 +48091,7 @@
             "anyOf": [
               {
                 "type": "integer",
+                "maximum": 2147483647,
                 "minimum": 1
               },
               {
@@ -49417,6 +48976,7 @@
             "anyOf": [
               {
                 "type": "integer",
+                "maximum": 2147483647,
                 "minimum": 1
               },
               {
@@ -50328,6 +49888,7 @@
             "anyOf": [
               {
                 "type": "integer",
+                "maximum": 2147483647,
                 "minimum": 1
               },
               {
@@ -53080,6 +52641,8 @@
           },
           "usage": {
             "type": "integer",
+            "maximum": 2147483647,
+            "minimum": -2147483648,
             "title": "Usage",
             "default": 0
           },
@@ -53088,6 +52651,7 @@
               {
                 "type": "integer",
                 "maximum": 1000,
+                "minimum": -2147483648,
                 "exclusiveMinimum": 0
               },
               {
@@ -53100,6 +52664,8 @@
             "anyOf": [
               {
                 "type": "integer",
+                "maximum": 2147483647,
+                "minimum": -2147483648,
                 "exclusiveMinimum": 0
               },
               {
@@ -53959,26 +53525,6 @@
           "pagination"
         ],
         "title": "ListResource[Order]"
-      },
-      "ListResource_OrganizationAccessToken_": {
-        "properties": {
-          "items": {
-            "items": {
-              "$ref": "#/components/schemas/OrganizationAccessToken"
-            },
-            "type": "array",
-            "title": "Items"
-          },
-          "pagination": {
-            "$ref": "#/components/schemas/Pagination"
-          }
-        },
-        "type": "object",
-        "required": [
-          "items",
-          "pagination"
-        ],
-        "title": "ListResource[OrganizationAccessToken]"
       },
       "ListResource_Organization_": {
         "properties": {
@@ -57786,7 +57332,7 @@
           "scope": {
             "type": "string",
             "title": "Scope",
-            "default": "openid profile email user:read user:write organizations:read organizations:write custom_fields:read custom_fields:write discounts:read discounts:write checkout_links:read checkout_links:write checkouts:read checkouts:write transactions:read transactions:write payouts:read payouts:write products:read products:write benefits:read benefits:write events:read events:write meters:read meters:write files:read files:write subscriptions:read subscriptions:write customers:read customers:write members:read members:write wallets:read wallets:write disputes:read customer_meters:read customer_sessions:write member_sessions:write customer_seats:read customer_seats:write orders:read orders:write refunds:read refunds:write payments:read metrics:read metrics:write webhooks:read webhooks:write license_keys:read license_keys:write customer_portal:read customer_portal:write notifications:read notifications:write notification_recipients:read notification_recipients:write organization_access_tokens:read organization_access_tokens:write"
+            "default": "openid profile email user:read user:write organizations:read organizations:write custom_fields:read custom_fields:write discounts:read discounts:write checkout_links:read checkout_links:write checkouts:read checkouts:write transactions:read transactions:write payouts:read payouts:write products:read products:write benefits:read benefits:write events:read events:write meters:read meters:write files:read files:write subscriptions:read subscriptions:write customers:read customers:write members:read members:write wallets:read wallets:write disputes:read customer_meters:read customer_sessions:write member_sessions:write customer_seats:read customer_seats:write orders:read orders:write refunds:read refunds:write payments:read metrics:read metrics:write webhooks:read webhooks:write license_keys:read license_keys:write customer_portal:read customer_portal:write notifications:read notifications:write notification_recipients:read notification_recipients:write"
           },
           "client_name": {
             "type": "string",
@@ -57907,7 +57453,7 @@
           "scope": {
             "type": "string",
             "title": "Scope",
-            "default": "openid profile email user:read user:write organizations:read organizations:write custom_fields:read custom_fields:write discounts:read discounts:write checkout_links:read checkout_links:write checkouts:read checkouts:write transactions:read transactions:write payouts:read payouts:write products:read products:write benefits:read benefits:write events:read events:write meters:read meters:write files:read files:write subscriptions:read subscriptions:write customers:read customers:write members:read members:write wallets:read wallets:write disputes:read customer_meters:read customer_sessions:write member_sessions:write customer_seats:read customer_seats:write orders:read orders:write refunds:read refunds:write payments:read metrics:read metrics:write webhooks:read webhooks:write license_keys:read license_keys:write customer_portal:read customer_portal:write notifications:read notifications:write notification_recipients:read notification_recipients:write organization_access_tokens:read organization_access_tokens:write"
+            "default": "openid profile email user:read user:write organizations:read organizations:write custom_fields:read custom_fields:write discounts:read discounts:write checkout_links:read checkout_links:write checkouts:read checkouts:write transactions:read transactions:write payouts:read payouts:write products:read products:write benefits:read benefits:write events:read events:write meters:read meters:write files:read files:write subscriptions:read subscriptions:write customers:read customers:write members:read members:write wallets:read wallets:write disputes:read customer_meters:read customer_sessions:write member_sessions:write customer_seats:read customer_seats:write orders:read orders:write refunds:read refunds:write payments:read metrics:read metrics:write webhooks:read webhooks:write license_keys:read license_keys:write customer_portal:read customer_portal:write notifications:read notifications:write notification_recipients:read notification_recipients:write"
           },
           "client_name": {
             "type": "string",
@@ -60851,202 +60397,6 @@
         ],
         "title": "Organization"
       },
-      "OrganizationAccessToken": {
-        "properties": {
-          "created_at": {
-            "type": "string",
-            "format": "date-time",
-            "title": "Created At",
-            "description": "Creation timestamp of the object."
-          },
-          "modified_at": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Modified At",
-            "description": "Last modification timestamp of the object."
-          },
-          "id": {
-            "type": "string",
-            "format": "uuid4",
-            "title": "Id"
-          },
-          "scopes": {
-            "items": {
-              "$ref": "#/components/schemas/Scope"
-            },
-            "type": "array",
-            "title": "Scopes"
-          },
-          "expires_at": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Expires At"
-          },
-          "comment": {
-            "type": "string",
-            "title": "Comment"
-          },
-          "last_used_at": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Last Used At"
-          },
-          "organization_id": {
-            "type": "string",
-            "format": "uuid4",
-            "title": "Organization Id",
-            "description": "The organization ID.",
-            "examples": [
-              "1dbfc517-0bbf-4301-9ba8-555ca42b9737"
-            ],
-            "x-polar-selector-widget": {
-              "displayProperty": "name",
-              "resourceName": "Organization",
-              "resourceRoot": "/v1/organizations"
-            }
-          }
-        },
-        "type": "object",
-        "required": [
-          "created_at",
-          "modified_at",
-          "id",
-          "scopes",
-          "expires_at",
-          "comment",
-          "last_used_at",
-          "organization_id"
-        ],
-        "title": "OrganizationAccessToken"
-      },
-      "OrganizationAccessTokenCreate": {
-        "properties": {
-          "organization_id": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "uuid4"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Organization Id"
-          },
-          "comment": {
-            "type": "string",
-            "title": "Comment"
-          },
-          "expires_in": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "duration"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Expires In"
-          },
-          "scopes": {
-            "items": {
-              "$ref": "#/components/schemas/AvailableScope"
-            },
-            "type": "array",
-            "title": "Scopes"
-          }
-        },
-        "type": "object",
-        "required": [
-          "comment",
-          "scopes"
-        ],
-        "title": "OrganizationAccessTokenCreate"
-      },
-      "OrganizationAccessTokenCreateResponse": {
-        "properties": {
-          "organization_access_token": {
-            "$ref": "#/components/schemas/OrganizationAccessToken"
-          },
-          "token": {
-            "type": "string",
-            "title": "Token"
-          }
-        },
-        "type": "object",
-        "required": [
-          "organization_access_token",
-          "token"
-        ],
-        "title": "OrganizationAccessTokenCreateResponse"
-      },
-      "OrganizationAccessTokenSortProperty": {
-        "type": "string",
-        "enum": [
-          "created_at",
-          "-created_at",
-          "comment",
-          "-comment",
-          "last_used_at",
-          "-last_used_at",
-          "organization_id",
-          "-organization_id"
-        ],
-        "title": "OrganizationAccessTokenSortProperty"
-      },
-      "OrganizationAccessTokenUpdate": {
-        "properties": {
-          "comment": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Comment"
-          },
-          "scopes": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/AvailableScope"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Scopes"
-          }
-        },
-        "type": "object",
-        "title": "OrganizationAccessTokenUpdate"
-      },
       "OrganizationAvatarFileCreate": {
         "properties": {
           "organization_id": {
@@ -62444,7 +61794,8 @@
           "denied",
           "active",
           "blocked",
-          "offboarding"
+          "offboarding",
+          "offboarded"
         ],
         "title": "OrganizationStatus"
       },
@@ -69526,7 +68877,8 @@
         "properties": {
           "seats": {
             "type": "integer",
-            "minimum": 1,
+            "maximum": 2147483647,
+            "minimum": -2147483648,
             "title": "Seats",
             "description": "Update the number of seats for this subscription."
           },
