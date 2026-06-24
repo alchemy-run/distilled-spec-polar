@@ -18454,22 +18454,22 @@
           "public"
         ],
         "summary": "List Seats",
-        "description": "**Scopes**: `customer_seats:write`",
+        "description": "**Scopes**: `customer_seats:read`",
         "operationId": "customer-seats:list_seats",
         "security": [
           {
             "oidc": [
-              "customer_seats:write"
+              "customer_seats:read"
             ]
           },
           {
             "pat": [
-              "customer_seats:write"
+              "customer_seats:read"
             ]
           },
           {
             "oat": [
-              "customer_seats:write"
+              "customer_seats:read"
             ]
           }
         ],
