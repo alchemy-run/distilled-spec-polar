@@ -1009,9 +1009,6 @@
           "200": {
             "description": "Successful Response",
             "content": {
-              "application/json": {
-                "schema": {}
-              },
               "text/csv": {
                 "schema": {
                   "type": "string"
@@ -4998,9 +4995,6 @@
           "200": {
             "description": "Successful Response",
             "content": {
-              "application/json": {
-                "schema": {}
-              },
               "text/csv": {
                 "schema": {
                   "type": "string"
@@ -5380,20 +5374,22 @@
               }
             }
           },
-          "422": {
-            "description": "Order is not paid or is missing billing name or address.",
+          "404": {
+            "description": "Order not found.",
             "content": {
               "application/json": {
                 "schema": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/components/schemas/MissingInvoiceBillingDetails"
-                    },
-                    {
-                      "$ref": "#/components/schemas/NotPaidOrder"
-                    }
-                  ],
-                  "title": "Response 422 Orders:Generate Invoice"
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Order is missing billing name or address.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MissingInvoiceBillingDetails"
                 }
               }
             }
@@ -9353,9 +9349,6 @@
           "200": {
             "description": "Successful Response",
             "content": {
-              "application/json": {
-                "schema": {}
-              },
               "text/csv": {
                 "schema": {
                   "type": "string"
@@ -12483,9 +12476,6 @@
           "200": {
             "description": "Successful Response",
             "content": {
-              "application/json": {
-                "schema": {}
-              },
               "text/csv": {
                 "schema": {
                   "type": "string"
@@ -17312,20 +17302,22 @@
               }
             }
           },
-          "422": {
-            "description": "Order is not paid or is missing billing name or address.",
+          "404": {
+            "description": "Order not found.",
             "content": {
               "application/json": {
                 "schema": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/components/schemas/MissingInvoiceBillingDetails"
-                    },
-                    {
-                      "$ref": "#/components/schemas/NotPaidOrder"
-                    }
-                  ],
-                  "title": "Response 422 Customer Portal:Orders:Generate Invoice"
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Order is missing billing name or address.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MissingInvoiceBillingDetails"
                 }
               }
             }
@@ -50108,6 +50100,19 @@
             "examples": [
               "42b94870-36b9-4573-96b6-b90b1c99a353"
             ]
+          },
+          "case_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid4"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Case Id",
+            "description": "The ID of the support case for this dispute, if one was opened."
           }
         },
         "type": "object",
@@ -50122,7 +50127,8 @@
           "tax_amount",
           "currency",
           "order_id",
-          "payment_id"
+          "payment_id",
+          "case_id"
         ],
         "title": "Dispute",
         "description": "Schema representing a dispute.\n\nA dispute is a challenge raised by a customer or their bank regarding a payment."
@@ -51652,6 +51658,13 @@
             "type": "string",
             "title": "Sub"
           },
+          "organizations": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Organizations"
+          },
           "aud": {
             "type": "string",
             "title": "Aud"
@@ -51677,6 +51690,7 @@
           "scope",
           "sub_type",
           "sub",
+          "organizations",
           "aud",
           "iss",
           "exp",
@@ -57237,28 +57251,6 @@
           "detail"
         ],
         "title": "NotOpenCheckout"
-      },
-      "NotPaidOrder": {
-        "properties": {
-          "error": {
-            "type": "string",
-            "const": "NotPaidOrder",
-            "title": "Error",
-            "examples": [
-              "NotPaidOrder"
-            ]
-          },
-          "detail": {
-            "type": "string",
-            "title": "Detail"
-          }
-        },
-        "type": "object",
-        "required": [
-          "error",
-          "detail"
-        ],
-        "title": "NotPaidOrder"
       },
       "NotPermitted": {
         "properties": {
