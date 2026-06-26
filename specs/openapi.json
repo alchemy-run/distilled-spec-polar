@@ -24722,6 +24722,13 @@
             "type": "array",
             "title": "Scopes"
           },
+          "organizations": {
+            "items": {
+              "$ref": "#/components/schemas/AuthorizeOrganization"
+            },
+            "type": "array",
+            "title": "Organizations"
+          },
           "scope_display_names": {
             "additionalProperties": {
               "type": "string"
@@ -24792,13 +24799,6 @@
               "organization_access_tokens:read": "Read organization access tokens",
               "organization_access_tokens:write": "Create or modify organization access tokens"
             }
-          },
-          "organizations": {
-            "items": {
-              "$ref": "#/components/schemas/AuthorizeOrganization"
-            },
-            "type": "array",
-            "title": "Organizations"
           }
         },
         "type": "object",
@@ -24838,6 +24838,13 @@
             "type": "array",
             "title": "Scopes"
           },
+          "organizations": {
+            "items": {
+              "$ref": "#/components/schemas/AuthorizeOrganization"
+            },
+            "type": "array",
+            "title": "Organizations"
+          },
           "scope_display_names": {
             "additionalProperties": {
               "type": "string"
@@ -24915,7 +24922,8 @@
           "client",
           "sub_type",
           "sub",
-          "scopes"
+          "scopes",
+          "organizations"
         ],
         "title": "AuthorizeResponseUser"
       },
@@ -32311,6 +32319,20 @@
               "card"
             ]
           },
+          "trigger": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PaymentTrigger"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "What initiated this payment attempt, e.g. initial purchase, subscription renewal, or an automated dunning retry.",
+            "examples": [
+              "subscription_cycle"
+            ]
+          },
           "decline_reason": {
             "anyOf": [
               {
@@ -34605,7 +34627,7 @@
           "recurring_interval": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/SubscriptionRecurringInterval"
+                "$ref": "#/components/schemas/RecurringInterval"
               },
               {
                 "type": "null"
@@ -35412,7 +35434,7 @@
           "recurring_interval": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/SubscriptionRecurringInterval"
+                "$ref": "#/components/schemas/RecurringInterval"
               },
               {
                 "type": "null"
@@ -43050,6 +43072,19 @@
             ],
             "title": "Checkout Id"
           },
+          "next_payment_attempt_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Payment Attempt At",
+            "description": "When the next automatic payment retry is scheduled. `null` if the order is not in dunning or all retries have been exhausted."
+          },
           "product": {
             "anyOf": [
               {
@@ -43085,19 +43120,6 @@
             "examples": [
               "Pro Plan"
             ]
-          },
-          "next_payment_attempt_at": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Next Payment Attempt At",
-            "description": "When the next payment retry is scheduled"
           },
           "refundable_amount": {
             "type": "integer",
@@ -43347,7 +43369,7 @@
           "recurring_interval": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/SubscriptionRecurringInterval"
+                "$ref": "#/components/schemas/RecurringInterval"
               },
               {
                 "type": "null"
@@ -43515,7 +43537,7 @@
             ]
           },
           "recurring_interval": {
-            "$ref": "#/components/schemas/SubscriptionRecurringInterval",
+            "$ref": "#/components/schemas/RecurringInterval",
             "description": "The interval at which the subscription recurs.",
             "examples": [
               "month"
@@ -43627,6 +43649,19 @@
             ],
             "title": "Ended At",
             "description": "The timestamp when the subscription ended."
+          },
+          "past_due_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Past Due At",
+            "description": "The timestamp when the subscription entered `past_due` status."
           },
           "customer_id": {
             "type": "string",
@@ -44597,7 +44632,7 @@
           "recurring_interval": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/SubscriptionRecurringInterval"
+                "$ref": "#/components/schemas/RecurringInterval"
               },
               {
                 "type": "null"
@@ -45753,7 +45788,7 @@
             ]
           },
           "recurring_interval": {
-            "$ref": "#/components/schemas/SubscriptionRecurringInterval",
+            "$ref": "#/components/schemas/RecurringInterval",
             "description": "The interval at which the subscription recurs."
           },
           "current_period_start": {
@@ -46297,7 +46332,7 @@
             ]
           },
           "recurring_interval": {
-            "$ref": "#/components/schemas/SubscriptionRecurringInterval",
+            "$ref": "#/components/schemas/RecurringInterval",
             "description": "The interval at which the subscription recurs.",
             "examples": [
               "month"
@@ -46409,6 +46444,19 @@
             ],
             "title": "Ended At",
             "description": "The timestamp when the subscription ended."
+          },
+          "past_due_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Past Due At",
+            "description": "The timestamp when the subscription entered `past_due` status."
           },
           "customer_id": {
             "type": "string",
@@ -46784,7 +46832,7 @@
           "recurring_interval": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/SubscriptionRecurringInterval"
+                "$ref": "#/components/schemas/RecurringInterval"
               },
               {
                 "type": "null"
@@ -49714,7 +49762,7 @@
           "recurring_interval": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/SubscriptionRecurringInterval"
+                "$ref": "#/components/schemas/RecurringInterval"
               },
               {
                 "type": "null"
@@ -51519,6 +51567,20 @@
               "card"
             ]
           },
+          "trigger": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PaymentTrigger"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "What initiated this payment attempt, e.g. initial purchase, subscription renewal, or an automated dunning retry.",
+            "examples": [
+              "subscription_cycle"
+            ]
+          },
           "decline_reason": {
             "anyOf": [
               {
@@ -51863,7 +51925,7 @@
             "description": "The type of the price."
           },
           "recurring_interval": {
-            "$ref": "#/components/schemas/SubscriptionRecurringInterval",
+            "$ref": "#/components/schemas/RecurringInterval",
             "description": "The recurring interval of the price."
           },
           "minimum_amount": {
@@ -51993,7 +52055,7 @@
             "description": "The type of the price."
           },
           "recurring_interval": {
-            "$ref": "#/components/schemas/SubscriptionRecurringInterval",
+            "$ref": "#/components/schemas/RecurringInterval",
             "description": "The recurring interval of the price."
           },
           "price_amount": {
@@ -57876,6 +57938,19 @@
             ],
             "title": "Checkout Id"
           },
+          "next_payment_attempt_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Payment Attempt At",
+            "description": "When the next automatic payment retry is scheduled. `null` if the order is not in dunning or all retries have been exhausted."
+          },
           "metadata": {
             "$ref": "#/components/schemas/MetadataOutputType"
           },
@@ -58893,7 +58968,7 @@
           "recurring_interval": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/SubscriptionRecurringInterval"
+                "$ref": "#/components/schemas/RecurringInterval"
               },
               {
                 "type": "null"
@@ -59215,7 +59290,7 @@
             ]
           },
           "recurring_interval": {
-            "$ref": "#/components/schemas/SubscriptionRecurringInterval",
+            "$ref": "#/components/schemas/RecurringInterval",
             "description": "The interval at which the subscription recurs.",
             "examples": [
               "month"
@@ -59327,6 +59402,19 @@
             ],
             "title": "Ended At",
             "description": "The timestamp when the subscription ended."
+          },
+          "past_due_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Past Due At",
+            "description": "The timestamp when the subscription entered `past_due` status."
           },
           "customer_id": {
             "type": "string",
@@ -62849,6 +62937,18 @@
         ],
         "title": "PaymentStatus"
       },
+      "PaymentTrigger": {
+        "type": "string",
+        "enum": [
+          "purchase",
+          "subscription_cycle",
+          "retry_dunning",
+          "retry_customer",
+          "retry_payment_method_update",
+          "retry_admin"
+        ],
+        "title": "PaymentTrigger"
+      },
       "PendingSubscriptionUpdate": {
         "properties": {
           "created_at": {
@@ -63192,7 +63292,7 @@
           "recurring_interval": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/SubscriptionRecurringInterval"
+                "$ref": "#/components/schemas/RecurringInterval"
               },
               {
                 "type": "null"
@@ -63645,7 +63745,7 @@
             "description": "The number of interval units for the trial period."
           },
           "recurring_interval": {
-            "$ref": "#/components/schemas/SubscriptionRecurringInterval",
+            "$ref": "#/components/schemas/RecurringInterval",
             "description": "The recurring interval of the product."
           },
           "recurring_interval_count": {
@@ -64783,7 +64883,7 @@
           "recurring_interval": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/SubscriptionRecurringInterval"
+                "$ref": "#/components/schemas/RecurringInterval"
               },
               {
                 "type": "null"
@@ -64940,6 +65040,16 @@
           "property"
         ],
         "title": "PropertyAggregation"
+      },
+      "RecurringInterval": {
+        "type": "string",
+        "enum": [
+          "day",
+          "week",
+          "month",
+          "year"
+        ],
+        "title": "RecurringInterval"
       },
       "Refund": {
         "properties": {
@@ -65905,7 +66015,7 @@
             ]
           },
           "recurring_interval": {
-            "$ref": "#/components/schemas/SubscriptionRecurringInterval",
+            "$ref": "#/components/schemas/RecurringInterval",
             "description": "The interval at which the subscription recurs.",
             "examples": [
               "month"
@@ -66017,6 +66127,19 @@
             ],
             "title": "Ended At",
             "description": "The timestamp when the subscription ended."
+          },
+          "past_due_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Past Due At",
+            "description": "The timestamp when the subscription entered `past_due` status."
           },
           "customer_id": {
             "type": "string",
@@ -67969,16 +68092,6 @@
           "subscription_id"
         ],
         "title": "SubscriptionReactivatedMetadata"
-      },
-      "SubscriptionRecurringInterval": {
-        "type": "string",
-        "enum": [
-          "day",
-          "week",
-          "month",
-          "year"
-        ],
-        "title": "SubscriptionRecurringInterval"
       },
       "SubscriptionRevoke": {
         "properties": {
