@@ -5384,6 +5384,16 @@
               }
             }
           },
+          "409": {
+            "description": "Order is not eligible for invoice generation (invalid status).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderNotEligibleForInvoice"
+                }
+              }
+            }
+          },
           "422": {
             "description": "Order is missing billing name or address.",
             "content": {
@@ -5975,22 +5985,25 @@
           "public"
         ],
         "summary": "List Disputes",
-        "description": "List disputes.\n\n**Scopes**: `disputes:read`",
+        "description": "List disputes.\n\n**Scopes**: `disputes:read` `disputes:write`",
         "operationId": "disputes:list",
         "security": [
           {
             "oidc": [
-              "disputes:read"
+              "disputes:read",
+              "disputes:write"
             ]
           },
           {
             "pat": [
-              "disputes:read"
+              "disputes:read",
+              "disputes:write"
             ]
           },
           {
             "oat": [
-              "disputes:read"
+              "disputes:read",
+              "disputes:write"
             ]
           }
         ],
@@ -6198,22 +6211,25 @@
           "public"
         ],
         "summary": "Get Dispute",
-        "description": "Get a dispute by ID.\n\n**Scopes**: `disputes:read`",
+        "description": "Get a dispute by ID.\n\n**Scopes**: `disputes:read` `disputes:write`",
         "operationId": "disputes:get",
         "security": [
           {
             "oidc": [
-              "disputes:read"
+              "disputes:read",
+              "disputes:write"
             ]
           },
           {
             "pat": [
-              "disputes:read"
+              "disputes:read",
+              "disputes:write"
             ]
           },
           {
             "oat": [
-              "disputes:read"
+              "disputes:read",
+              "disputes:write"
             ]
           }
         ],
@@ -6269,6 +6285,96 @@
         ],
         "x-speakeasy-group": "disputes",
         "x-speakeasy-name-override": "get"
+      }
+    },
+    "/v1/disputes/{id}/accept": {
+      "post": {
+        "tags": [
+          "disputes",
+          "public"
+        ],
+        "summary": "Accept Dispute",
+        "description": "Accept a dispute, conceding the chargeback.\n\nCloses the dispute with the processor (settling it as `lost`) and records\nthe merchant's decision on the dispute's support case.\n\n**Scopes**: `disputes:write`",
+        "operationId": "disputes:accept",
+        "security": [
+          {
+            "oidc": [
+              "disputes:write"
+            ]
+          },
+          {
+            "pat": [
+              "disputes:write"
+            ]
+          },
+          {
+            "oat": [
+              "disputes:write"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid4",
+              "description": "The dispute ID.",
+              "title": "Id"
+            },
+            "description": "The dispute ID."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dispute"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Dispute not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                }
+              }
+            }
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DisputeNotOpenError"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-polar-allowed-subjects": [
+          "Organization",
+          "User"
+        ],
+        "x-speakeasy-group": "disputes",
+        "x-speakeasy-name-override": "accept"
       }
     },
     "/v1/checkouts/": {
@@ -13610,15 +13716,18 @@
         },
         "x-speakeasy-group": "members",
         "x-speakeasy-name-override": "list_members"
-      },
+      }
+    },
+    "/v1/customers/{id}/members": {
       "post": {
         "tags": [
+          "customers",
           "members",
           "public"
         ],
         "summary": "Create Member",
         "description": "Create a new member for a customer.\n\nOnly B2B customers with the member management feature enabled can add members.\nThe authenticated user or organization must have access to the customer's organization.\n\n**Scopes**: `members:write`",
-        "operationId": "members:create_member",
+        "operationId": "customers:members:create",
         "security": [
           {
             "oidc": [
@@ -13636,12 +13745,26 @@
             ]
           }
         ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid4",
+              "description": "The customer ID.",
+              "title": "Id"
+            },
+            "description": "The customer ID."
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/MemberCreate"
+                "$ref": "#/components/schemas/MemberCreateFromCustomer"
               }
             }
           }
@@ -13658,10 +13781,17 @@
             }
           },
           "403": {
-            "description": "Not permitted to add members."
+            "description": "Not permitted to add members.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotPermitted"
+                }
+              }
+            }
           },
           "404": {
-            "description": "Member not found.",
+            "description": "Customer not found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -13685,19 +13815,130 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-group": "members",
-        "x-speakeasy-name-override": "create_member"
+        "x-speakeasy-group": "customers.members",
+        "x-speakeasy-name-override": "create"
       }
     },
-    "/v1/members/{id}": {
+    "/v1/customers/external/{external_id}/members": {
+      "post": {
+        "tags": [
+          "customers",
+          "members",
+          "public"
+        ],
+        "summary": "Create Member by Customer External ID",
+        "description": "Create a new member for a customer identified by its external ID.\n\n**Scopes**: `members:write`",
+        "operationId": "customers:members:create_external",
+        "security": [
+          {
+            "oidc": [
+              "members:write"
+            ]
+          },
+          {
+            "pat": [
+              "members:write"
+            ]
+          },
+          {
+            "oat": [
+              "members:write"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "external_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The customer external ID.",
+              "title": "External Id"
+            },
+            "description": "The customer external ID."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MemberCreateFromCustomer"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Member created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Member"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not permitted to add members.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotPermitted"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Customer not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The external customer ID matches customers in several accessible organizations.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AmbiguousExternalCustomerID"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-polar-allowed-subjects": [
+          "Organization",
+          "User"
+        ],
+        "x-speakeasy-group": "customers.members",
+        "x-speakeasy-name-override": "create_external"
+      }
+    },
+    "/v1/customers/{id}/members/{member_id}": {
       "get": {
         "tags": [
+          "customers",
           "members",
           "public"
         ],
         "summary": "Get Member",
-        "description": "Get a member by ID.\n\nThe authenticated user or organization must have access to the member's organization.\n\n**Scopes**: `members:read` `members:write`",
-        "operationId": "members:get_member",
+        "description": "Get a member of a customer by its ID.\n\n**Scopes**: `members:read` `members:write`",
+        "operationId": "customers:members:get",
         "security": [
           {
             "oidc": [
@@ -13725,8 +13966,20 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
+              "format": "uuid4",
+              "description": "The customer ID.",
               "title": "Id"
+            },
+            "description": "The customer ID."
+          },
+          {
+            "name": "member_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Member Id"
             }
           }
         ],
@@ -13766,17 +14019,18 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-group": "members",
-        "x-speakeasy-name-override": "get_member"
+        "x-speakeasy-group": "customers.members",
+        "x-speakeasy-name-override": "get"
       },
       "patch": {
         "tags": [
+          "customers",
           "members",
           "public"
         ],
         "summary": "Update Member",
-        "description": "Update a member.\n\nOnly name, email and role can be updated.\nThe authenticated user or organization must have access to the member's organization.\n\n**Scopes**: `members:write`",
-        "operationId": "members:update_member",
+        "description": "Update a member of a customer.\n\nOnly name, email and role can be updated.\n\n**Scopes**: `members:write`",
+        "operationId": "customers:members:update",
         "security": [
           {
             "oidc": [
@@ -13801,8 +14055,20 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
+              "format": "uuid4",
+              "description": "The customer ID.",
               "title": "Id"
+            },
+            "description": "The customer ID."
+          },
+          {
+            "name": "member_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Member Id"
             }
           }
         ],
@@ -13852,17 +14118,18 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-group": "members",
-        "x-speakeasy-name-override": "update_member"
+        "x-speakeasy-group": "customers.members",
+        "x-speakeasy-name-override": "update"
       },
       "delete": {
         "tags": [
+          "customers",
           "members",
           "public"
         ],
         "summary": "Delete Member",
-        "description": "Delete a member.\n\nThe authenticated user or organization must have access to the member's organization.\n\n**Scopes**: `members:write`",
-        "operationId": "members:delete_member",
+        "description": "Delete a member of a customer.\n\n**Scopes**: `members:write`",
+        "operationId": "customers:members:delete",
         "security": [
           {
             "oidc": [
@@ -13887,8 +14154,20 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
+              "format": "uuid4",
+              "description": "The customer ID.",
               "title": "Id"
+            },
+            "description": "The customer ID."
+          },
+          {
+            "name": "member_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Member Id"
             }
           }
         ],
@@ -13921,19 +14200,20 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-group": "members",
-        "x-speakeasy-name-override": "delete_member"
+        "x-speakeasy-group": "customers.members",
+        "x-speakeasy-name-override": "delete"
       }
     },
-    "/v1/members/external/{external_id}": {
+    "/v1/customers/external/{external_id}/members/{member_external_id}": {
       "get": {
         "tags": [
+          "customers",
           "members",
           "public"
         ],
         "summary": "Get Member by External ID",
-        "description": "Get a member by external ID. One of customer_id or external_customer_id must be specified.\n\n**Scopes**: `members:read` `members:write`",
-        "operationId": "members:get_member_by_external_id",
+        "description": "Get a member by external ID for a customer identified by its external ID.\n\n**Scopes**: `members:read` `members:write`",
+        "operationId": "customers:members:get_external",
         "security": [
           {
             "oidc": [
@@ -13961,47 +14241,21 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "The member external ID.",
+              "description": "The customer external ID.",
               "title": "External Id"
             },
-            "description": "The member external ID."
-          },
-          {
-            "name": "customer_id",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string",
-                  "format": "uuid"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "description": "The customer ID.",
-              "title": "Customer Id"
-            },
-            "description": "The customer ID."
-          },
-          {
-            "name": "external_customer_id",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "description": "The customer external ID.",
-              "title": "External Customer Id"
-            },
             "description": "The customer external ID."
+          },
+          {
+            "name": "member_external_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The member external ID.",
+              "title": "Member External Id"
+            },
+            "description": "The member external ID."
           }
         ],
         "responses": {
@@ -14025,6 +14279,16 @@
               }
             }
           },
+          "409": {
+            "description": "The external customer ID matches customers in several accessible organizations.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AmbiguousExternalCustomerID"
+                }
+              }
+            }
+          },
           "422": {
             "description": "Validation Error",
             "content": {
@@ -14040,17 +14304,18 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-group": "members",
-        "x-speakeasy-name-override": "get_member_by_external_id"
+        "x-speakeasy-group": "customers.members",
+        "x-speakeasy-name-override": "get_external"
       },
       "patch": {
         "tags": [
+          "customers",
           "members",
           "public"
         ],
         "summary": "Update Member by External ID",
-        "description": "Update a member by external ID. One of customer_id or external_customer_id must be specified.\n\n**Scopes**: `members:write`",
-        "operationId": "members:update_member_by_external_id",
+        "description": "Update a member by external ID for a customer identified by its external ID.\n\n**Scopes**: `members:write`",
+        "operationId": "customers:members:update_external",
         "security": [
           {
             "oidc": [
@@ -14075,47 +14340,21 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "The member external ID.",
+              "description": "The customer external ID.",
               "title": "External Id"
             },
-            "description": "The member external ID."
-          },
-          {
-            "name": "customer_id",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string",
-                  "format": "uuid"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "description": "The customer ID.",
-              "title": "Customer Id"
-            },
-            "description": "The customer ID."
-          },
-          {
-            "name": "external_customer_id",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "description": "The customer external ID.",
-              "title": "External Customer Id"
-            },
             "description": "The customer external ID."
+          },
+          {
+            "name": "member_external_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The member external ID.",
+              "title": "Member External Id"
+            },
+            "description": "The member external ID."
           }
         ],
         "requestBody": {
@@ -14149,6 +14388,16 @@
               }
             }
           },
+          "409": {
+            "description": "The external customer ID matches customers in several accessible organizations.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AmbiguousExternalCustomerID"
+                }
+              }
+            }
+          },
           "422": {
             "description": "Validation Error",
             "content": {
@@ -14164,17 +14413,18 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-group": "members",
-        "x-speakeasy-name-override": "update_member_by_external_id"
+        "x-speakeasy-group": "customers.members",
+        "x-speakeasy-name-override": "update_external"
       },
       "delete": {
         "tags": [
+          "customers",
           "members",
           "public"
         ],
         "summary": "Delete Member by External ID",
-        "description": "Delete a member by external ID. One of customer_id or external_customer_id must be specified.\n\n**Scopes**: `members:write`",
-        "operationId": "members:delete_member_by_external_id",
+        "description": "Delete a member by external ID for a customer identified by its external ID.\n\n**Scopes**: `members:write`",
+        "operationId": "customers:members:delete_external",
         "security": [
           {
             "oidc": [
@@ -14199,47 +14449,21 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "The member external ID.",
+              "description": "The customer external ID.",
               "title": "External Id"
             },
-            "description": "The member external ID."
-          },
-          {
-            "name": "customer_id",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string",
-                  "format": "uuid"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "description": "The customer ID.",
-              "title": "Customer Id"
-            },
-            "description": "The customer ID."
-          },
-          {
-            "name": "external_customer_id",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "description": "The customer external ID.",
-              "title": "External Customer Id"
-            },
             "description": "The customer external ID."
+          },
+          {
+            "name": "member_external_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The member external ID.",
+              "title": "Member External Id"
+            },
+            "description": "The member external ID."
           }
         ],
         "responses": {
@@ -14252,6 +14476,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResourceNotFound"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The external customer ID matches customers in several accessible organizations.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AmbiguousExternalCustomerID"
                 }
               }
             }
@@ -14271,8 +14505,8 @@
           "Organization",
           "User"
         ],
-        "x-speakeasy-group": "members",
-        "x-speakeasy-name-override": "delete_member_by_external_id"
+        "x-speakeasy-group": "customers.members",
+        "x-speakeasy-name-override": "delete_external"
       }
     },
     "/v1/customer-portal/benefit-grants/": {
@@ -17308,6 +17542,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResourceNotFound"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Order is not eligible for invoice generation (invalid status).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderNotEligibleForInvoice"
                 }
               }
             }
@@ -24609,6 +24853,28 @@
         ],
         "title": "AlreadyCanceledSubscription"
       },
+      "AmbiguousExternalCustomerID": {
+        "properties": {
+          "error": {
+            "type": "string",
+            "const": "AmbiguousExternalCustomerID",
+            "title": "Error",
+            "examples": [
+              "AmbiguousExternalCustomerID"
+            ]
+          },
+          "detail": {
+            "type": "string",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "error",
+          "detail"
+        ],
+        "title": "AmbiguousExternalCustomerID"
+      },
       "AttachedCustomField": {
         "properties": {
           "custom_field_id": {
@@ -24779,6 +25045,7 @@
               "wallets:read": "Read wallets",
               "wallets:write": "Create or modify wallets",
               "disputes:read": "Read disputes",
+              "disputes:write": "Create or modify disputes",
               "customer_meters:read": "Read customer meters",
               "customer_sessions:write": "Create or modify customer sessions",
               "member_sessions:write": "Create or modify member sessions",
@@ -24900,6 +25167,7 @@
               "wallets:read": "Read wallets",
               "wallets:write": "Create or modify wallets",
               "disputes:read": "Read disputes",
+              "disputes:write": "Create or modify disputes",
               "customer_meters:read": "Read customer meters",
               "customer_sessions:write": "Create or modify customer sessions",
               "member_sessions:write": "Create or modify member sessions",
@@ -50463,6 +50731,28 @@
         ],
         "title": "DisputeCustomer"
       },
+      "DisputeNotOpenError": {
+        "properties": {
+          "error": {
+            "type": "string",
+            "const": "DisputeNotOpenError",
+            "title": "Error",
+            "examples": [
+              "DisputeNotOpenError"
+            ]
+          },
+          "detail": {
+            "type": "string",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "error",
+          "detail"
+        ],
+        "title": "DisputeNotOpenError"
+      },
       "DisputeSortProperty": {
         "type": "string",
         "enum": [
@@ -54160,14 +54450,8 @@
         "title": "Member",
         "description": "A member of a customer."
       },
-      "MemberCreate": {
+      "MemberCreateFromCustomer": {
         "properties": {
-          "customer_id": {
-            "type": "string",
-            "format": "uuid4",
-            "title": "Customer Id",
-            "description": "The ID of the customer this member belongs to."
-          },
           "email": {
             "type": "string",
             "format": "email",
@@ -54224,11 +54508,10 @@
         },
         "type": "object",
         "required": [
-          "customer_id",
           "email"
         ],
-        "title": "MemberCreate",
-        "description": "Schema for creating a new member."
+        "title": "MemberCreateFromCustomer",
+        "description": "Schema for creating a new member nested under a customer.\n\nThe customer is taken from the URL path, so it's not part of the body."
       },
       "MemberOwnerCreate": {
         "properties": {
@@ -57668,7 +57951,7 @@
           "scope": {
             "type": "string",
             "title": "Scope",
-            "default": "openid profile email user:read user:write organizations:read organizations:write custom_fields:read custom_fields:write discounts:read discounts:write checkout_links:read checkout_links:write checkouts:read checkouts:write transactions:read transactions:write payouts:read payouts:write products:read products:write benefits:read benefits:write events:read events:write meters:read meters:write files:read files:write subscriptions:read subscriptions:write customers:read customers:write members:read members:write wallets:read wallets:write disputes:read customer_meters:read customer_sessions:write member_sessions:write customer_seats:read customer_seats:write orders:read orders:write refunds:read refunds:write payments:read metrics:read metrics:write webhooks:read webhooks:write license_keys:read license_keys:write customer_portal:read customer_portal:write notifications:read notifications:write notification_recipients:read notification_recipients:write"
+            "default": "openid profile email user:read user:write organizations:read organizations:write custom_fields:read custom_fields:write discounts:read discounts:write checkout_links:read checkout_links:write checkouts:read checkouts:write transactions:read transactions:write payouts:read payouts:write products:read products:write benefits:read benefits:write events:read events:write meters:read meters:write files:read files:write subscriptions:read subscriptions:write customers:read customers:write members:read members:write wallets:read wallets:write disputes:read disputes:write customer_meters:read customer_sessions:write member_sessions:write customer_seats:read customer_seats:write orders:read orders:write refunds:read refunds:write payments:read metrics:read metrics:write webhooks:read webhooks:write license_keys:read license_keys:write customer_portal:read customer_portal:write notifications:read notifications:write notification_recipients:read notification_recipients:write"
           },
           "client_name": {
             "type": "string",
@@ -57789,7 +58072,7 @@
           "scope": {
             "type": "string",
             "title": "Scope",
-            "default": "openid profile email user:read user:write organizations:read organizations:write custom_fields:read custom_fields:write discounts:read discounts:write checkout_links:read checkout_links:write checkouts:read checkouts:write transactions:read transactions:write payouts:read payouts:write products:read products:write benefits:read benefits:write events:read events:write meters:read meters:write files:read files:write subscriptions:read subscriptions:write customers:read customers:write members:read members:write wallets:read wallets:write disputes:read customer_meters:read customer_sessions:write member_sessions:write customer_seats:read customer_seats:write orders:read orders:write refunds:read refunds:write payments:read metrics:read metrics:write webhooks:read webhooks:write license_keys:read license_keys:write customer_portal:read customer_portal:write notifications:read notifications:write notification_recipients:read notification_recipients:write"
+            "default": "openid profile email user:read user:write organizations:read organizations:write custom_fields:read custom_fields:write discounts:read discounts:write checkout_links:read checkout_links:write checkouts:read checkouts:write transactions:read transactions:write payouts:read payouts:write products:read products:write benefits:read benefits:write events:read events:write meters:read meters:write files:read files:write subscriptions:read subscriptions:write customers:read customers:write members:read members:write wallets:read wallets:write disputes:read disputes:write customer_meters:read customer_sessions:write member_sessions:write customer_seats:read customer_seats:write orders:read orders:write refunds:read refunds:write payments:read metrics:read metrics:write webhooks:read webhooks:write license_keys:read license_keys:write customer_portal:read customer_portal:write notifications:read notifications:write notification_recipients:read notification_recipients:write"
           },
           "client_name": {
             "type": "string",
@@ -58939,6 +59222,28 @@
           "detail"
         ],
         "title": "OrderNotDraft"
+      },
+      "OrderNotEligibleForInvoice": {
+        "properties": {
+          "error": {
+            "type": "string",
+            "const": "OrderNotEligibleForInvoice",
+            "title": "Error",
+            "examples": [
+              "OrderNotEligibleForInvoice"
+            ]
+          },
+          "detail": {
+            "type": "string",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "error",
+          "detail"
+        ],
+        "title": "OrderNotEligibleForInvoice"
       },
       "OrderNotEligibleForRetry": {
         "properties": {
@@ -65485,7 +65790,17 @@
             "title": "Order Id"
           },
           "reason": {
-            "$ref": "#/components/schemas/RefundReason"
+            "type": "string",
+            "enum": [
+              "duplicate",
+              "fraudulent",
+              "customer_request",
+              "service_disruption",
+              "satisfaction_guarantee",
+              "other"
+            ],
+            "title": "Reason",
+            "description": "Reason for the refund."
           },
           "amount": {
             "type": "integer",
@@ -65979,6 +66294,7 @@
           "wallets:read",
           "wallets:write",
           "disputes:read",
+          "disputes:write",
           "customer_meters:read",
           "customer_sessions:write",
           "member_sessions:write",
@@ -66025,6 +66341,7 @@
           "discounts:read": "Read discounts",
           "discounts:write": "Create or modify discounts",
           "disputes:read": "Read disputes",
+          "disputes:write": "Create or modify disputes",
           "email": "Read your email address",
           "events:read": "Read events",
           "events:write": "Create events",
@@ -71155,7 +71472,7 @@
             "title": "Secret",
             "description": "The secret used to sign the webhook events.",
             "examples": [
-              "polar_whs_ovyN6cPrTv56AApvzCaJno08SSmGJmgbWilb33N2JuK"
+              "whsec_ovyN6cPrTv56AApvzCaJno08SSmGJmgbWilb33N2JuK"
             ]
           },
           "organization_id": {
