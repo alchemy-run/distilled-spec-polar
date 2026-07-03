@@ -210,6 +210,16 @@
               }
             }
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CannotCreateOrganizationError"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "422": {
             "description": "Validation Error",
             "content": {
@@ -31999,6 +32009,28 @@
         ],
         "title": "BillingAddressFieldMode"
       },
+      "CannotCreateOrganizationError": {
+        "properties": {
+          "error": {
+            "type": "string",
+            "const": "CannotCreateOrganizationError",
+            "title": "Error",
+            "examples": [
+              "CannotCreateOrganizationError"
+            ]
+          },
+          "detail": {
+            "type": "string",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "error",
+          "detail"
+        ],
+        "title": "CannotCreateOrganizationError"
+      },
       "CardPayment": {
         "properties": {
           "created_at": {
@@ -33060,8 +33092,7 @@
             "anyOf": [
               {
                 "type": "string",
-                "pattern": "^[a-zA-Z]{2,3}(-[a-zA-Z]{2}|-[0-9]{3})?$",
-                "description": "Locale of the customer, given as an IETF BCP 47 language tag. Supported: language code (e.g. `en`) or language + region (e.g. `en-US`). If `null` or unsupported, the locale will default to `en`.",
+                "description": "Locale of the customer, given as an IETF BCP 47 language tag, e.g. `en`, `en-US` or `en-GB-oxendict`. If `null` or unsupported, the locale will default to `en`.",
                 "examples": [
                   "en",
                   "en-US",
@@ -35092,8 +35123,7 @@
             "anyOf": [
               {
                 "type": "string",
-                "pattern": "^[a-zA-Z]{2,3}(-[a-zA-Z]{2}|-[0-9]{3})?$",
-                "description": "Locale of the customer, given as an IETF BCP 47 language tag. Supported: language code (e.g. `en`) or language + region (e.g. `en-US`). If `null` or unsupported, the locale will default to `en`.",
+                "description": "Locale of the customer, given as an IETF BCP 47 language tag, e.g. `en`, `en-US` or `en-GB-oxendict`. If `null` or unsupported, the locale will default to `en`.",
                 "examples": [
                   "en",
                   "en-US",
@@ -35668,8 +35698,7 @@
             "anyOf": [
               {
                 "type": "string",
-                "pattern": "^[a-zA-Z]{2,3}(-[a-zA-Z]{2}|-[0-9]{3})?$",
-                "description": "Locale of the customer, given as an IETF BCP 47 language tag. Supported: language code (e.g. `en`) or language + region (e.g. `en-US`). If `null` or unsupported, the locale will default to `en`.",
+                "description": "Locale of the customer, given as an IETF BCP 47 language tag, e.g. `en`, `en-US` or `en-GB-oxendict`. If `null` or unsupported, the locale will default to `en`.",
                 "examples": [
                   "en",
                   "en-US",
@@ -36067,8 +36096,7 @@
             "anyOf": [
               {
                 "type": "string",
-                "pattern": "^[a-zA-Z]{2,3}(-[a-zA-Z]{2}|-[0-9]{3})?$",
-                "description": "Locale of the customer, given as an IETF BCP 47 language tag. Supported: language code (e.g. `en`) or language + region (e.g. `en-US`). If `null` or unsupported, the locale will default to `en`.",
+                "description": "Locale of the customer, given as an IETF BCP 47 language tag, e.g. `en`, `en-US` or `en-GB-oxendict`. If `null` or unsupported, the locale will default to `en`.",
                 "examples": [
                   "en",
                   "en-US",
@@ -37535,8 +37563,7 @@
             "anyOf": [
               {
                 "type": "string",
-                "pattern": "^[a-zA-Z]{2,3}(-[a-zA-Z]{2}|-[0-9]{3})?$",
-                "description": "Locale of the customer, given as an IETF BCP 47 language tag. Supported: language code (e.g. `en`) or language + region (e.g. `en-US`). If `null` or unsupported, the locale will default to `en`.",
+                "description": "Locale of the customer, given as an IETF BCP 47 language tag, e.g. `en`, `en-US` or `en-GB-oxendict`. If `null` or unsupported, the locale will default to `en`.",
                 "examples": [
                   "en",
                   "en-US",
@@ -37917,8 +37944,7 @@
             "anyOf": [
               {
                 "type": "string",
-                "pattern": "^[a-zA-Z]{2,3}(-[a-zA-Z]{2}|-[0-9]{3})?$",
-                "description": "Locale of the customer, given as an IETF BCP 47 language tag. Supported: language code (e.g. `en`) or language + region (e.g. `en-US`). If `null` or unsupported, the locale will default to `en`.",
+                "description": "Locale of the customer, given as an IETF BCP 47 language tag, e.g. `en`, `en-US` or `en-GB-oxendict`. If `null` or unsupported, the locale will default to `en`.",
                 "examples": [
                   "en",
                   "en-US",
@@ -42349,8 +42375,7 @@
             "anyOf": [
               {
                 "type": "string",
-                "pattern": "^[a-zA-Z]{2,3}(-[a-zA-Z]{2}|-[0-9]{3})?$",
-                "description": "Locale of the customer, given as an IETF BCP 47 language tag. Supported: language code (e.g. `en`) or language + region (e.g. `en-US`). If `null` or unsupported, the locale will default to `en`.",
+                "description": "Locale of the customer, given as an IETF BCP 47 language tag, e.g. `en`, `en-US` or `en-GB-oxendict`. If `null` or unsupported, the locale will default to `en`.",
                 "examples": [
                   "en",
                   "en-US",
@@ -47181,8 +47206,7 @@
             "anyOf": [
               {
                 "type": "string",
-                "pattern": "^[a-zA-Z]{2,3}(-[a-zA-Z]{2}|-[0-9]{3})?$",
-                "description": "Locale of the customer, given as an IETF BCP 47 language tag. Supported: language code (e.g. `en`) or language + region (e.g. `en-US`). If `null` or unsupported, the locale will default to `en`.",
+                "description": "Locale of the customer, given as an IETF BCP 47 language tag, e.g. `en`, `en-US` or `en-GB-oxendict`. If `null` or unsupported, the locale will default to `en`.",
                 "examples": [
                   "en",
                   "en-US",
@@ -47347,8 +47371,7 @@
             "anyOf": [
               {
                 "type": "string",
-                "pattern": "^[a-zA-Z]{2,3}(-[a-zA-Z]{2}|-[0-9]{3})?$",
-                "description": "Locale of the customer, given as an IETF BCP 47 language tag. Supported: language code (e.g. `en`) or language + region (e.g. `en-US`). If `null` or unsupported, the locale will default to `en`.",
+                "description": "Locale of the customer, given as an IETF BCP 47 language tag, e.g. `en`, `en-US` or `en-GB-oxendict`. If `null` or unsupported, the locale will default to `en`.",
                 "examples": [
                   "en",
                   "en-US",
@@ -47482,8 +47505,7 @@
             "anyOf": [
               {
                 "type": "string",
-                "pattern": "^[a-zA-Z]{2,3}(-[a-zA-Z]{2}|-[0-9]{3})?$",
-                "description": "Locale of the customer, given as an IETF BCP 47 language tag. Supported: language code (e.g. `en`) or language + region (e.g. `en-US`). If `null` or unsupported, the locale will default to `en`.",
+                "description": "Locale of the customer, given as an IETF BCP 47 language tag, e.g. `en`, `en-US` or `en-GB-oxendict`. If `null` or unsupported, the locale will default to `en`.",
                 "examples": [
                   "en",
                   "en-US",
@@ -59988,6 +60010,11 @@
             "title": "Details Submitted At",
             "description": "When the business details were submitted for review."
           },
+          "sso_enforced": {
+            "type": "boolean",
+            "title": "Sso Enforced",
+            "description": "Whether members must access this organization through its SSO connection."
+          },
           "default_presentment_currency": {
             "type": "string",
             "title": "Default Presentment Currency",
@@ -60580,6 +60607,7 @@
           "socials",
           "status",
           "details_submitted_at",
+          "sso_enforced",
           "default_presentment_currency",
           "default_tax_behavior",
           "feature_settings",
