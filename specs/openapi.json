@@ -167,7 +167,12 @@
         },
         "x-speakeasy-group": "organizations",
         "x-speakeasy-name-override": "list_organizations",
-        "x-polar-pagination": "page_limit"
+        "x-polar-pagination": {
+          "type": "page_limit",
+          "item_schema": {
+            "$ref": "#/components/schemas/Organization"
+          }
+        }
       },
       "post": {
         "tags": [
@@ -400,6 +405,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResourceNotFound"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Cannot enforce SSO without an enabled connection.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SSOEnforcementRequiresConnection"
                 }
               }
             }
@@ -829,7 +844,12 @@
         },
         "x-speakeasy-group": "subscriptions",
         "x-speakeasy-name-override": "list",
-        "x-polar-pagination": "page_limit"
+        "x-polar-pagination": {
+          "type": "page_limit",
+          "item_schema": {
+            "$ref": "#/components/schemas/Subscription"
+          }
+        }
       },
       "post": {
         "tags": [
@@ -2005,7 +2025,12 @@
         },
         "x-speakeasy-group": "benefits",
         "x-speakeasy-name-override": "list",
-        "x-polar-pagination": "page_limit"
+        "x-polar-pagination": {
+          "type": "page_limit",
+          "item_schema": {
+            "$ref": "#/components/schemas/Benefit"
+          }
+        }
       },
       "post": {
         "tags": [
@@ -2547,7 +2572,12 @@
         },
         "x-speakeasy-group": "benefits",
         "x-speakeasy-name-override": "grants",
-        "x-polar-pagination": "page_limit"
+        "x-polar-pagination": {
+          "type": "page_limit",
+          "item_schema": {
+            "$ref": "#/components/schemas/BenefitGrant"
+          }
+        }
       }
     },
     "/v1/benefit-grants/": {
@@ -2784,7 +2814,12 @@
         },
         "x-speakeasy-group": "benefit-grants",
         "x-speakeasy-name-override": "list",
-        "x-polar-pagination": "page_limit"
+        "x-polar-pagination": {
+          "type": "page_limit",
+          "item_schema": {
+            "$ref": "#/components/schemas/BenefitGrant"
+          }
+        }
       }
     },
     "/v1/webhooks/endpoints": {
@@ -2925,7 +2960,12 @@
         },
         "x-speakeasy-group": "webhooks",
         "x-speakeasy-name-override": "list_webhook_endpoints",
-        "x-polar-pagination": "page_limit"
+        "x-polar-pagination": {
+          "type": "page_limit",
+          "item_schema": {
+            "$ref": "#/components/schemas/WebhookEndpoint"
+          }
+        }
       },
       "post": {
         "tags": [
@@ -3566,7 +3606,12 @@
         },
         "x-speakeasy-group": "webhooks",
         "x-speakeasy-name-override": "list_webhook_deliveries",
-        "x-polar-pagination": "page_limit"
+        "x-polar-pagination": {
+          "type": "page_limit",
+          "item_schema": {
+            "$ref": "#/components/schemas/WebhookDelivery"
+          }
+        }
       }
     },
     "/v1/webhooks/events/{id}/redeliver": {
@@ -3950,7 +3995,12 @@
         },
         "x-speakeasy-group": "products",
         "x-speakeasy-name-override": "list",
-        "x-polar-pagination": "page_limit"
+        "x-polar-pagination": {
+          "type": "page_limit",
+          "item_schema": {
+            "$ref": "#/components/schemas/Product"
+          }
+        }
       },
       "post": {
         "tags": [
@@ -4650,7 +4700,12 @@
         },
         "x-speakeasy-group": "orders",
         "x-speakeasy-name-override": "list",
-        "x-polar-pagination": "page_limit"
+        "x-polar-pagination": {
+          "type": "page_limit",
+          "item_schema": {
+            "$ref": "#/components/schemas/Order"
+          }
+        }
       },
       "post": {
         "tags": [
@@ -5708,7 +5763,12 @@
         },
         "x-speakeasy-group": "refunds",
         "x-speakeasy-name-override": "list",
-        "x-polar-pagination": "page_limit"
+        "x-polar-pagination": {
+          "type": "page_limit",
+          "item_schema": {
+            "$ref": "#/components/schemas/Refund"
+          }
+        }
       },
       "post": {
         "tags": [
@@ -5999,7 +6059,12 @@
         },
         "x-speakeasy-group": "disputes",
         "x-speakeasy-name-override": "list",
-        "x-polar-pagination": "page_limit"
+        "x-polar-pagination": {
+          "type": "page_limit",
+          "item_schema": {
+            "$ref": "#/components/schemas/Dispute"
+          }
+        }
       }
     },
     "/v1/disputes/{id}": {
@@ -6461,7 +6526,12 @@
         },
         "x-speakeasy-group": "checkouts",
         "x-speakeasy-name-override": "list",
-        "x-polar-pagination": "page_limit"
+        "x-polar-pagination": {
+          "type": "page_limit",
+          "item_schema": {
+            "$ref": "#/components/schemas/Checkout"
+          }
+        }
       },
       "post": {
         "tags": [
@@ -7137,7 +7207,12 @@
         },
         "x-speakeasy-group": "files",
         "x-speakeasy-name-override": "list",
-        "x-polar-pagination": "page_limit"
+        "x-polar-pagination": {
+          "type": "page_limit",
+          "item_schema": {
+            "$ref": "#/components/schemas/FileRead"
+          }
+        }
       },
       "post": {
         "tags": [
@@ -7260,30 +7335,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/DownloadableFileRead"
-                    },
-                    {
-                      "$ref": "#/components/schemas/ProductMediaFileRead"
-                    },
-                    {
-                      "$ref": "#/components/schemas/OrganizationAvatarFileRead"
-                    },
-                    {
-                      "$ref": "#/components/schemas/SupportCaseAttachmentFileRead"
-                    }
-                  ],
-                  "discriminator": {
-                    "propertyName": "service",
-                    "mapping": {
-                      "downloadable": "#/components/schemas/DownloadableFileRead",
-                      "product_media": "#/components/schemas/ProductMediaFileRead",
-                      "organization_avatar": "#/components/schemas/OrganizationAvatarFileRead",
-                      "support_case_attachment": "#/components/schemas/SupportCaseAttachmentFileRead"
-                    }
-                  },
-                  "title": "Response Files:Uploaded"
+                  "$ref": "#/components/schemas/FileRead"
                 }
               }
             }
@@ -7383,30 +7435,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/DownloadableFileRead"
-                    },
-                    {
-                      "$ref": "#/components/schemas/ProductMediaFileRead"
-                    },
-                    {
-                      "$ref": "#/components/schemas/OrganizationAvatarFileRead"
-                    },
-                    {
-                      "$ref": "#/components/schemas/SupportCaseAttachmentFileRead"
-                    }
-                  ],
-                  "discriminator": {
-                    "propertyName": "service",
-                    "mapping": {
-                      "downloadable": "#/components/schemas/DownloadableFileRead",
-                      "product_media": "#/components/schemas/ProductMediaFileRead",
-                      "organization_avatar": "#/components/schemas/OrganizationAvatarFileRead",
-                      "support_case_attachment": "#/components/schemas/SupportCaseAttachmentFileRead"
-                    }
-                  },
-                  "title": "Response Files:Update"
+                  "$ref": "#/components/schemas/FileRead"
                 }
               }
             }
@@ -9836,7 +9865,12 @@
         },
         "x-speakeasy-group": "license_keys",
         "x-speakeasy-name-override": "list",
-        "x-polar-pagination": "page_limit"
+        "x-polar-pagination": {
+          "type": "page_limit",
+          "item_schema": {
+            "$ref": "#/components/schemas/LicenseKeyRead"
+          }
+        }
       }
     },
     "/v1/license-keys/{id}": {
@@ -10548,7 +10582,12 @@
         },
         "x-speakeasy-group": "checkout-links",
         "x-speakeasy-name-override": "list",
-        "x-polar-pagination": "page_limit"
+        "x-polar-pagination": {
+          "type": "page_limit",
+          "item_schema": {
+            "$ref": "#/components/schemas/CheckoutLink"
+          }
+        }
       },
       "post": {
         "tags": [
@@ -11061,7 +11100,12 @@
         },
         "x-speakeasy-group": "custom-fields",
         "x-speakeasy-name-override": "list",
-        "x-polar-pagination": "page_limit"
+        "x-polar-pagination": {
+          "type": "page_limit",
+          "item_schema": {
+            "$ref": "#/components/schemas/CustomField"
+          }
+        }
       },
       "post": {
         "tags": [
@@ -11553,7 +11597,12 @@
         },
         "x-speakeasy-group": "discounts",
         "x-speakeasy-name-override": "list",
-        "x-polar-pagination": "page_limit"
+        "x-polar-pagination": {
+          "type": "page_limit",
+          "item_schema": {
+            "$ref": "#/components/schemas/Discount"
+          }
+        }
       },
       "post": {
         "tags": [
@@ -12091,7 +12140,12 @@
         },
         "x-speakeasy-group": "customers",
         "x-speakeasy-name-override": "list",
-        "x-polar-pagination": "page_limit"
+        "x-polar-pagination": {
+          "type": "page_limit",
+          "item_schema": {
+            "$ref": "#/components/schemas/Customer"
+          }
+        }
       },
       "post": {
         "tags": [
@@ -13049,7 +13103,12 @@
         },
         "x-speakeasy-group": "customers",
         "x-speakeasy-name-override": "list_payment_methods",
-        "x-polar-pagination": "page_limit"
+        "x-polar-pagination": {
+          "type": "page_limit",
+          "item_schema": {
+            "$ref": "#/components/schemas/PaymentMethod"
+          }
+        }
       }
     },
     "/v1/customers/external/{external_id}/payment-methods": {
@@ -13177,7 +13236,12 @@
         },
         "x-speakeasy-group": "customers",
         "x-speakeasy-name-override": "list_payment_methods_external",
-        "x-polar-pagination": "page_limit"
+        "x-polar-pagination": {
+          "type": "page_limit",
+          "item_schema": {
+            "$ref": "#/components/schemas/PaymentMethod"
+          }
+        }
       }
     },
     "/v1/members/": {
@@ -13363,7 +13427,12 @@
         },
         "x-speakeasy-group": "members",
         "x-speakeasy-name-override": "list_members",
-        "x-polar-pagination": "page_limit"
+        "x-polar-pagination": {
+          "type": "page_limit",
+          "item_schema": {
+            "$ref": "#/components/schemas/Member"
+          }
+        }
       }
     },
     "/v1/customers/{id}/members": {
@@ -14457,7 +14526,12 @@
         },
         "x-speakeasy-group": "customer_portal.benefit-grants",
         "x-speakeasy-name-override": "list",
-        "x-polar-pagination": "page_limit"
+        "x-polar-pagination": {
+          "type": "page_limit",
+          "item_schema": {
+            "$ref": "#/components/schemas/CustomerBenefitGrant"
+          }
+        }
       }
     },
     "/v1/customer-portal/benefit-grants/{id}": {
@@ -14830,7 +14904,12 @@
         },
         "x-speakeasy-group": "customer_portal.customers",
         "x-speakeasy-name-override": "list_payment_methods",
-        "x-polar-pagination": "page_limit"
+        "x-polar-pagination": {
+          "type": "page_limit",
+          "item_schema": {
+            "$ref": "#/components/schemas/CustomerPaymentMethod"
+          }
+        }
       },
       "post": {
         "tags": [
@@ -15352,7 +15431,12 @@
         },
         "x-speakeasy-group": "customer_portal.customer_meters",
         "x-speakeasy-name-override": "list",
-        "x-polar-pagination": "page_limit"
+        "x-polar-pagination": {
+          "type": "page_limit",
+          "item_schema": {
+            "$ref": "#/components/schemas/CustomerCustomerMeter"
+          }
+        }
       }
     },
     "/v1/customer-portal/meters/{id}": {
@@ -15844,7 +15928,12 @@
         },
         "x-speakeasy-group": "customer_portal.seats",
         "x-speakeasy-name-override": "list_claimed_subscriptions",
-        "x-polar-pagination": "page_limit"
+        "x-polar-pagination": {
+          "type": "page_limit",
+          "item_schema": {
+            "$ref": "#/components/schemas/CustomerSubscription"
+          }
+        }
       }
     },
     "/v1/customer-portal/customer-session/introspect": {
@@ -16062,7 +16151,12 @@
         },
         "x-speakeasy-group": "customer_portal.downloadables",
         "x-speakeasy-name-override": "list",
-        "x-polar-pagination": "page_limit"
+        "x-polar-pagination": {
+          "type": "page_limit",
+          "item_schema": {
+            "$ref": "#/components/schemas/DownloadableRead"
+          }
+        }
       }
     },
     "/v1/customer-portal/license-keys/": {
@@ -16204,7 +16298,12 @@
         },
         "x-speakeasy-group": "customer_portal.license_keys",
         "x-speakeasy-name-override": "list",
-        "x-polar-pagination": "page_limit"
+        "x-polar-pagination": {
+          "type": "page_limit",
+          "item_schema": {
+            "$ref": "#/components/schemas/LicenseKeyRead"
+          }
+        }
       }
     },
     "/v1/customer-portal/license-keys/{id}": {
@@ -16548,7 +16647,12 @@
         },
         "x-speakeasy-group": "customer_portal.members",
         "x-speakeasy-name-override": "list_members",
-        "x-polar-pagination": "page_limit"
+        "x-polar-pagination": {
+          "type": "page_limit",
+          "item_schema": {
+            "$ref": "#/components/schemas/CustomerPortalMember"
+          }
+        }
       },
       "post": {
         "tags": [
@@ -16963,7 +17067,12 @@
         },
         "x-speakeasy-group": "customer_portal.orders",
         "x-speakeasy-name-override": "list",
-        "x-polar-pagination": "page_limit"
+        "x-polar-pagination": {
+          "type": "page_limit",
+          "item_schema": {
+            "$ref": "#/components/schemas/CustomerOrder"
+          }
+        }
       }
     },
     "/v1/customer-portal/orders/{id}": {
@@ -17773,7 +17882,12 @@
         },
         "x-speakeasy-group": "customer_portal.subscriptions",
         "x-speakeasy-name-override": "list",
-        "x-polar-pagination": "page_limit"
+        "x-polar-pagination": {
+          "type": "page_limit",
+          "item_schema": {
+            "$ref": "#/components/schemas/CustomerSubscription"
+          }
+        }
       }
     },
     "/v1/customer-portal/subscriptions/{id}": {
@@ -18153,7 +18267,12 @@
         },
         "x-speakeasy-group": "customer_portal.wallets",
         "x-speakeasy-name-override": "list",
-        "x-polar-pagination": "page_limit"
+        "x-polar-pagination": {
+          "type": "page_limit",
+          "item_schema": {
+            "$ref": "#/components/schemas/CustomerWallet"
+          }
+        }
       }
     },
     "/v1/customer-portal/wallets/{id}": {
@@ -19395,7 +19514,12 @@
         },
         "x-speakeasy-group": "events",
         "x-speakeasy-name-override": "list_names",
-        "x-polar-pagination": "page_limit"
+        "x-polar-pagination": {
+          "type": "page_limit",
+          "item_schema": {
+            "$ref": "#/components/schemas/EventName"
+          }
+        }
       }
     },
     "/v1/events/{id}": {
@@ -19828,7 +19952,12 @@
         },
         "x-speakeasy-group": "event-types",
         "x-speakeasy-name-override": "list",
-        "x-polar-pagination": "page_limit"
+        "x-polar-pagination": {
+          "type": "page_limit",
+          "item_schema": {
+            "$ref": "#/components/schemas/EventTypeWithStats"
+          }
+        }
       }
     },
     "/v1/event-types/{id}": {
@@ -20122,7 +20251,12 @@
         },
         "x-speakeasy-group": "meters",
         "x-speakeasy-name-override": "list",
-        "x-polar-pagination": "page_limit"
+        "x-polar-pagination": {
+          "type": "page_limit",
+          "item_schema": {
+            "$ref": "#/components/schemas/Meter"
+          }
+        }
       },
       "post": {
         "tags": [
@@ -21410,7 +21544,12 @@
         },
         "x-speakeasy-group": "customer_meters",
         "x-speakeasy-name-override": "list",
-        "x-polar-pagination": "page_limit"
+        "x-polar-pagination": {
+          "type": "page_limit",
+          "item_schema": {
+            "$ref": "#/components/schemas/CustomerMeter"
+          }
+        }
       }
     },
     "/v1/customer-meters/{id}": {
@@ -21804,7 +21943,12 @@
         },
         "x-speakeasy-group": "payments",
         "x-speakeasy-name-override": "list",
-        "x-polar-pagination": "page_limit"
+        "x-polar-pagination": {
+          "type": "page_limit",
+          "item_schema": {
+            "$ref": "#/components/schemas/Payment"
+          }
+        }
       }
     },
     "/v1/payments/{id}": {
@@ -51373,6 +51517,31 @@
         "type": "object",
         "title": "FilePatch"
       },
+      "FileRead": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/DownloadableFileRead"
+          },
+          {
+            "$ref": "#/components/schemas/ProductMediaFileRead"
+          },
+          {
+            "$ref": "#/components/schemas/OrganizationAvatarFileRead"
+          },
+          {
+            "$ref": "#/components/schemas/SupportCaseAttachmentFileRead"
+          }
+        ],
+        "discriminator": {
+          "propertyName": "service",
+          "mapping": {
+            "downloadable": "#/components/schemas/DownloadableFileRead",
+            "organization_avatar": "#/components/schemas/OrganizationAvatarFileRead",
+            "product_media": "#/components/schemas/ProductMediaFileRead",
+            "support_case_attachment": "#/components/schemas/SupportCaseAttachmentFileRead"
+          }
+        }
+      },
       "FileServiceTypes": {
         "type": "string",
         "enum": [
@@ -53592,30 +53761,7 @@
         "properties": {
           "items": {
             "items": {
-              "oneOf": [
-                {
-                  "$ref": "#/components/schemas/DownloadableFileRead"
-                },
-                {
-                  "$ref": "#/components/schemas/ProductMediaFileRead"
-                },
-                {
-                  "$ref": "#/components/schemas/OrganizationAvatarFileRead"
-                },
-                {
-                  "$ref": "#/components/schemas/SupportCaseAttachmentFileRead"
-                }
-              ],
-              "title": "FileRead",
-              "discriminator": {
-                "propertyName": "service",
-                "mapping": {
-                  "downloadable": "#/components/schemas/DownloadableFileRead",
-                  "organization_avatar": "#/components/schemas/OrganizationAvatarFileRead",
-                  "product_media": "#/components/schemas/ProductMediaFileRead",
-                  "support_case_attachment": "#/components/schemas/SupportCaseAttachmentFileRead"
-                }
-              }
+              "$ref": "#/components/schemas/FileRead"
             },
             "type": "array",
             "title": "Items"
@@ -61857,6 +62003,12 @@
             "title": "Sso Enabled",
             "description": "If this organization has single sign-on configuration enabled",
             "default": false
+          },
+          "compass_enabled": {
+            "type": "boolean",
+            "title": "Compass Enabled",
+            "description": "If this organization has the split product navigation (Billing / Compass / Customers) enabled in the dashboard",
+            "default": false
           }
         },
         "type": "object",
@@ -62714,6 +62866,18 @@
               }
             ],
             "description": "Default tax behavior applied on products."
+          },
+          "sso_enforced": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sso Enforced",
+            "description": "Whether members must access this organization through its SSO connection. Turning this on requires an active SSO session for this organization and at least one enabled SSO connection."
           }
         },
         "type": "object",
@@ -65839,6 +66003,28 @@
           "expires_at"
         ],
         "title": "S3FileUploadPart"
+      },
+      "SSOEnforcementRequiresConnection": {
+        "properties": {
+          "error": {
+            "type": "string",
+            "const": "SSOEnforcementRequiresConnection",
+            "title": "Error",
+            "examples": [
+              "SSOEnforcementRequiresConnection"
+            ]
+          },
+          "detail": {
+            "type": "string",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "error",
+          "detail"
+        ],
+        "title": "SSOEnforcementRequiresConnection"
       },
       "Scope": {
         "type": "string",
