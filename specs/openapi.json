@@ -32347,6 +32347,7 @@
           "amount",
           "currency",
           "method",
+          "trigger",
           "decline_reason",
           "decline_message",
           "organization_id",
@@ -44866,7 +44867,18 @@
           "created_at",
           "modified_at",
           "id",
-          "status"
+          "subscription_id",
+          "order_id",
+          "status",
+          "customer_id",
+          "member_id",
+          "member",
+          "email",
+          "customer_email",
+          "invitation_token_expires_at",
+          "claimed_at",
+          "revoked_at",
+          "seat_metadata"
         ],
         "title": "CustomerSeat"
       },
@@ -51962,6 +51974,7 @@
           "amount",
           "currency",
           "method",
+          "trigger",
           "decline_reason",
           "decline_message",
           "organization_id",
@@ -62009,6 +62022,12 @@
             "title": "Compass Enabled",
             "description": "If this organization has the split product navigation (Billing / Compass / Customers) enabled in the dashboard",
             "default": false
+          },
+          "merchant_migration_enabled": {
+            "type": "boolean",
+            "title": "Merchant Migration Enabled",
+            "description": "If this organization can migrate its billing from another provider (e.g. Stripe) to Polar.",
+            "default": false
           }
         },
         "type": "object",
@@ -64705,7 +64724,9 @@
         "required": [
           "id",
           "name",
-          "unit"
+          "unit",
+          "custom_label",
+          "custom_multiplier"
         ],
         "title": "ProductPriceMeter",
         "description": "A meter associated to a metered price."
@@ -65852,6 +65873,7 @@
               "$ref": "#/components/schemas/S3FileCreatePart"
             },
             "type": "array",
+            "maxItems": 10000,
             "title": "Parts"
           }
         },
