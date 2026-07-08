@@ -18034,11 +18034,19 @@
             }
           },
           "403": {
-            "description": "Customer subscription is already canceled or will be at the end of the period, or the user lacks billing permissions.",
+            "description": "Customer subscription is already canceled or will be at the end of the period, the user lacks billing permissions, or pausing/resuming is not enabled for the organization.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AlreadyCanceledSubscription"
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/AlreadyCanceledSubscription"
+                    },
+                    {
+                      "$ref": "#/components/schemas/PauseResumeNotAllowed"
+                    }
+                  ],
+                  "title": "Response 403 Customer Portal:Subscriptions:Update"
                 }
               }
             }
@@ -22894,6 +22902,80 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/WebhookSubscriptionPastDuePayload"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "subscription.paused": {
+      "post": {
+        "summary": "subscription.paused",
+        "description": "Sent when a subscription is paused and the customer temporarily loses access.\n\nNo order is created while paused. The subscription resumes either on its\nscheduled resume date or when resumed manually, starting a new billing period.\n\n**Discord & Slack support:** Full",
+        "operationId": "_endpointsubscription_paused_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WebhookSubscriptionPausedPayload"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "subscription.resumed": {
+      "post": {
+        "summary": "subscription.resumed",
+        "description": "Sent when a paused subscription resumes, restoring the customer's access.\n\nResuming starts a new billing period and charges the customer immediately.\n\n**Discord & Slack support:** Full",
+        "operationId": "_endpointsubscription_resumed_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WebhookSubscriptionResumedPayload"
               }
             }
           },
@@ -43605,6 +43687,37 @@
             "title": "Past Due At",
             "description": "The timestamp when the subscription entered `past_due` status."
           },
+          "pause_at_period_end": {
+            "type": "boolean",
+            "title": "Pause At Period End",
+            "description": "Whether the subscription will be paused at the end of the current period."
+          },
+          "paused_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Paused At",
+            "description": "The timestamp when the subscription was paused."
+          },
+          "resumes_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Resumes At",
+            "description": "The timestamp when a paused subscription is scheduled to automatically resume, if set."
+          },
           "customer_id": {
             "type": "string",
             "format": "uuid4",
@@ -43697,6 +43810,9 @@
           "started_at",
           "ends_at",
           "ended_at",
+          "pause_at_period_end",
+          "paused_at",
+          "resumes_at",
           "customer_id",
           "product_id",
           "discount_id",
@@ -44480,6 +44596,10 @@
           "update_plan": {
             "type": "boolean",
             "title": "Update Plan"
+          },
+          "pause": {
+            "type": "boolean",
+            "title": "Pause"
           }
         },
         "type": "object",
@@ -46464,6 +46584,37 @@
             "title": "Past Due At",
             "description": "The timestamp when the subscription entered `past_due` status."
           },
+          "pause_at_period_end": {
+            "type": "boolean",
+            "title": "Pause At Period End",
+            "description": "Whether the subscription will be paused at the end of the current period."
+          },
+          "paused_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Paused At",
+            "description": "The timestamp when the subscription was paused."
+          },
+          "resumes_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Resumes At",
+            "description": "The timestamp when a paused subscription is scheduled to automatically resume, if set."
+          },
           "customer_id": {
             "type": "string",
             "format": "uuid4",
@@ -46593,6 +46744,9 @@
           "started_at",
           "ends_at",
           "ended_at",
+          "pause_at_period_end",
+          "paused_at",
+          "resumes_at",
           "customer_id",
           "product_id",
           "discount_id",
@@ -46765,6 +46919,33 @@
           "name"
         ],
         "title": "CustomerSubscriptionMeterMeter"
+      },
+      "CustomerSubscriptionPause": {
+        "properties": {
+          "pause_at_period_end": {
+            "type": "boolean",
+            "title": "Pause At Period End",
+            "description": "Pause an active subscription at the end of the current period.\n\nOr cancel a scheduled pause on a subscription set to be paused at\nperiod end."
+          },
+          "resumes_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Resumes At",
+            "description": "Date at which the paused subscription should automatically resume. If not set, it stays paused until resumed. Must be after the current period end."
+          }
+        },
+        "type": "object",
+        "required": [
+          "pause_at_period_end"
+        ],
+        "title": "CustomerSubscriptionPause"
       },
       "CustomerSubscriptionProduct": {
         "properties": {
@@ -46958,6 +47139,21 @@
         ],
         "title": "CustomerSubscriptionProduct"
       },
+      "CustomerSubscriptionResume": {
+        "properties": {
+          "resume": {
+            "type": "boolean",
+            "const": true,
+            "title": "Resume",
+            "description": "Resume a paused subscription immediately, starting a new billing period and charging the customer."
+          }
+        },
+        "type": "object",
+        "required": [
+          "resume"
+        ],
+        "title": "CustomerSubscriptionResume"
+      },
       "CustomerSubscriptionSortProperty": {
         "type": "string",
         "enum": [
@@ -46984,6 +47180,12 @@
           },
           {
             "$ref": "#/components/schemas/CustomerSubscriptionCancel"
+          },
+          {
+            "$ref": "#/components/schemas/CustomerSubscriptionPause"
+          },
+          {
+            "$ref": "#/components/schemas/CustomerSubscriptionResume"
           },
           {
             "$ref": "#/components/schemas/CustomerSubscriptionUpdateClear"
@@ -59715,6 +59917,37 @@
             "title": "Past Due At",
             "description": "The timestamp when the subscription entered `past_due` status."
           },
+          "pause_at_period_end": {
+            "type": "boolean",
+            "title": "Pause At Period End",
+            "description": "Whether the subscription will be paused at the end of the current period."
+          },
+          "paused_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Paused At",
+            "description": "The timestamp when the subscription was paused."
+          },
+          "resumes_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Resumes At",
+            "description": "The timestamp when a paused subscription is scheduled to automatically resume, if set."
+          },
           "customer_id": {
             "type": "string",
             "format": "uuid4",
@@ -59808,6 +60041,9 @@
           "started_at",
           "ends_at",
           "ended_at",
+          "pause_at_period_end",
+          "paused_at",
+          "resumes_at",
           "customer_id",
           "product_id",
           "discount_id",
@@ -61756,6 +61992,14 @@
             "type": "boolean",
             "title": "Subscription Past Due"
           },
+          "subscription_paused": {
+            "type": "boolean",
+            "title": "Subscription Paused"
+          },
+          "subscription_resumed": {
+            "type": "boolean",
+            "title": "Subscription Resumed"
+          },
           "subscription_renewal_reminder": {
             "type": "boolean",
             "title": "Subscription Renewal Reminder"
@@ -61785,6 +62029,8 @@
           "subscription_cycled",
           "subscription_cycled_after_trial",
           "subscription_past_due",
+          "subscription_paused",
+          "subscription_resumed",
           "subscription_renewal_reminder",
           "subscription_revoked",
           "subscription_trial_conversion_reminder",
@@ -62919,6 +63165,28 @@
           "max_page"
         ],
         "title": "Pagination"
+      },
+      "PauseResumeNotAllowed": {
+        "properties": {
+          "error": {
+            "type": "string",
+            "const": "PauseResumeNotAllowed",
+            "title": "Error",
+            "examples": [
+              "PauseResumeNotAllowed"
+            ]
+          },
+          "detail": {
+            "type": "string",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "error",
+          "detail"
+        ],
+        "title": "PauseResumeNotAllowed"
       },
       "Payment": {
         "anyOf": [
@@ -66606,6 +66874,37 @@
             "title": "Past Due At",
             "description": "The timestamp when the subscription entered `past_due` status."
           },
+          "pause_at_period_end": {
+            "type": "boolean",
+            "title": "Pause At Period End",
+            "description": "Whether the subscription will be paused at the end of the current period."
+          },
+          "paused_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Paused At",
+            "description": "The timestamp when the subscription was paused."
+          },
+          "resumes_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Resumes At",
+            "description": "The timestamp when a paused subscription is scheduled to automatically resume, if set."
+          },
           "customer_id": {
             "type": "string",
             "format": "uuid4",
@@ -66791,6 +67090,9 @@
           "started_at",
           "ends_at",
           "ended_at",
+          "pause_at_period_end",
+          "paused_at",
+          "resumes_at",
           "customer_id",
           "product_id",
           "discount_id",
@@ -68179,6 +68481,216 @@
         ],
         "title": "SubscriptionPastDueMetadata"
       },
+      "SubscriptionPause": {
+        "properties": {
+          "pause_at_period_end": {
+            "type": "boolean",
+            "title": "Pause At Period End",
+            "description": "Pause an active subscription at the end of the current period.\n\nOr cancel a scheduled pause on a subscription set to be paused at\nperiod end."
+          },
+          "resumes_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Resumes At",
+            "description": "Date at which the paused subscription should automatically resume.\n\nIf not set, the subscription stays paused until it is resumed manually.\nMust be after the current period end."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "pause_at_period_end"
+        ],
+        "title": "SubscriptionPause"
+      },
+      "SubscriptionPausedEvent": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid4",
+            "title": "Id",
+            "description": "The ID of the object."
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp",
+            "description": "The timestamp of the event."
+          },
+          "organization_id": {
+            "type": "string",
+            "format": "uuid4",
+            "title": "Organization Id",
+            "description": "The ID of the organization owning the event.",
+            "examples": [
+              "1dbfc517-0bbf-4301-9ba8-555ca42b9737"
+            ]
+          },
+          "customer_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid4"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customer Id",
+            "description": "ID of the customer in your Polar organization associated with the event."
+          },
+          "customer": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Customer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The customer associated with the event."
+          },
+          "external_customer_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "External Customer Id",
+            "description": "ID of the customer in your system associated with the event."
+          },
+          "member_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid4"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Member Id",
+            "description": "ID of the member within the customer's organization who performed the action inside B2B."
+          },
+          "external_member_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "External Member Id",
+            "description": "ID of the member in your system within the customer's organization who performed the action inside B2B."
+          },
+          "child_count": {
+            "type": "integer",
+            "title": "Child Count",
+            "description": "Number of direct child events linked to this event.",
+            "default": 0
+          },
+          "parent_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid4"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent Id",
+            "description": "The ID of the parent event."
+          },
+          "label": {
+            "type": "string",
+            "title": "Label",
+            "description": "Human readable label of the event type."
+          },
+          "source": {
+            "type": "string",
+            "const": "system",
+            "title": "Source",
+            "description": "The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API."
+          },
+          "name": {
+            "type": "string",
+            "const": "subscription.paused",
+            "title": "Name",
+            "description": "The name of the event."
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/SubscriptionPausedMetadata"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "timestamp",
+          "organization_id",
+          "customer_id",
+          "customer",
+          "external_customer_id",
+          "label",
+          "source",
+          "name",
+          "metadata"
+        ],
+        "title": "SubscriptionPausedEvent",
+        "description": "An event created by Polar when a subscription is paused."
+      },
+      "SubscriptionPausedMetadata": {
+        "properties": {
+          "subscription_id": {
+            "type": "string",
+            "title": "Subscription Id"
+          },
+          "product_id": {
+            "type": "string",
+            "title": "Product Id"
+          },
+          "amount": {
+            "type": "integer",
+            "title": "Amount"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          },
+          "recurring_interval": {
+            "type": "string",
+            "title": "Recurring Interval"
+          },
+          "recurring_interval_count": {
+            "type": "integer",
+            "title": "Recurring Interval Count"
+          },
+          "paused_at": {
+            "type": "string",
+            "title": "Paused At"
+          },
+          "resumes_at": {
+            "type": "string",
+            "title": "Resumes At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "subscription_id",
+          "paused_at"
+        ],
+        "title": "SubscriptionPausedMetadata"
+      },
       "SubscriptionProductUpdatedEvent": {
         "properties": {
           "id": {
@@ -68524,6 +69036,195 @@
           "subscription_id"
         ],
         "title": "SubscriptionReactivatedMetadata"
+      },
+      "SubscriptionResume": {
+        "properties": {
+          "resume": {
+            "type": "boolean",
+            "const": true,
+            "title": "Resume",
+            "description": "Resume a paused subscription immediately, starting a new billing period and charging the customer."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "resume"
+        ],
+        "title": "SubscriptionResume"
+      },
+      "SubscriptionResumedEvent": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid4",
+            "title": "Id",
+            "description": "The ID of the object."
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp",
+            "description": "The timestamp of the event."
+          },
+          "organization_id": {
+            "type": "string",
+            "format": "uuid4",
+            "title": "Organization Id",
+            "description": "The ID of the organization owning the event.",
+            "examples": [
+              "1dbfc517-0bbf-4301-9ba8-555ca42b9737"
+            ]
+          },
+          "customer_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid4"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customer Id",
+            "description": "ID of the customer in your Polar organization associated with the event."
+          },
+          "customer": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Customer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The customer associated with the event."
+          },
+          "external_customer_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "External Customer Id",
+            "description": "ID of the customer in your system associated with the event."
+          },
+          "member_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid4"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Member Id",
+            "description": "ID of the member within the customer's organization who performed the action inside B2B."
+          },
+          "external_member_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "External Member Id",
+            "description": "ID of the member in your system within the customer's organization who performed the action inside B2B."
+          },
+          "child_count": {
+            "type": "integer",
+            "title": "Child Count",
+            "description": "Number of direct child events linked to this event.",
+            "default": 0
+          },
+          "parent_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid4"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent Id",
+            "description": "The ID of the parent event."
+          },
+          "label": {
+            "type": "string",
+            "title": "Label",
+            "description": "Human readable label of the event type."
+          },
+          "source": {
+            "type": "string",
+            "const": "system",
+            "title": "Source",
+            "description": "The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API."
+          },
+          "name": {
+            "type": "string",
+            "const": "subscription.resumed",
+            "title": "Name",
+            "description": "The name of the event."
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/SubscriptionResumedMetadata"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "timestamp",
+          "organization_id",
+          "customer_id",
+          "customer",
+          "external_customer_id",
+          "label",
+          "source",
+          "name",
+          "metadata"
+        ],
+        "title": "SubscriptionResumedEvent",
+        "description": "An event created by Polar when a paused subscription is resumed."
+      },
+      "SubscriptionResumedMetadata": {
+        "properties": {
+          "subscription_id": {
+            "type": "string",
+            "title": "Subscription Id"
+          },
+          "product_id": {
+            "type": "string",
+            "title": "Product Id"
+          },
+          "amount": {
+            "type": "integer",
+            "title": "Amount"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          },
+          "recurring_interval": {
+            "type": "string",
+            "title": "Recurring Interval"
+          },
+          "recurring_interval_count": {
+            "type": "integer",
+            "title": "Recurring Interval Count"
+          }
+        },
+        "type": "object",
+        "required": [
+          "subscription_id"
+        ],
+        "title": "SubscriptionResumedMetadata"
       },
       "SubscriptionRevoke": {
         "properties": {
@@ -68938,7 +69639,8 @@
           "active",
           "past_due",
           "canceled",
-          "unpaid"
+          "unpaid",
+          "paused"
         ],
         "title": "SubscriptionStatus"
       },
@@ -69136,6 +69838,12 @@
           },
           {
             "$ref": "#/components/schemas/SubscriptionRevoke"
+          },
+          {
+            "$ref": "#/components/schemas/SubscriptionPause"
+          },
+          {
+            "$ref": "#/components/schemas/SubscriptionResume"
           },
           {
             "$ref": "#/components/schemas/SubscriptionUpdateClear"
@@ -69909,6 +70617,12 @@
             "$ref": "#/components/schemas/SubscriptionReactivatedEvent"
           },
           {
+            "$ref": "#/components/schemas/SubscriptionPausedEvent"
+          },
+          {
+            "$ref": "#/components/schemas/SubscriptionResumedEvent"
+          },
+          {
             "$ref": "#/components/schemas/SubscriptionUncanceledEvent"
           },
           {
@@ -69990,8 +70704,10 @@
             "subscription.created": "#/components/schemas/SubscriptionCreatedEvent",
             "subscription.cycled": "#/components/schemas/SubscriptionCycledEvent",
             "subscription.past_due": "#/components/schemas/SubscriptionPastDueEvent",
+            "subscription.paused": "#/components/schemas/SubscriptionPausedEvent",
             "subscription.product_updated": "#/components/schemas/SubscriptionProductUpdatedEvent",
             "subscription.reactivated": "#/components/schemas/SubscriptionReactivatedEvent",
+            "subscription.resumed": "#/components/schemas/SubscriptionResumedEvent",
             "subscription.revoked": "#/components/schemas/SubscriptionRevokedEvent",
             "subscription.seats_updated": "#/components/schemas/SubscriptionSeatsUpdatedEvent",
             "subscription.uncanceled": "#/components/schemas/SubscriptionUncanceledEvent",
@@ -71515,6 +72231,8 @@
           "subscription.uncanceled",
           "subscription.revoked",
           "subscription.past_due",
+          "subscription.paused",
+          "subscription.resumed",
           "refund.created",
           "refund.updated",
           "product.created",
@@ -71985,6 +72703,62 @@
         ],
         "title": "WebhookSubscriptionPastDuePayload",
         "description": "Sent when a subscription payment fails and the subscription enters `past_due` status.\n\nThis is a recoverable state - the customer can update their payment method to restore the subscription.\nBenefits may be revoked depending on the organization's grace period settings.\n\nIf payment retries are exhausted, a `subscription.revoked` event will be sent.\n\n**Discord & Slack support:** Full"
+      },
+      "WebhookSubscriptionPausedPayload": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "subscription.paused",
+            "title": "Type",
+            "examples": [
+              "subscription.paused"
+            ]
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp"
+          },
+          "data": {
+            "$ref": "#/components/schemas/Subscription"
+          }
+        },
+        "type": "object",
+        "required": [
+          "type",
+          "timestamp",
+          "data"
+        ],
+        "title": "WebhookSubscriptionPausedPayload",
+        "description": "Sent when a subscription is paused and the customer temporarily loses access.\n\nNo order is created while paused. The subscription resumes either on its\nscheduled resume date or when resumed manually, starting a new billing period.\n\n**Discord & Slack support:** Full"
+      },
+      "WebhookSubscriptionResumedPayload": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "subscription.resumed",
+            "title": "Type",
+            "examples": [
+              "subscription.resumed"
+            ]
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp"
+          },
+          "data": {
+            "$ref": "#/components/schemas/Subscription"
+          }
+        },
+        "type": "object",
+        "required": [
+          "type",
+          "timestamp",
+          "data"
+        ],
+        "title": "WebhookSubscriptionResumedPayload",
+        "description": "Sent when a paused subscription resumes, restoring the customer's access.\n\nResuming starts a new billing period and charges the customer immediately.\n\n**Discord & Slack support:** Full"
       },
       "WebhookSubscriptionRevokedPayload": {
         "properties": {
