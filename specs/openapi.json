@@ -47225,20 +47225,10 @@
         "properties": {
           "seats": {
             "type": "integer",
-            "minimum": 1,
+            "maximum": 2147483647,
+            "minimum": -2147483648,
             "title": "Seats",
             "description": "Update the number of seats for this subscription."
-          },
-          "proration_behavior": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/SubscriptionProrationBehavior"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "Determine how to handle the proration billing. If not provided, will use the default organization setting."
           }
         },
         "type": "object",
