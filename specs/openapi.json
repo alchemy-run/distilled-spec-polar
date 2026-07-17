@@ -46798,6 +46798,7 @@
             "description": "Customer feedback and why they decided to cancel."
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "title": "CustomerSubscriptionCancel"
       },
@@ -46941,6 +46942,7 @@
             "description": "Date at which the paused subscription should automatically resume. If not set, it stays paused until resumed. Must be after the current period end."
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "pause_at_period_end"
@@ -47148,6 +47150,7 @@
             "description": "Resume a paused subscription immediately, starting a new billing period and charging the customer."
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "resume"
@@ -47200,6 +47203,7 @@
             "description": "Clear the pending subscription update."
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "pending_update"
@@ -47215,6 +47219,7 @@
             "description": "Update subscription to another product."
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "product_id"
@@ -47231,6 +47236,7 @@
             "description": "Update the number of seats for this subscription."
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "seats"
