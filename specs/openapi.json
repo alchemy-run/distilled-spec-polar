@@ -1524,13 +1524,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
+          "204": {
+            "description": "Client deleted successfully."
           },
           "422": {
             "description": "Validation Error",
