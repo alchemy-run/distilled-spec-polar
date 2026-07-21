@@ -33535,45 +33535,6 @@
         ],
         "title": "CheckoutCreatedMetadata"
       },
-      "CheckoutCustomerBillingAddressFields": {
-        "properties": {
-          "country": {
-            "type": "boolean",
-            "title": "Country"
-          },
-          "state": {
-            "type": "boolean",
-            "title": "State"
-          },
-          "city": {
-            "type": "boolean",
-            "title": "City"
-          },
-          "postal_code": {
-            "type": "boolean",
-            "title": "Postal Code"
-          },
-          "line1": {
-            "type": "boolean",
-            "title": "Line1"
-          },
-          "line2": {
-            "type": "boolean",
-            "title": "Line2"
-          }
-        },
-        "type": "object",
-        "required": [
-          "country",
-          "state",
-          "city",
-          "postal_code",
-          "line1",
-          "line2"
-        ],
-        "title": "CheckoutCustomerBillingAddressFields",
-        "description": "Deprecated: Use CheckoutBillingAddressFields instead."
-      },
       "CheckoutDiscountFixedOnceForeverDuration": {
         "properties": {
           "duration": {
