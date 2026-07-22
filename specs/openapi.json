@@ -5275,6 +5275,9 @@
           "Organization",
           "User"
         ],
+        "x-mint": {
+          "content": "<Warning>\n  Once the invoice is generated, it's permanent and cannot be modified.\n\n  Make sure the billing details (name and address) are correct before generating the invoice. You can update them before generating the invoice by calling the [`PATCH /v1/orders/{id}`](/api-reference/orders/update-order) endpoint.\n</Warning>\n\n<Note>\n  After successfully calling this endpoint, you get a `202` response, meaning the generation of the invoice has been scheduled. It usually only takes a few seconds before you can retrieve the invoice using the [`GET /v1/orders/{id}/invoice`](/api-reference/orders/get-order-invoice) endpoint.\n\n  If you want a reliable notification when the invoice is ready, you can listen to the [`order.updated`](/api-reference/orderupdated) webhook and check the [`is_invoice_generated` field](/api-reference/orderupdated#schema-data-is-invoice-generated).\n</Note>"
+        },
         "x-speakeasy-group": "orders",
         "x-speakeasy-name-override": "generate_invoice"
       },
@@ -5353,6 +5356,9 @@
           "Organization",
           "User"
         ],
+        "x-mint": {
+          "content": "<Note>\n  The invoice must be generated first before it can be retrieved. You should call the [`POST /v1/orders/{id}/invoice`](/api-reference/orders/generate-order-invoice) endpoint to generate the invoice.\n\n  If the invoice is not generated, you will receive a `404` error.\n</Note>"
+        },
         "x-speakeasy-group": "orders",
         "x-speakeasy-name-override": "invoice"
       }
@@ -10645,6 +10651,9 @@
           "Organization",
           "User"
         ],
+        "x-mint": {
+          "content": "<Warning>\n  Looking to create a single use checkout session? Checkout Links are probably **not** what you're looking for.\n\n  Checkout Links are shareable links that generate checkout sessions when opened. They are very handy to start a purchase from your website or social media.\n\n  However, if you want to start a checkout for one of your user **inside** your product, you should use the [Checkout Sessions API](/api-reference/checkouts/create-checkout-session).\n</Warning>"
+        },
         "x-speakeasy-group": "checkout-links",
         "x-speakeasy-name-override": "create"
       }
@@ -14878,6 +14887,9 @@
             }
           }
         },
+        "x-mint": {
+          "content": "<Note>\n  To change the default payment method, call the [`PATCH /v1/customer-portal/customers/me`](/api-reference/customer_portal/update-customer) endpoint with the desired `default_payment_method_id`.\n</Note>"
+        },
         "x-speakeasy-pagination": {
           "type": "offsetLimit",
           "inputs": [
@@ -16495,6 +16507,9 @@
             }
           }
         },
+        "x-mint": {
+          "content": "<Tip>\n  You only need to use this endpoint if you have device **activations** enabled on the license key benefit. You then use this endpoint to reserve an allocation for a specific device. Store the unique activation ID from the response on the device and use it as extra validation in the [/validate](/api-reference/customer_portal/validate-license-key) endpoint.\n\n  Not using **activations**? Just use the [/validate](/api-reference/customer_portal/validate-license-key) endpoint directly instead.\n</Tip>"
+        },
         "x-speakeasy-group": "customer_portal.license_keys",
         "x-speakeasy-name-override": "activate"
       }
@@ -17302,6 +17317,9 @@
             }
           }
         },
+        "x-mint": {
+          "content": "<Warning>\n  Once the invoice is generated, it's permanent and cannot be modified.\n\n  Make sure the billing details (name and address) are correct before generating the invoice. You can update them before generating the invoice by calling the [`PATCH /v1/customer-portal/orders/{id}`](/api-reference/customer_portal/update-order) endpoint.\n</Warning>\n\n<Note>\n  After successfully calling this endpoint, you get a `202` response, meaning the generation of the invoice has been scheduled. It usually only takes a few seconds before you can retrieve the invoice using the [`GET /v1/customer-portal/orders/{id}/invoice`](/api-reference/customer_portal/get-order-invoice) endpoint.\n\n  If you want a reliable notification when the invoice is ready, you can listen to the [`order.updated`](/api-reference/orderupdated) webhook and check the [`is_invoice_generated` field](/api-reference/orderupdated#schema-data-is-invoice-generated).\n</Note>"
+        },
         "x-speakeasy-group": "customer_portal.orders",
         "x-speakeasy-name-override": "generate_invoice"
       },
@@ -17373,6 +17391,9 @@
               }
             }
           }
+        },
+        "x-mint": {
+          "content": "<Note>\n  The invoice must be generated first before it can be retrieved. You should call the [`POST /v1/customer-portal/orders/{id}/invoice`](/api-reference/customer_portal/generate-order-invoice) endpoint to generate the invoice.\n\n  If the invoice is not generated, you will receive a `404` error.\n</Note>"
         },
         "x-speakeasy-group": "customer_portal.orders",
         "x-speakeasy-name-override": "invoice"
@@ -22070,6 +22091,11 @@
               }
             }
           }
+        },
+        "x-mint": {
+          "metadata": {
+            "sidebarTitle": "checkout.created"
+          }
         }
       }
     },
@@ -22106,6 +22132,11 @@
                 }
               }
             }
+          }
+        },
+        "x-mint": {
+          "metadata": {
+            "sidebarTitle": "checkout.updated"
           }
         }
       }
@@ -22144,6 +22175,11 @@
               }
             }
           }
+        },
+        "x-mint": {
+          "metadata": {
+            "sidebarTitle": "checkout.expired"
+          }
         }
       }
     },
@@ -22180,6 +22216,11 @@
                 }
               }
             }
+          }
+        },
+        "x-mint": {
+          "metadata": {
+            "sidebarTitle": "customer.created"
           }
         }
       }
@@ -22218,6 +22259,11 @@
               }
             }
           }
+        },
+        "x-mint": {
+          "metadata": {
+            "sidebarTitle": "customer.updated"
+          }
         }
       }
     },
@@ -22254,6 +22300,11 @@
                 }
               }
             }
+          }
+        },
+        "x-mint": {
+          "metadata": {
+            "sidebarTitle": "customer.deleted"
           }
         }
       }
@@ -22292,6 +22343,11 @@
               }
             }
           }
+        },
+        "x-mint": {
+          "metadata": {
+            "sidebarTitle": "customer.state_changed"
+          }
         }
       }
     },
@@ -22328,6 +22384,11 @@
                 }
               }
             }
+          }
+        },
+        "x-mint": {
+          "metadata": {
+            "sidebarTitle": "customer_seat.assigned"
           }
         }
       }
@@ -22366,6 +22427,11 @@
               }
             }
           }
+        },
+        "x-mint": {
+          "metadata": {
+            "sidebarTitle": "customer_seat.claimed"
+          }
         }
       }
     },
@@ -22402,6 +22468,11 @@
                 }
               }
             }
+          }
+        },
+        "x-mint": {
+          "metadata": {
+            "sidebarTitle": "customer_seat.revoked"
           }
         }
       }
@@ -22440,6 +22511,11 @@
               }
             }
           }
+        },
+        "x-mint": {
+          "metadata": {
+            "sidebarTitle": "member.created"
+          }
         }
       }
     },
@@ -22476,6 +22552,11 @@
                 }
               }
             }
+          }
+        },
+        "x-mint": {
+          "metadata": {
+            "sidebarTitle": "member.updated"
           }
         }
       }
@@ -22514,6 +22595,11 @@
               }
             }
           }
+        },
+        "x-mint": {
+          "metadata": {
+            "sidebarTitle": "member.deleted"
+          }
         }
       }
     },
@@ -22550,6 +22636,11 @@
                 }
               }
             }
+          }
+        },
+        "x-mint": {
+          "metadata": {
+            "sidebarTitle": "order.created"
           }
         }
       }
@@ -22588,6 +22679,11 @@
               }
             }
           }
+        },
+        "x-mint": {
+          "metadata": {
+            "sidebarTitle": "order.updated"
+          }
         }
       }
     },
@@ -22624,6 +22720,11 @@
                 }
               }
             }
+          }
+        },
+        "x-mint": {
+          "metadata": {
+            "sidebarTitle": "order.paid"
           }
         }
       }
@@ -22662,6 +22763,11 @@
               }
             }
           }
+        },
+        "x-mint": {
+          "metadata": {
+            "sidebarTitle": "order.refunded"
+          }
         }
       }
     },
@@ -22698,6 +22804,11 @@
                 }
               }
             }
+          }
+        },
+        "x-mint": {
+          "metadata": {
+            "sidebarTitle": "subscription.created"
           }
         }
       }
@@ -22736,6 +22847,11 @@
               }
             }
           }
+        },
+        "x-mint": {
+          "metadata": {
+            "sidebarTitle": "subscription.updated"
+          }
         }
       }
     },
@@ -22772,6 +22888,11 @@
                 }
               }
             }
+          }
+        },
+        "x-mint": {
+          "metadata": {
+            "sidebarTitle": "subscription.active"
           }
         }
       }
@@ -22810,6 +22931,11 @@
               }
             }
           }
+        },
+        "x-mint": {
+          "metadata": {
+            "sidebarTitle": "subscription.canceled"
+          }
         }
       }
     },
@@ -22846,6 +22972,11 @@
                 }
               }
             }
+          }
+        },
+        "x-mint": {
+          "metadata": {
+            "sidebarTitle": "subscription.uncanceled"
           }
         }
       }
@@ -22884,6 +23015,11 @@
               }
             }
           }
+        },
+        "x-mint": {
+          "metadata": {
+            "sidebarTitle": "subscription.revoked"
+          }
         }
       }
     },
@@ -22920,6 +23056,11 @@
                 }
               }
             }
+          }
+        },
+        "x-mint": {
+          "metadata": {
+            "sidebarTitle": "subscription.past_due"
           }
         }
       }
@@ -22958,6 +23099,11 @@
               }
             }
           }
+        },
+        "x-mint": {
+          "metadata": {
+            "sidebarTitle": "subscription.paused"
+          }
         }
       }
     },
@@ -22994,6 +23140,11 @@
                 }
               }
             }
+          }
+        },
+        "x-mint": {
+          "metadata": {
+            "sidebarTitle": "subscription.resumed"
           }
         }
       }
@@ -23032,6 +23183,11 @@
               }
             }
           }
+        },
+        "x-mint": {
+          "metadata": {
+            "sidebarTitle": "refund.created"
+          }
         }
       }
     },
@@ -23068,6 +23224,11 @@
                 }
               }
             }
+          }
+        },
+        "x-mint": {
+          "metadata": {
+            "sidebarTitle": "refund.updated"
           }
         }
       }
@@ -23106,6 +23267,11 @@
               }
             }
           }
+        },
+        "x-mint": {
+          "metadata": {
+            "sidebarTitle": "product.created"
+          }
         }
       }
     },
@@ -23142,6 +23308,11 @@
                 }
               }
             }
+          }
+        },
+        "x-mint": {
+          "metadata": {
+            "sidebarTitle": "product.updated"
           }
         }
       }
@@ -23180,6 +23351,11 @@
               }
             }
           }
+        },
+        "x-mint": {
+          "metadata": {
+            "sidebarTitle": "organization.updated"
+          }
         }
       }
     },
@@ -23216,6 +23392,11 @@
                 }
               }
             }
+          }
+        },
+        "x-mint": {
+          "metadata": {
+            "sidebarTitle": "benefit.created"
           }
         }
       }
@@ -23254,6 +23435,11 @@
               }
             }
           }
+        },
+        "x-mint": {
+          "metadata": {
+            "sidebarTitle": "benefit.updated"
+          }
         }
       }
     },
@@ -23290,6 +23476,11 @@
                 }
               }
             }
+          }
+        },
+        "x-mint": {
+          "metadata": {
+            "sidebarTitle": "benefit_grant.created"
           }
         }
       }
@@ -23328,6 +23519,11 @@
               }
             }
           }
+        },
+        "x-mint": {
+          "metadata": {
+            "sidebarTitle": "benefit_grant.updated"
+          }
         }
       }
     },
@@ -23365,6 +23561,11 @@
               }
             }
           }
+        },
+        "x-mint": {
+          "metadata": {
+            "sidebarTitle": "benefit_grant.cycled"
+          }
         }
       }
     },
@@ -23401,6 +23602,11 @@
                 }
               }
             }
+          }
+        },
+        "x-mint": {
+          "metadata": {
+            "sidebarTitle": "benefit_grant.revoked"
           }
         }
       }
@@ -73063,12 +73269,12 @@
       },
       "customer_session": {
         "type": "http",
-        "description": "Customer session tokens are specific tokens that are used to authenticate customers on your organization. You can create those sessions programmatically using the [Create Customer Session endpoint](/api-reference/customer-portal/sessions/create).",
+        "description": "Customer session tokens are specific tokens that are used to authenticate customers on your organization. You can create those sessions programmatically using the [Create Customer Session endpoint](/api-reference/customer-sessions/create-customer-session).",
         "scheme": "bearer"
       },
       "member_session": {
         "type": "http",
-        "description": "Member session tokens are specific tokens that are used to authenticate members on your organization. You can create those sessions programmatically using the [Create Member Session endpoint](/api-reference/member-portal/sessions/create).",
+        "description": "Member session tokens are specific tokens that are used to authenticate members on your organization. You can create those sessions programmatically using the [Create Member Session endpoint](/api-reference/customer-sessions/create-customer-session).",
         "scheme": "bearer"
       }
     }
