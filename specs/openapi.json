@@ -4588,6 +4588,44 @@
             "description": "Filter by subscription ID."
           },
           {
+            "name": "created_after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Only include orders created after this date",
+              "title": "Created After"
+            },
+            "description": "Only include orders created after this date"
+          },
+          {
+            "name": "created_before",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Only include orders created before this date",
+              "title": "Created Before"
+            },
+            "description": "Only include orders created before this date"
+          },
+          {
             "name": "page",
             "in": "query",
             "required": false,
@@ -34205,6 +34243,9 @@
           },
           {
             "$ref": "#/components/schemas/TrialAlreadyRedeemed"
+          },
+          {
+            "$ref": "#/components/schemas/DiscountRedemptionLimitReached"
           }
         ]
       },
@@ -48752,6 +48793,20 @@
             "title": "Max Redemptions",
             "description": "Optional maximum number of times the discount can be redeemed."
           },
+          "max_redemptions_per_customer": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 2147483647,
+                "minimum": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Redemptions Per Customer",
+            "description": "Optional maximum number of times the discount can be redeemed by a single customer."
+          },
           "products": {
             "anyOf": [
               {
@@ -48989,6 +49044,18 @@
             "title": "Max Redemptions",
             "description": "Maximum number of times the discount can be redeemed."
           },
+          "max_redemptions_per_customer": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Redemptions Per Customer",
+            "description": "Maximum number of times the discount can be redeemed by a single customer."
+          },
           "redemptions_count": {
             "type": "integer",
             "title": "Redemptions Count",
@@ -49027,6 +49094,7 @@
           "starts_at",
           "ends_at",
           "max_redemptions",
+          "max_redemptions_per_customer",
           "redemptions_count",
           "organization_id",
           "products"
@@ -49155,6 +49223,18 @@
             "title": "Max Redemptions",
             "description": "Maximum number of times the discount can be redeemed."
           },
+          "max_redemptions_per_customer": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Redemptions Per Customer",
+            "description": "Maximum number of times the discount can be redeemed by a single customer."
+          },
           "redemptions_count": {
             "type": "integer",
             "title": "Redemptions Count",
@@ -49186,6 +49266,7 @@
           "starts_at",
           "ends_at",
           "max_redemptions",
+          "max_redemptions_per_customer",
           "redemptions_count",
           "organization_id"
         ],
@@ -49316,6 +49397,18 @@
             "title": "Max Redemptions",
             "description": "Maximum number of times the discount can be redeemed."
           },
+          "max_redemptions_per_customer": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Redemptions Per Customer",
+            "description": "Maximum number of times the discount can be redeemed by a single customer."
+          },
           "redemptions_count": {
             "type": "integer",
             "title": "Redemptions Count",
@@ -49355,6 +49448,7 @@
           "starts_at",
           "ends_at",
           "max_redemptions",
+          "max_redemptions_per_customer",
           "redemptions_count",
           "organization_id",
           "products"
@@ -49487,6 +49581,18 @@
             "title": "Max Redemptions",
             "description": "Maximum number of times the discount can be redeemed."
           },
+          "max_redemptions_per_customer": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Redemptions Per Customer",
+            "description": "Maximum number of times the discount can be redeemed by a single customer."
+          },
           "redemptions_count": {
             "type": "integer",
             "title": "Redemptions Count",
@@ -49519,6 +49625,7 @@
           "starts_at",
           "ends_at",
           "max_redemptions",
+          "max_redemptions_per_customer",
           "redemptions_count",
           "organization_id"
         ],
@@ -49611,6 +49718,20 @@
             ],
             "title": "Max Redemptions",
             "description": "Optional maximum number of times the discount can be redeemed."
+          },
+          "max_redemptions_per_customer": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 2147483647,
+                "minimum": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Redemptions Per Customer",
+            "description": "Optional maximum number of times the discount can be redeemed by a single customer."
           },
           "products": {
             "anyOf": [
@@ -49785,6 +49906,18 @@
             "title": "Max Redemptions",
             "description": "Maximum number of times the discount can be redeemed."
           },
+          "max_redemptions_per_customer": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Redemptions Per Customer",
+            "description": "Maximum number of times the discount can be redeemed by a single customer."
+          },
           "redemptions_count": {
             "type": "integer",
             "title": "Redemptions Count",
@@ -49821,6 +49954,7 @@
           "starts_at",
           "ends_at",
           "max_redemptions",
+          "max_redemptions_per_customer",
           "redemptions_count",
           "organization_id",
           "products"
@@ -49927,6 +50061,18 @@
             "title": "Max Redemptions",
             "description": "Maximum number of times the discount can be redeemed."
           },
+          "max_redemptions_per_customer": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Redemptions Per Customer",
+            "description": "Maximum number of times the discount can be redeemed by a single customer."
+          },
           "redemptions_count": {
             "type": "integer",
             "title": "Redemptions Count",
@@ -49956,6 +50102,7 @@
           "starts_at",
           "ends_at",
           "max_redemptions",
+          "max_redemptions_per_customer",
           "redemptions_count",
           "organization_id"
         ],
@@ -50064,6 +50211,18 @@
             "title": "Max Redemptions",
             "description": "Maximum number of times the discount can be redeemed."
           },
+          "max_redemptions_per_customer": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Redemptions Per Customer",
+            "description": "Maximum number of times the discount can be redeemed by a single customer."
+          },
           "redemptions_count": {
             "type": "integer",
             "title": "Redemptions Count",
@@ -50101,6 +50260,7 @@
           "starts_at",
           "ends_at",
           "max_redemptions",
+          "max_redemptions_per_customer",
           "redemptions_count",
           "organization_id",
           "products"
@@ -50211,6 +50371,18 @@
             "title": "Max Redemptions",
             "description": "Maximum number of times the discount can be redeemed."
           },
+          "max_redemptions_per_customer": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Redemptions Per Customer",
+            "description": "Maximum number of times the discount can be redeemed by a single customer."
+          },
           "redemptions_count": {
             "type": "integer",
             "title": "Redemptions Count",
@@ -50241,6 +50413,7 @@
           "starts_at",
           "ends_at",
           "max_redemptions",
+          "max_redemptions_per_customer",
           "redemptions_count",
           "organization_id"
         ],
@@ -50405,6 +50578,28 @@
         "title": "DiscountProduct",
         "description": "A product that a discount can be applied to."
       },
+      "DiscountRedemptionLimitReached": {
+        "properties": {
+          "error": {
+            "type": "string",
+            "const": "DiscountRedemptionLimitReached",
+            "title": "Error",
+            "examples": [
+              "DiscountRedemptionLimitReached"
+            ]
+          },
+          "detail": {
+            "type": "string",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "error",
+          "detail"
+        ],
+        "title": "DiscountRedemptionLimitReached"
+      },
       "DiscountSortProperty": {
         "type": "string",
         "enum": [
@@ -50523,6 +50718,20 @@
             ],
             "title": "Max Redemptions",
             "description": "Optional maximum number of times the discount can be redeemed."
+          },
+          "max_redemptions_per_customer": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 2147483647,
+                "minimum": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Redemptions Per Customer",
+            "description": "Optional maximum number of times the discount can be redeemed by a single customer."
           },
           "duration": {
             "anyOf": [
@@ -60957,6 +61166,19 @@
             "title": "Details Submitted At",
             "description": "When the business details were submitted for review."
           },
+          "onboarding_resubmission_requested_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Onboarding Resubmission Requested At",
+            "description": "When Polar requested that the organization review and resubmit its onboarding information, if applicable."
+          },
           "sso_enforced": {
             "type": "boolean",
             "title": "Sso Enforced",
@@ -61554,6 +61776,7 @@
           "socials",
           "status",
           "details_submitted_at",
+          "onboarding_resubmission_requested_at",
           "sso_enforced",
           "default_presentment_currency",
           "default_tax_behavior",
