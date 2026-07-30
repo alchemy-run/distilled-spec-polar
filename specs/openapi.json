@@ -4588,6 +4588,30 @@
             "description": "Filter by subscription ID."
           },
           {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/OrderStatus"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OrderStatus"
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Status Filter",
+              "description": "Filter by order status."
+            },
+            "description": "Filter by order status."
+          },
+          {
             "name": "created_after",
             "in": "query",
             "required": false,
@@ -61216,6 +61240,19 @@
             "$ref": "#/components/schemas/OrganizationCustomerPortalSettings",
             "description": "Settings related to the customer portal"
           },
+          "embed_hosts": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Embed Hosts",
+            "description": "Hosts allowed to embed this organization's checkout. An entry is a host and an optional port, without a scheme: HTTPS is always allowed, and HTTP too for local hosts — `localhost`, any `.localhost` or `.local` name, and loopback or private addresses. `*.example.com` matches any subdomain, but not `example.com` itself. An app origin such as `chrome-extension://abcdef` carries its scheme, having no host to match on."
+          },
+          "embed_hosts_enforced": {
+            "type": "boolean",
+            "title": "Embed Hosts Enforced",
+            "description": "Whether an embedding page's origin must match `embed_hosts`. Organizations that have not configured a list yet embed unchecked until the allowlist is enforced for everyone."
+          },
           "country": {
             "anyOf": [
               {
@@ -61784,6 +61821,8 @@
           "subscription_settings",
           "customer_email_settings",
           "customer_portal_settings",
+          "embed_hosts",
+          "embed_hosts_enforced",
           "account_id",
           "payout_account_id",
           "capabilities"
@@ -63884,6 +63923,28 @@
                 "type": "null"
               }
             ]
+          },
+          "embed_hosts": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array",
+                "description": "Hosts allowed to embed this organization's checkout. An entry is a host and an optional port, without a scheme: HTTPS is always allowed, and HTTP too for local hosts — `localhost`, any `.localhost` or `.local` name, and loopback or private addresses. `*.example.com` matches any subdomain, but not `example.com` itself. An app origin such as `chrome-extension://abcdef` carries its scheme, having no host to match on.",
+                "examples": [
+                  [
+                    "example.com",
+                    "*.example.com",
+                    "localhost:3000"
+                  ]
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Embed Hosts"
           },
           "default_presentment_currency": {
             "anyOf": [
