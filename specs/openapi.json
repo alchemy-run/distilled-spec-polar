@@ -737,6 +737,44 @@
             "description": "Filter by cancellation date (before or equal to)."
           },
           {
+            "name": "started_after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Only include subscriptions started after this date.",
+              "title": "Started After"
+            },
+            "description": "Only include subscriptions started after this date."
+          },
+          {
+            "name": "started_before",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Only include subscriptions started before this date.",
+              "title": "Started Before"
+            },
+            "description": "Only include subscriptions started before this date."
+          },
+          {
             "name": "page",
             "in": "query",
             "required": false,
@@ -62786,6 +62824,10 @@
             "type": "boolean",
             "title": "Order Confirmation"
           },
+          "payment_method_expiration_reminder": {
+            "type": "boolean",
+            "title": "Payment Method Expiration Reminder"
+          },
           "subscription_cancellation": {
             "type": "boolean",
             "title": "Subscription Cancellation"
@@ -62838,6 +62880,7 @@
         "type": "object",
         "required": [
           "order_confirmation",
+          "payment_method_expiration_reminder",
           "subscription_cancellation",
           "subscription_confirmation",
           "subscription_cycled",
