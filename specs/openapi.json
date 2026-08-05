@@ -1021,10 +1021,154 @@
                   "type": "null"
                 }
               ],
-              "description": "Filter by organization ID.",
-              "title": "Organization Id"
+              "title": "OrganizationID Filter",
+              "description": "Filter by organization ID."
             },
             "description": "Filter by organization ID."
+          },
+          {
+            "name": "product_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid4",
+                  "description": "The product ID."
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "uuid4",
+                    "description": "The product ID."
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "ProductID Filter",
+              "description": "Filter by product ID."
+            },
+            "description": "Filter by product ID."
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/SubscriptionStatus"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SubscriptionStatus"
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Status Filter",
+              "description": "Filter by subscription status."
+            },
+            "description": "Filter by subscription status."
+          },
+          {
+            "name": "cancel_at_period_end",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by subscriptions that are set to cancel at period end.",
+              "title": "Cancel At Period End"
+            },
+            "description": "Filter by subscriptions that are set to cancel at period end."
+          },
+          {
+            "name": "started_after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Only include subscriptions started after this date. Must include a UTC offset.",
+              "title": "Started After"
+            },
+            "description": "Only include subscriptions started after this date. Must include a UTC offset."
+          },
+          {
+            "name": "started_before",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Only include subscriptions started before this date. Must include a UTC offset.",
+              "title": "Started Before"
+            },
+            "description": "Only include subscriptions started before this date. Must include a UTC offset."
+          },
+          {
+            "name": "timezone",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Time zone used to render dates in the CSV.",
+              "default": "UTC",
+              "title": "Timezone"
+            },
+            "description": "Time zone used to render dates in the CSV."
+          },
+          {
+            "name": "columns",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/SubscriptionExportColumn"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SubscriptionExportColumn"
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Columns to include in the CSV, in order. Defaults to email, started_at, product, amount, currency, status and recurring_interval.",
+              "title": "Columns"
+            },
+            "description": "Columns to include in the CSV, in order. Defaults to email, started_at, product, amount, currency, status and recurring_interval."
           }
         ],
         "responses": {
@@ -4955,6 +5099,104 @@
               "description": "Filter by product ID."
             },
             "description": "Filter by product ID."
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/OrderStatus"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OrderStatus"
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Status Filter",
+              "description": "Filter by order status."
+            },
+            "description": "Filter by order status."
+          },
+          {
+            "name": "created_after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Only include orders created after this date. Must include a UTC offset.",
+              "title": "Created After"
+            },
+            "description": "Only include orders created after this date. Must include a UTC offset."
+          },
+          {
+            "name": "created_before",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Only include orders created before this date. Must include a UTC offset.",
+              "title": "Created Before"
+            },
+            "description": "Only include orders created before this date. Must include a UTC offset."
+          },
+          {
+            "name": "timezone",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Time zone used to render dates in the CSV.",
+              "default": "UTC",
+              "title": "Timezone"
+            },
+            "description": "Time zone used to render dates in the CSV."
+          },
+          {
+            "name": "columns",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/OrderExportColumn"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OrderExportColumn"
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Columns to include in the CSV, in order. Defaults to email, created_at, product, net_amount, currency, status and invoice_number.",
+              "title": "Columns"
+            },
+            "description": "Columns to include in the CSV, in order. Defaults to email, created_at, product, net_amount, currency, status and invoice_number."
           }
         ],
         "responses": {
@@ -59612,6 +59854,28 @@
         ],
         "title": "OrderCustomer"
       },
+      "OrderExportColumn": {
+        "type": "string",
+        "enum": [
+          "email",
+          "created_at",
+          "product",
+          "net_amount",
+          "currency",
+          "status",
+          "invoice_number",
+          "customer_name",
+          "billing_name",
+          "billing_country",
+          "subtotal_amount",
+          "discount_amount",
+          "tax_amount",
+          "total_amount",
+          "refunded_amount",
+          "billing_reason"
+        ],
+        "title": "OrderExportColumn"
+      },
       "OrderFinalize": {
         "properties": {
           "payment_method_id": {
@@ -69080,6 +69344,34 @@
           "subscription_id"
         ],
         "title": "SubscriptionCycledMetadata"
+      },
+      "SubscriptionExportColumn": {
+        "type": "string",
+        "enum": [
+          "email",
+          "started_at",
+          "product",
+          "amount",
+          "currency",
+          "status",
+          "recurring_interval",
+          "customer_name",
+          "billing_name",
+          "billing_country",
+          "net_amount",
+          "discount",
+          "seats",
+          "current_period_start",
+          "current_period_end",
+          "cancel_at_period_end",
+          "canceled_at",
+          "ends_at",
+          "ended_at",
+          "cancellation_reason",
+          "trial_start",
+          "trial_end"
+        ],
+        "title": "SubscriptionExportColumn"
       },
       "SubscriptionLocked": {
         "properties": {
