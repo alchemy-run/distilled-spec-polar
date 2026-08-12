@@ -63669,13 +63669,18 @@
           "chargeback_prevention": {
             "type": "boolean",
             "title": "Chargeback Prevention"
+          },
+          "subscription_renewal": {
+            "type": "boolean",
+            "title": "Subscription Renewal"
           }
         },
         "type": "object",
         "required": [
           "new_order",
           "new_subscription",
-          "chargeback_prevention"
+          "chargeback_prevention",
+          "subscription_renewal"
         ],
         "title": "OrganizationNotificationSettings"
       },
