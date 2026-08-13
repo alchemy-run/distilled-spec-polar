@@ -601,14 +601,14 @@
                 {
                   "type": "string",
                   "format": "uuid4",
-                  "description": "The product ID."
+                  "description": "The discount ID."
                 },
                 {
                   "type": "array",
                   "items": {
                     "type": "string",
                     "format": "uuid4",
-                    "description": "The product ID."
+                    "description": "The discount ID."
                   }
                 },
                 {
@@ -1362,11 +1362,19 @@
             }
           },
           "403": {
-            "description": "Subscription is already canceled or will be at the end of the period.",
+            "description": "Subscription is already canceled or will be at the end of the period, or is not active.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AlreadyCanceledSubscription"
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/AlreadyCanceledSubscription"
+                    },
+                    {
+                      "$ref": "#/components/schemas/InactiveSubscription"
+                    }
+                  ],
+                  "title": "Response 403 Subscriptions:Update"
                 }
               }
             }
@@ -15444,7 +15452,7 @@
             "description": "Payment method deleted."
           },
           "400": {
-            "description": "Payment method is used by active subscription(s).",
+            "description": "Payment method is still needed to bill a subscription.",
             "content": {
               "application/json": {
                 "schema": {
@@ -18423,6 +18431,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResourceNotFound"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The subscription has no payment method to renew with.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UncancelWithoutPaymentMethod"
                 }
               }
             }
@@ -51878,6 +51896,18 @@
             "format": "date-time",
             "title": "Created At"
           },
+          "flagged_malicious_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Flagged Malicious At"
+          },
           "size_readable": {
             "type": "string",
             "title": "Size Readable",
@@ -51901,6 +51931,7 @@
           "service",
           "is_uploaded",
           "created_at",
+          "flagged_malicious_at",
           "size_readable"
         ],
         "title": "DownloadableFileRead",
@@ -53200,6 +53231,28 @@
         },
         "type": "object",
         "title": "HTTPValidationError"
+      },
+      "InactiveSubscription": {
+        "properties": {
+          "error": {
+            "type": "string",
+            "const": "InactiveSubscription",
+            "title": "Error",
+            "examples": [
+              "InactiveSubscription"
+            ]
+          },
+          "detail": {
+            "type": "string",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "error",
+          "detail"
+        ],
+        "title": "InactiveSubscription"
       },
       "IntrospectTokenResponse": {
         "properties": {
@@ -72492,6 +72545,28 @@
           "detail"
         ],
         "title": "Unauthorized"
+      },
+      "UncancelWithoutPaymentMethod": {
+        "properties": {
+          "error": {
+            "type": "string",
+            "const": "UncancelWithoutPaymentMethod",
+            "title": "Error",
+            "examples": [
+              "UncancelWithoutPaymentMethod"
+            ]
+          },
+          "detail": {
+            "type": "string",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "error",
+          "detail"
+        ],
+        "title": "UncancelWithoutPaymentMethod"
       },
       "UniqueAggregation": {
         "properties": {
