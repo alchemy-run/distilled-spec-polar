@@ -18436,11 +18436,11 @@
             }
           },
           "409": {
-            "description": "The subscription has no payment method to renew with.",
+            "description": "The subscription has no payment method to charge.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UncancelWithoutPaymentMethod"
+                  "$ref": "#/components/schemas/PaymentMethodRequired"
                 }
               }
             }
@@ -64855,6 +64855,28 @@
         ],
         "title": "PaymentMethodInUseByActiveSubscription"
       },
+      "PaymentMethodRequired": {
+        "properties": {
+          "error": {
+            "type": "string",
+            "const": "PaymentMethodRequired",
+            "title": "Error",
+            "examples": [
+              "PaymentMethodRequired"
+            ]
+          },
+          "detail": {
+            "type": "string",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "error",
+          "detail"
+        ],
+        "title": "PaymentMethodRequired"
+      },
       "PaymentMethodSetupFailed": {
         "properties": {
           "error": {
@@ -72545,28 +72567,6 @@
           "detail"
         ],
         "title": "Unauthorized"
-      },
-      "UncancelWithoutPaymentMethod": {
-        "properties": {
-          "error": {
-            "type": "string",
-            "const": "UncancelWithoutPaymentMethod",
-            "title": "Error",
-            "examples": [
-              "UncancelWithoutPaymentMethod"
-            ]
-          },
-          "detail": {
-            "type": "string",
-            "title": "Detail"
-          }
-        },
-        "type": "object",
-        "required": [
-          "error",
-          "detail"
-        ],
-        "title": "UncancelWithoutPaymentMethod"
       },
       "UniqueAggregation": {
         "properties": {
