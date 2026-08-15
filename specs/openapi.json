@@ -2568,6 +2568,139 @@
         "x-speakeasy-name-override": "delete"
       }
     },
+    "/v1/benefits/{id}/files": {
+      "get": {
+        "tags": [
+          "benefits",
+          "public"
+        ],
+        "summary": "List Benefit Files",
+        "description": "List the downloadable files for a benefit with their download statistics.\n\n**Scopes**: `benefits:read` `benefits:write`",
+        "operationId": "benefits:files",
+        "security": [
+          {
+            "oidc": [
+              "benefits:read",
+              "benefits:write"
+            ]
+          },
+          {
+            "pat": [
+              "benefits:read",
+              "benefits:write"
+            ]
+          },
+          {
+            "oat": [
+              "benefits:read",
+              "benefits:write"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid4",
+              "description": "The benefit ID.",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "description": "Page number, defaults to 1.",
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "Page number, defaults to 1."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "description": "Size of a page, defaults to 10. Maximum is 100.",
+              "default": 10,
+              "title": "Limit"
+            },
+            "description": "Size of a page, defaults to 10. Maximum is 100."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListResource_BenefitDownloadableFile_"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Benefit not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-polar-allowed-subjects": [
+          "Organization",
+          "User"
+        ],
+        "x-speakeasy-pagination": {
+          "type": "offsetLimit",
+          "inputs": [
+            {
+              "name": "page",
+              "in": "parameters",
+              "type": "page"
+            },
+            {
+              "name": "limit",
+              "in": "parameters",
+              "type": "limit"
+            }
+          ],
+          "outputs": {
+            "results": "$.items",
+            "numPages": "$.pagination.max_page"
+          }
+        },
+        "x-speakeasy-group": "benefits",
+        "x-speakeasy-name-override": "files",
+        "x-polar-pagination": {
+          "type": "page_limit",
+          "item_schema": {
+            "$ref": "#/components/schemas/BenefitDownloadableFile"
+          }
+        }
+      }
+    },
     "/v1/benefits/{id}/grants": {
       "get": {
         "tags": [
@@ -27980,6 +28113,168 @@
           "type"
         ],
         "title": "BenefitDiscordUpdate"
+      },
+      "BenefitDownloadableFile": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid4",
+            "title": "Id",
+            "description": "The ID of the object."
+          },
+          "organization_id": {
+            "type": "string",
+            "format": "uuid4",
+            "title": "Organization Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "path": {
+            "type": "string",
+            "title": "Path"
+          },
+          "mime_type": {
+            "type": "string",
+            "title": "Mime Type"
+          },
+          "size": {
+            "type": "integer",
+            "title": "Size"
+          },
+          "storage_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Storage Version"
+          },
+          "checksum_etag": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Checksum Etag"
+          },
+          "checksum_sha256_base64": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Checksum Sha256 Base64"
+          },
+          "checksum_sha256_hex": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Checksum Sha256 Hex"
+          },
+          "last_modified_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Modified At"
+          },
+          "version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Version"
+          },
+          "service": {
+            "type": "string",
+            "const": "downloadable",
+            "title": "Service"
+          },
+          "is_uploaded": {
+            "type": "boolean",
+            "title": "Is Uploaded"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "flagged_malicious_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Flagged Malicious At"
+          },
+          "downloaders": {
+            "type": "integer",
+            "title": "Downloaders",
+            "description": "Number of distinct customers or members who downloaded the file."
+          },
+          "downloads": {
+            "type": "integer",
+            "title": "Downloads",
+            "description": "Total number of downloads for the file."
+          },
+          "size_readable": {
+            "type": "string",
+            "title": "Size Readable",
+            "readOnly": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "organization_id",
+          "name",
+          "path",
+          "mime_type",
+          "size",
+          "storage_version",
+          "checksum_etag",
+          "checksum_sha256_base64",
+          "checksum_sha256_hex",
+          "last_modified_at",
+          "version",
+          "service",
+          "is_uploaded",
+          "created_at",
+          "flagged_malicious_at",
+          "downloaders",
+          "downloads",
+          "size_readable"
+        ],
+        "title": "BenefitDownloadableFile"
       },
       "BenefitDownloadables": {
         "properties": {
@@ -54636,6 +54931,26 @@
         ],
         "title": "ListResourceWithCursorPagination[Event]"
       },
+      "ListResource_BenefitDownloadableFile_": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/BenefitDownloadableFile"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "pagination"
+        ],
+        "title": "ListResource[BenefitDownloadableFile]"
+      },
       "ListResource_BenefitGrant_": {
         "properties": {
           "items": {
@@ -59645,7 +59960,8 @@
           "purchase",
           "subscription_create",
           "subscription_cycle",
-          "subscription_update"
+          "subscription_update",
+          "subscription_meter_cycle"
         ],
         "title": "OrderBillingReason"
       },
@@ -59657,7 +59973,8 @@
           "subscription_cycle",
           "subscription_cycle_after_trial",
           "subscription_cancel",
-          "subscription_update"
+          "subscription_update",
+          "subscription_meter_cycle"
         ],
         "title": "OrderBillingReasonInternal",
         "description": "Internal billing reasons with additional granularity."
@@ -71480,6 +71797,34 @@
       },
       "SubscriptionUpdateBase": {
         "properties": {
+          "metadata": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 500,
+                  "minLength": 1
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "boolean"
+                }
+              ]
+            },
+            "propertyNames": {
+              "maxLength": 40,
+              "minLength": 1
+            },
+            "type": "object",
+            "maxProperties": 50,
+            "title": "Metadata",
+            "description": "Key-value object allowing you to store additional information.\n\nThe key must be a string with a maximum length of **40 characters**.\nThe value must be either:\n\n* A string with a maximum length of **500 characters**\n* An integer\n* A floating-point number\n* A boolean\n\nYou can store up to **50 key-value pairs**."
+          },
           "product_id": {
             "anyOf": [
               {
